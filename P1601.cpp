@@ -8,6 +8,7 @@
 #include <iostream>
 #include <string>
 #include <map>
+#include <unistd.h>
 using namespace std;
 typedef unsigned long long unll;
 typedef long long ll;
@@ -33,7 +34,7 @@ int main(){
     for(int i = 1; i <= ans.len; ++i)printf("%d", ans.value[i]);
     printf("\n");
 
-    system("pause");
+    pause();
     return 0;
 }
 Integer::Integer(int *v, int len){
