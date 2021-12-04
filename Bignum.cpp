@@ -49,30 +49,33 @@ int main(){
 Integer Integer::operator+(const Integer& addend){
     vector<int>answer;
     int adv(0); //advance
+    /*
     //check if value_4[1] is less than BASE
     int ans_1 = this -> value_4[1] + addend.value_4[1];
-    int len_1 = max(log10(this -> value_4[1]), log10(addend.value_4[1])) + 1;
+    int len_1 = max(int(log10(this -> value_4[1])), int(log10(addend.value_4[1]))) + 1;
     if(ans_1 >= pow10((len_1))){ans_1 %= (pow10((len_1))); adv = 1;}
     answer.push_back(ans_1);
-    printf("Add: get ans_1: %d\n", ans_1);
+    printf("Add: get ans_1: %d\n", ans_1);*/
     bool flag_i(true), flag_j(true);
-    for(int i = 2, j = 2; flag_i || flag_j; nxt(i, this -> len, flag_i), nxt(j, addend.len, flag_j)){
+    for(int i = 1, j = 1; flag_i || flag_j; nxt(i, this -> len, flag_i), nxt(j, addend.len, flag_j)){
         int ans = (flag_i ? this -> value_4[i] : 0) + (flag_j ? addend.value_4[j]: 0);
         if(adv){ans += adv; adv = 0;}
         if(ans > RANGE){adv = 1; ans %= MOD;}
         answer.push_back(ans);
-        printf("Add: get ans: %d\n", ans);
+        // printf("Add: get ans: %d\n", ans);
     }
     if(adv)answer.push_back(adv);
+    // printf("vector.ans: "); for(auto i : answer)printf("%d ", i);printf("\n");
 //    int len = max(this -> len, adden.len) + adv;
     reverse(answer.begin(), answer.end());
     Integer ret(answer);
+    // ::PrintInt("Get Answer: ", ret.value_4, ret.len);
     return ret;
 }
 void Integer::PrintInt(void){
     for(int i = 1; i <= this -> len; ++i){
-        if(i != this -> len){
-            int num_0 = 4 - log10(this -> value_4[i]) - 1;
+        if(i != 1){
+            int num_0 = this -> value_4[i] ? (4 - int(log10(this -> value_4[i])) - 1) : 3;
             for(int j = 1; j <= num_0; ++j)printf("0");
         }
         printf("%d", this -> value_4[i]);
@@ -93,6 +96,7 @@ Integer::Integer(char *c, int len){
     memset(this -> value_4, 0, sizeof(this -> value_4));
     this -> len = int(ceil(len / 4.00));
     this -> real_len = len;
+    /*
     int nowPos(0);
     for(int i = 1; i <= this -> len; ++i){
         int num(0);
@@ -104,13 +108,25 @@ Integer::Integer(char *c, int len){
         }
 //        printf("Get number: %d\n", num);
         this -> value_4[i] = num;
+    }*/
+    int nowPos(len - 1);//nowPos: 0 ~ len-1
+    for(int i = 1; i <= this -> len; ++i){
+        int num(0);
+        int base(1);
+//        if(nowPos - 3 < 1)base = pow10((nowPos - 1));
+        for(int count = 1; count <= 4 && nowPos >= 0; ++count){
+            num += c2d(c[nowPos--]) * base;
+            base *= 10;
+        }
+//        printf("Get number: %d\n", num);
+        this -> value_4[i] = num;
     }
-    ::PrintInt("Read str to int: ", this -> value_4, this -> len);
-    this -> Init();
+    //  ::PrintInt("Read str to int: ", this -> value_4, this -> len);
+//    this -> Init();
 }
 inline void nxt(int& i, const int& len, bool& flag){
     if(!flag)return;
-    if(++i > len){flag = false; i = 0; return;}
+    if(++i > len){flag = false; return;}
     return;
 }
 void PrintInt(char *note, int *v, int len){
