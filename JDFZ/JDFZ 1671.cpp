@@ -16,12 +16,12 @@ int wealth[1100][1100];
 int main(){
     read(n);
     for(int i = 1; i <= n; ++i)
-        for(int j = 1; j <= i; ++i){
+        for(int j = 1; j <= i; ++j){
             read(wealth[i][j]);
             dp[i][j] = wealth[i][j];
         }
     for(int i = n - 1; i >= 1; --i)
-        for(int j = 1; j <= i; ++i)
+        for(int j = 1; j <= i; ++j)
             dp[i][j] = max(dp[i + 1][j], dp[i + 1][j + 1]) + wealth[i][j];
     printf("%d\n", dp[1][1]);
 //    system("pause");
@@ -29,29 +29,29 @@ int main(){
 }
 inline void readLL(unll& p){
     p = 0;
-	int flag(1);
-	char c = getchar();
-	while (c < '0' || c > '9') {
-		if (c == '-')flag = -1;
-		c = getchar();
-	}
-	while (c >= '0' && c <= '9') {
-		p *= 10, p += (c - '0');
-		c = getchar();
-		p *= flag;
-	}
+    int flag(1);
+    char c = getchar();
+    while (c < '0' || c > '9') {
+        if (c == '-')flag = -1;
+        c = getchar();
+    }
+    while (c >= '0' && c <= '9') {
+        p *= 10, p += (c - '0');
+        c = getchar();
+        p *= flag;
+    }
 }
 inline void read(int& p) {
-	p = 0;
-	int flag(1);
-	char c = getchar();
-	while (c < '0' || c > '9') {
-		if (c == '-')flag = -1;
-		c = getchar();
-	}
-	while (c >= '0' && c <= '9') {
-		p *= 10, p += (c - '0');
-		c = getchar();
-		p *= flag;
-	}
+    p = 0;
+    int flag(1);
+    char c = getchar();
+    while (c < '0' || c > '9') {
+        if (c == '-')flag = -1;
+        c = getchar();
+    }
+    while (c >= '0' && c <= '9') {
+        p *= 10, p += (c - '0');
+        c = getchar();
+        p *= flag;
+    }
 }
