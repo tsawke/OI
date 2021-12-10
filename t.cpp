@@ -8,21 +8,16 @@
 #include <iostream>
 #include <string>
 #include <map>
+#include<iterator>
 using namespace std;
 typedef unsigned long long unll;
 typedef long long ll;
+int a[11000];
 template <typename T = int>
 inline T read(void);
-vector<int>v[10];
 int main(){
-    int flag, tel;char ct;
-    while(~scanf("%d%c%d", &flag,  &ct, &tel)){
-        v[flag].push_back(tel);
-    }
-    for(int i = 1; i <= 10; ++i){
-        for(int j = 0; j <= 2; ++j)
-            printf("%d%c", v[j].size() >= i ? v[j].at(i - 1) : 0, j == 2 ? '\n' : ' ');
-    }
+    unll a = read<unll>();
+    printf("%lld\n", a);
     system("pause");
     return 0;
 }

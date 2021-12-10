@@ -13,8 +13,8 @@
 using namespace std;
 typedef unsigned long long unll;
 typedef long long ll;
-inline unll readULL(void);
-inline int read(void);
+template <typename T = int>
+inline T read(void);
 
 int main(){
     

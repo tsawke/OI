@@ -12,8 +12,8 @@
 using namespace std;
 typedef unsigned long long unll;
 typedef long long ll;
-inline unll readULL(void);
-inline int read(void);
+template <typename T = int>
+inline T read(void);
 int c2d(char);
 void PrintInt(char*, int *, int);
 struct Integer{
@@ -81,9 +81,10 @@ void PrintInt(char *note, int *v, int len){
 int c2d(char c){
     return int(c) - '0';
 }
-inline unll readULL(void){
-	unll ret(0);
-	int flag(1);
+template <typename T = int>
+inline T read(void){
+	T ret(0);
+	short flag(1);
 	char c = getchar();
 	while (c < '0' || c > '9') {
 		if (c == '-')flag = -1;
@@ -92,23 +93,8 @@ inline unll readULL(void){
 	while (c >= '0' && c <= '9') {
 		ret *= 10, ret += (c - '0');
 		c = getchar();
-	}
-	ret *= flag;
-	return ret;
-}
-inline int read(void) {
-	int ret(0);
-	int flag(1);
-	char c = getchar();
-	while (c < '0' || c > '9') {
-		if (c == '-')flag = -1;
-		c = getchar();
-	}
-	while (c >= '0' && c <= '9') {
-		ret *= 10, ret += (c - '0');
-		c = getchar();
-	}
-	ret *= flag;
+    }
+    ret *= flag;
 	return ret;
 }
 //TODO

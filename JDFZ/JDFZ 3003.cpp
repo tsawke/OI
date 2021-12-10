@@ -11,8 +11,8 @@
 using namespace std;
 typedef unsigned long long unll;
 typedef long long ll;
-inline unll readULL(void);
-inline int read(void);
+template <typename T = int>
+inline T read(void);
 int a[110000];
 int sa[110000];
 struct Interval{
@@ -72,10 +72,10 @@ int getLen(int a_s, int a_e, int b_s, int b_e){
 	if(b_s <= a_s && a_e <= b_e)return a_e - a_s + 1;
 	if(a_e <= b_e)return a_e - b_s + 1;
 	if(a_s >= b_s)return b_e - a_s + 1;
-}
-inline unll readULL(void){
-	unll ret(0);
-	int flag(1);
+}template <typename T = int>
+inline T read(void){
+	T ret(0);
+	short flag(1);
 	char c = getchar();
 	while (c < '0' || c > '9') {
 		if (c == '-')flag = -1;
@@ -84,23 +84,8 @@ inline unll readULL(void){
 	while (c >= '0' && c <= '9') {
 		ret *= 10, ret += (c - '0');
 		c = getchar();
-	}
-   ret *= flag;
-	return ret;
-}
-inline int read(void) {
-	int ret(0);
-	int flag(1);
-	char c = getchar();
-	while (c < '0' || c > '9') {
-		if (c == '-')flag = -1;
-		c = getchar();
-	}
-	while (c >= '0' && c <= '9') {
-		ret *= 10, ret += (c - '0');
-		c = getchar();
-   }
-   ret *= flag;
+    }
+    ret *= flag;
 	return ret;
 }
 //TODO
