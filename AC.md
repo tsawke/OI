@@ -1,2 +1,5 @@
 #DP
 JDFZ 1929 求最长不下降序列长度
+JDFZ 1387
+2982
+BAILIAN 1050 To the Max

@@ -16,8 +16,8 @@ int a[11000];
 template <typename T = int>
 inline T read(void);
 int main(){
-    unll a = read<unll>();
-    printf("%lld\n", a);
+    int a = INT_MAX;
+
     system("pause");
     return 0;
 }

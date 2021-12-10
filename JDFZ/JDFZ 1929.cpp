@@ -8,23 +8,26 @@
 #include <iostream>
 #include <string>
 #include <map>
-#include<iterator>
+#include <unistd.h>
 using namespace std;
 typedef unsigned long long unll;
 typedef long long ll;
-template <typename T>
+template <typename T = int>
 inline T read(void);
 int a[11000];
+vector<int>dp;
 int main(){
-    int n(read());
+    int n = read();
 	for(int i = 1; i <= n; ++i)a[i] = read();
     for(int i = 1; i <= n; ++i){
-		
+		if(dp.empty() || a[i] >= *(dp.end() - 1))dp.push_back(a[i]);
+		else *upper_bound(dp.begin(), dp.end(), a[i]) = a[i];
 	}
-    system("pause");
+	printf("%d\n", dp.size());
+    pause();
     return 0;
 }
-template <typename T>
+template <typename T = int>
 inline T read(void){
 	T ret(0);
 	short flag(1);
