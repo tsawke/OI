@@ -19,7 +19,7 @@ int main(){
     int n(read());
 	for(int i = 1; i <= n; ++i)a[i] = read();
     for(int i = 1; i <= n; ++i){
-		printf("%d ", a[i]);
+		
 	}
     system("pause");
     return 0;
