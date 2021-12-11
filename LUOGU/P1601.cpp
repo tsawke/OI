@@ -97,4 +97,3 @@ inline T read(void){
     ret *= flag;
 	return ret;
 }
-//TODO

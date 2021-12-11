@@ -37,7 +37,6 @@ int main(){
 		int flag(read());
 		if(flag == 1){
 //			a[read()] = read();
-            //TODO
 			int s(read()), e(read()); int v(read());
 //			printf("Input:: value = %d\n", v);
 			Interval inter(s, e, v);
@@ -88,4 +87,3 @@ inline T read(void){
     ret *= flag;
 	return ret;
 }
-//TODO
