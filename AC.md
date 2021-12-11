@@ -2,6 +2,8 @@
 JDFZ 1929 求最长不下降序列长度
 JDFZ 1387 VIJOS-P1255 月饼盒
 JDFZ 1742 生成全排列
-JDFZ 1858 
+JDFZ 1858 n皇后问题
+JDFZ 1859 n皇后问题again
+JDFZ 1635
 2982
 BAILIAN 1050 To the Max
