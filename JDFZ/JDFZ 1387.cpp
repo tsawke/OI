@@ -23,9 +23,18 @@ int main(){
     for(int i = 1; i <= n; ++i){
         int temp[1100];
         memset(temp, 0, sizeof(temp));
-        for(int j = i; j <= m; ++j){
-            for(int k = 1; k <= n; ++k)temp[k] += a[k][j];
-            ans = max(ans, FindMax(temp, n));
+        bool is0[1100];
+        memset(is0, false, sizeof(is0));
+        for(int j = i; j <= n; ++j){
+            for(int k = 1; k <= m; ++k){
+                if(!is0[k] && a[j][k])
+                    temp[k] += a[j][k];
+                else{
+                    temp[k] = 0;
+                    is0[k] = true;
+                }
+            }
+            ans = max(ans, FindMax(temp, m));
 //            printf("i = %d, j = %d, Find = %d\n", i, j, FindMax(temp, n));
         }
     }
@@ -36,8 +45,8 @@ int main(){
 int FindMax(int *a, const int len){
     int ret(INT_MIN);
     int dp[len + 10];
-    dp[0] = INT_MIN;
     memset(dp, 0, sizeof(dp));
+    dp[0] = INT_MIN;
     for(int i = 1; i <= len; ++i){
         if(a[i]){
             dp[i] = max(dp[i - 1] + a[i], a[i]);
