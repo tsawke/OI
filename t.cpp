@@ -6,10 +6,11 @@ const int N=20;   //最多放皇后的个数
 int q[N];         //各皇后所在的行号
 int cont = 0;     //统计解得个数
 //输出一个解
+
 void print(int n)
 {
   int i,j;
-  cont++;
+cont++;
   printf("第%d个解：",cont);
   for(i=1;i<=n;i++)
          printf("(%d,%d)",i,q[i]);
