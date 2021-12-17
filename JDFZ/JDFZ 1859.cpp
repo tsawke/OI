@@ -34,7 +34,7 @@ int main(){
 void dfs(int deep, const int& depth){
     if(deep > depth){
         ++ans;
-        for(vector<int>::iterator itea = queenPos.begin(); itea != queenPos.end(); ++itea)printf("%d%c", *itea, itea == queenPos.end() - 1)
+        for(vector<int>::iterator itea = queenPos.begin(); itea != queenPos.end(); ++itea)printf("%d%c", *itea, itea == queenPos.end() - 1);
         return;
     }
     for(int i = 1; i <= depth; ++i){
