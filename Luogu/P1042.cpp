@@ -61,7 +61,8 @@ bool getValue(int& n){
     }
     n = c == 'W' ? 1 : 0;
     return true;
-}template <typename T = int>
+}
+template <typename T = int>
 inline T read(void){
 	T ret(0);
 	short flag(1);
