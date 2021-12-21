@@ -7,11 +7,13 @@
     1859 n皇后问题again
     3117 勇敢的热气球驾驶者
     1270 [NOIP2004]合并果子 T2
-    1418 [NOIP2000]单词接龙 T3  
+    1418 [NOIP2000]单词接龙 T3
+
 ## Luogu
     1219 [USACO1.5]八皇后 Checker Challenge
     1019 [NOIP2000 提高组] 单词接龙
-    5194 [USACO05DEC]Scales S  
+    5194 [USACO05DEC]Scales S
+    
 ## BAILIAN
     1050 To the Max
 
