@@ -1,3 +1,4 @@
+//C++11
 #include <cstdio>
 #include <algorithm>
 #include <cstring>

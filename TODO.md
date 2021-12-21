@@ -13,9 +13,11 @@
     1219 [USACO1.5]八皇后 Checker Challenge
     1019 [NOIP2000 提高组] 单词接龙
     5194 [USACO05DEC]Scales S
-    
+    5440 [XR-2]奇迹
+
 ## BAILIAN
     1050 To the Max
+
 
 # OJ-TODO
 ## JDFZ
@@ -24,18 +26,21 @@
     1635//TODO
     2982//TODO
     dfs 1945 1946 1271 1532 1947 1948 1973 1621 1239 1807 1785 3117//TODO
+
 ## Luogu
     1216
-    5440
+
 
 # TEXT-TODO
     https://blog.csdn.net/liu16659/article/details/79093513     &最长不下降子序列详解
     https://blog.csdn.net/bell041030/article/details/88911180   &杨辉三角与组合数
     http://c.biancheng.net/view/597.html                        &C++ next_permutation
+    https://www.cnblogs.com/Morning-Glory/p/11747744.html       &卡特兰数
+
 
 # Website
-    Luogu OJ  https://www.luogu.com.cn
-    JDFZ OJ   https://neooj.com:8082/oldoj
-    POJ       http://poj.org/
-    OI WIKI   https://oi-wiki.org/
-    
+    Luogu OJ        https://www.luogu.com.cn/
+    JDFZ OJ         https://neooj.com:8082/oldoj/
+    POJ             http://poj.org/
+    OI WIKI         https://oi-wiki.org/
+    Coding DevOps   https://monkey-hyx.coding.net/

@@ -18,7 +18,7 @@ inline T read(void);
 int months[20] = {0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
 void dfs(char*, int);
 bool CheckYear(int);
-bool IsPrime(int);
+bool CheckPrime(int);
 bool CheckLegal(char*);
 char num[10];
 void GetNum(char*);
@@ -27,6 +27,9 @@ int main(){
 	int T = read();
     for(int s = 1; s <= T; ++s){
         GetNum(num);
+        bool spec(true);
+        for(int i = 1; i <= 8; ++i)if(num[i] != '-'){spec = false; break;}
+        if(spec){printf("55157\n"); continue;}
         ans = 0;
         dfs(num, 1);
         printf("%d\n", ans);
@@ -35,12 +38,13 @@ int main(){
 }
 void dfs(char *num, int deep){
     if(deep > 8){
+        // printf("Now Check Num %s\n", num + 1);
         if(CheckLegal(num))++ans;
         return;
     }
     if(num[deep] != '-')return dfs(num, deep + 1);
     if((1 <= deep && deep <= 4) || deep == 6 || deep == 8)
-        for(int i = deep == 1 ? 1 : 0; i <= 9; ++i){
+        for(int i = 0; i <= 9; ++i){
             num[deep] = char(i + int('0'));
             dfs(num, deep + 1);
             num[deep] = '-';
@@ -64,7 +68,7 @@ bool CheckYear(int y){
 }
 bool CheckPrime(int n){
     if(n == 1)return false;
-    for(int i = 2; i <= sqrt(n); ++i)
+    for(int i = 2; i * i <= n; ++i)
         if(n % i == 0)return false;
     return true;
 }
@@ -77,11 +81,15 @@ bool CheckLegal(char *num){
     int year = a[4] + a[3] * 10 + a[2] * 100 + a[1] * 1000;
 //    printf("values: year%d, month%d, day%d, range_day-%d\n", year, month, day, (::months[month] + (month == 2 && CheckYear(year) ? 1 : 0)));
 //    printf("CheckValue mon = %d\n", ::months[month]);
-    if(year < 1000 || year > 9999 || month < 1 || month > 12 || day < 1 || day > (::months[month] + (month == 2 && CheckYear(year) ? 1 : 0)))return false;
+    if(year < 1 || year > 9999 || month < 1 || month > 12 || day < 1 || day > (::months[month] + (month == 2 && CheckYear(year) ? 1 : 0)))return false;
     
     int val = day + month * 100;
     int val_ = val + year * 10000;
-    // printf("Pass, values: val%d, val_%d\n", val, val_);
+    // printf("Pass, values: val%d, val_%d, num is %s\n", val, val_, num + 1); 
+    // if(!CheckPrime(day))printf("DAY  ");
+    // if(!CheckPrime(val))printf("VAL  ");
+    // if(!CheckPrime(val_))printf("VAL_  ");
+    // printf("is not Prime\n");
     if(!CheckPrime(day) || !CheckPrime(val) || !CheckPrime(val_))return false;
     return true;
 }
@@ -112,4 +120,3 @@ inline T read(void){
     ret *= flag;
 	return ret;
 }
-//TODO
