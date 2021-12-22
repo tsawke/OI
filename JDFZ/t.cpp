@@ -19,7 +19,7 @@ template <typename T = int>
 inline T read(void);
 int main(){
 	printf("%d %d\n", read(), read());
-    pair<int, int>temp = tie(read(), read());
+    
     
 
 
