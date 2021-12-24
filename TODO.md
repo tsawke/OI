@@ -14,6 +14,7 @@
     1019 [NOIP2000 提高组] 单词接龙
     5194 [USACO05DEC]Scales S
     5440 [XR-2]奇迹
+    1378 油滴扩展
 
 ## BAILIAN
     1050 To the Max
