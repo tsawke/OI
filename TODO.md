@@ -15,6 +15,8 @@
     5194 [USACO05DEC]Scales S
     5440 [XR-2]奇迹
     1378 油滴扩展
+    1443 马的遍历
+    1162 填涂颜色
 
 ## BAILIAN
     1050 To the Max
