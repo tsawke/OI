@@ -17,6 +17,7 @@
     1378 油滴扩展
     1443 马的遍历
     1162 填涂颜色
+    3956 [NOIP2017 普及组] 棋盘 - BFS
 
 ## BAILIAN
     1050 To the Max
@@ -32,13 +33,22 @@
 
 ## Luogu
     1216
+    3956 - Dijkstra
 
+
+# Problems
+    diff. scanf(%s) && gets(s) && fgets(s) && cin.getline(s, n)
+    correct? scanf()!=EOF && (c = getchar()) != EOF
+    diff. char c[] && char *c && string
 
 # TEXT-TODO
     https://blog.csdn.net/liu16659/article/details/79093513     &最长不下降子序列详解
     https://blog.csdn.net/bell041030/article/details/88911180   &杨辉三角与组合数
     http://c.biancheng.net/view/597.html                        &C++ next_permutation
     https://www.cnblogs.com/Morning-Glory/p/11747744.html       &卡特兰数
+    https://www.cnblogs.com/c1299401227/p/5370685.html          &C++ String
+    https://zhuanlan.zhihu.com/p/377183341                      &命名规范
+    https://developer.aliyun.com/article/619121                 &命名规范-aliyun
 
 
 # Website

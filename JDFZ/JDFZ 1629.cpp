@@ -41,7 +41,8 @@ void hanoi(int N, int from, int to, int temp){
 	hanoi(N - 1, temp, to, from);
 }
 template <typename T = int>
-inline T read(void){
+inline T read(void)
+{
 	T ret(0);
 	short flag(1);
 	char c = getchar();

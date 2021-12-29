@@ -82,7 +82,8 @@ int c2d(char c){
     return int(c) - '0';
 }
 template <typename T = int>
-inline T read(void){
+inline T read(void)
+{
 	T ret(0);
 	short flag(1);
 	char c = getchar();

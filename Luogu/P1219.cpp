@@ -50,7 +50,8 @@ void dfs(int deep, const int& depth){
     }
 }
 template <typename T>
-inline T read(void){
+inline T read(void)
+{
 	T ret(0);
 	short flag(1);
 	char c = getchar();

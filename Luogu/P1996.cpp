@@ -34,7 +34,8 @@ int main(){
     return 0;
 }
 template <typename T = int>
-inline T read(void){
+inline T read(void)
+{
 	T ret(0);
 	short flag(1);
 	char c = getchar();

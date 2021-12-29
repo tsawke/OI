@@ -41,7 +41,8 @@ void dfs(unll value, int deep){
     dfs(value, deep - 1);
 }
 template <typename T = int>
-inline T read(void){
+inline T read(void)
+{
 	T ret(0);
 	short flag(1);
 	char c = getchar();

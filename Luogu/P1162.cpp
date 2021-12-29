@@ -57,7 +57,8 @@ void dfs(int x, int y, bool have_border){
         dfs(x + dx[i], y + dy[i], ret);
 }
 template <typename T = int>
-inline T read(void){
+inline T read(void)
+{
 	T ret(0);
 	short flag(1);
 	char c = getchar();

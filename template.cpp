@@ -24,7 +24,8 @@ int main(){
 }
 
 template <typename T = int>
-inline T read(void){
+inline T read(void)
+{
 	T ret(0);
 	short flag(1);
 	char c = getchar();
@@ -66,7 +67,8 @@ int main(){
 }
 
 template <typename T>
-inline T read(void){
+inline T read(void)
+{
 	T ret(0);
 	short flag(1);
 	char c = getchar();

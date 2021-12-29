@@ -43,7 +43,8 @@ Data::Data(int n, int value){
     this -> n = n;
     this -> value = value;
 }template <typename T = int>
-inline T read(void){
+inline T read(void)
+{
 	T ret(0);
 	short flag(1);
 	char c = getchar();

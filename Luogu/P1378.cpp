@@ -101,7 +101,8 @@ void dfs(int deep){
 	}
 }
 template <typename T = int>
-inline T read(void){
+inline T read(void)
+{
 	T ret(0);
 	short flag(1);
 	char c = getchar();

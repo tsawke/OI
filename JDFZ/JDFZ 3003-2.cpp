@@ -56,7 +56,8 @@ int getLen(int a_s, int a_e, int b_s, int b_e){
 	if(a_s >= b_s)return b_e - a_s + 1;
 }
 template <typename T = int>
-inline T read(void){
+inline T read(void)
+{
 	T ret(0);
 	short flag(1);
 	char c = getchar();
