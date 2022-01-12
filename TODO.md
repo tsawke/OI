@@ -1,3 +1,17 @@
+# OJ-TODO
+## JDFZ
+    1050 //TODO
+    1300 //TODO
+    1635//TODO
+    2982//TODO
+    dfs 1945 1946 1271 1532 1947 1948 1973 1621 1239 1807 1785 3117//TODO
+
+## Luogu
+    1216
+    3956 - Dijkstra
+    1032
+
+
 # AC
 ## JDFZ
     1929 求最长不下降序列长度
@@ -23,19 +37,6 @@
     1050 To the Max
 
 
-# OJ-TODO
-## JDFZ
-    1050 //TODO
-    1300 //TODO
-    1635//TODO
-    2982//TODO
-    dfs 1945 1946 1271 1532 1947 1948 1973 1621 1239 1807 1785 3117//TODO
-
-## Luogu
-    1216
-    3956 - Dijkstra
-
-
 # Problems
     diff. scanf(%s) && gets(s) && fgets(s) && cin.getline(s, n)
     correct? scanf()!=EOF && (c = getchar()) != EOF
@@ -49,6 +50,7 @@
     https://www.cnblogs.com/c1299401227/p/5370685.html          &C++ String
     https://zhuanlan.zhihu.com/p/377183341                      &命名规范
     https://developer.aliyun.com/article/619121                 &命名规范-aliyun
+    https://xknote.com/blog/114975.html                         &memset初始化max&min
 
 
 # Website
