@@ -20,60 +20,29 @@ inline T read(void);
 int n, m;
 vector< pair<int, int>/*to, value*/ >vertex[110000];
 bool used[110000];
+int maxVert[110000];
 queue<int>vert;
-bool cmp(pair<int, int>, pair<int, int>);
-void dfs(int);
-void bfs(void);
-// int head[11000];
-// //toVertex value nextEdge
-// tuple<int, int, int>edge[110000];
+void dfs(int, int);
 int main(){
-	n = read(), m = read();
-    // int cnt(0);
-    // for(int i = 1; i <= m; ++i){
-    //     int from = read(), to = read(), value(1);
-    //     edge[++cnt] = tuple<int, int, int>(to, value, head[from]);
-    //     head[from] = cnt;
-    // }                                                                                                                       
+	// memset(maxVert, 0x80, sizeof(maxVert));
+	n = read(), m = read();                                                                                                                     
 	for(int i = 1; i <= m; ++i){
 		int from = read(), to = read(), value(1);
-		vertex[from].push_back(CP_NN(to, value));
+		vertex[to].push_back(CP_NN(from, value));
 	}
-	for(int i = 1; i <= n; ++i)sort(vertex[i].begin(), vertex[i].end(), cmp);
-	memset(used, 0, sizeof(used));
-	dfs(1);
-	printf("\n");
-	memset(used, 0, sizeof(used));
-	vert.push(1);
-	used[1] = true;
-	bfs();
-	printf("\n");
+	for(int i = n; i >= 1; --i)dfs(i, i);
+	for(int i = 1; i <= n; ++i)printf("%d%c", maxVert[i], i == n ? '\n' : ' ');
     return 0;
 }
-void bfs(void){
-	int len = vert.size();
-	for(int c = 1; c <= len; ++c){
-		int t = vert.front();
-		vert.pop();
-		printf("%d ", t);
-		for(auto i : ::vertex[t]){
-			int to;
-			tie(to, ignore) = i;
-			if(!used[to]){
-				used[to] = true;
-				vert.push(to);
-			}
-		}
-	}
-	if(!vert.empty())bfs();
-}
-void dfs(int vertex){
-	printf("%d ", vertex);
+
+void dfs(int vertex, int rootVert){
+	if(used[vertex])return;
 	used[vertex] = true;
+	maxVert[vertex] = rootVert;
 	for(auto i : ::vertex[vertex]){
 		int to;
 		tie(to, ignore) = i;
-		if(!used[to])dfs(to);
+		if(!used[to])dfs(to, rootVert);
 	}
 }
 bool cmp(pair<int, int>a, pair<int, int>b){
