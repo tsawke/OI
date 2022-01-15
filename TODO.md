@@ -1,10 +1,11 @@
 # OJ-TODO
 ## JDFZ
-    1050 //TODO
-    1300 //TODO
-    1635//TODO
-    2982//TODO
-    dfs 1945 1946 1271 1532 1947 1948 1973 1621 1239 1807 1785 3117//TODO
+    1050
+    1300
+    1635
+    2982
+    dfs 1945 1946 1271 1532 1947 1948 1973 1621 1239 1807 1785 3117
+    1788 [NOIP2012]文化之旅 T4
 
 ## Luogu
     1216
@@ -22,6 +23,7 @@
     3117 勇敢的热气球驾驶者
     1270 [NOIP2004]合并果子 T2
     1418 [NOIP2000]单词接龙 T3
+    1523 VIJOS-P1446 最短路上的统计
 
 ## Luogu
     1219 [USACO1.5]八皇后 Checker Challenge
@@ -34,8 +36,11 @@
     3956 [NOIP2017 普及组] 棋盘 - BFS
     5318 [深基18.例3] 查找文献
     3916 图的遍历
+    3371 [模板]单源最短路径(弱化版)
+    4779 [模板]单源最短路径(标准版)
     
-
+## YBT
+    1374 铲雪车(snow)
 ## BAILIAN
     1050 To the Max
 
@@ -60,5 +65,8 @@
     Luogu OJ        https://www.luogu.com.cn/
     JDFZ OJ         https://neooj.com:8082/oldoj/
     POJ             http://poj.org/
+    POJ-Submit      http://bailian.openjudge.cn/
     OI WIKI         https://oi-wiki.org/
     Coding DevOps   https://monkey-hyx.coding.net/
+    一本通           http://ybt.ssoier.cn:8088/index.php
+    
