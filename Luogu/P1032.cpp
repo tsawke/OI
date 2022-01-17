@@ -16,44 +16,44 @@ typedef unsigned long long unll;
 typedef long long ll;
 template <typename T = int>
 inline T read(void);
-string strA, strB;
-string strFrom[10], strTo[10];
-int nN(0);
-queue < string > strQ;
+string A, B;
+string From[10], To[10];
+int N(0);
+queue < string > Q;
 void BFS(int);
 int main(){
-	cin >> strA >> strB;
-    do
-        ++nN;
-    while (cin >> strFrom[nN] >> strTo[nN]);
-
-    strQ.push(strA);
+	cin >> A >> B;
+    do ++N;
+    while (cin >> From[N] >> To[N]);
+    //TODO while(cin) or while(scanf!=EOF)结束循环是在全部输入后还是输入完成后下一次循环
+    Q.push(A);
     BFS(0);
     return 0;
 }
+//TODO Debug Required
 void BFS(int Steps)
 {
-    if (Steps > 20 || strQ.empty())
+    if (Steps > 20 || Q.empty())
         return;
-    int Len = strQ.size();
+    int Len = Q.size();
     for (int i = 1; i <= Len; ++i)
     {
-        if (!strQ.front().compare(strB))
+        if (!Q.front().compare(B))
         {
             printf("%d\n", Steps);
             exit(0);
         }
-        string strCurrentStr = strQ.front();
-        strQ.pop();
-        int nStrLen = strCurrentStr.length();
-        for (int j = 1; j <= nN; ++j)
+        string Current = Q.front();
+        Q.pop();
+        int nLen = Current.length();
+        for (int j = 1; j <= N; ++j)
         {
-            string strTempStr = strCurrentStr;
-            int nCurrentPos = strTempStr.find(strFrom[j]);
-            if (nCurrentPos > nStrLen)
+            string Temp = Current;
+            int CurrentPos = Temp.find(From[j]);
+            if (CurrentPos > nLen)
                 continue;
-            strTempStr.replace(nCurrentPos, strTo[j].length(), strTo[j]);
-            strQ.push(strTempStr);
+            Temp.replace(CurrentPos, To[j].length(), To[j]);
+            Q.push(Temp);
         }
     }
 }
@@ -74,4 +74,3 @@ inline T read(void)
     ret *= flag;
 	return ret;
 }
-//TODO

@@ -1,3 +1,4 @@
+//C++98
 #include <cstdio>
 #include <algorithm>
 #include <cstring>
@@ -8,23 +9,25 @@
 #include <iostream>
 #include <string>
 #include <map>
-#include <functional>
 #include <unistd.h>
+#include <functional>
 using namespace std;
 typedef unsigned long long unll;
 typedef long long ll;
-template <typename T = int>
+template <typename T>
 inline T read(void);
-
 int main(){
-    //TODO Completion Required
+	
+
 
     return 0;
 }
 
-inline int read(void) {
-	int ret(0);
-	int flag(1);
+template <typename T>
+inline T read(void)
+{
+	T ret(0);
+	short flag(1);
 	char c = getchar();
 	while (c < '0' || c > '9') {
 		if (c == '-')flag = -1;

@@ -45,9 +45,9 @@ int main(){
     return 0;
 }
 void rm(int x, int y){
-    for(int )
+    ;
 }
-
+//TODO Completion required
 
 template <typename T>
 inline T read(void){
@@ -65,4 +65,3 @@ inline T read(void){
     ret *= flag;
     return ret;
 }
-//TODO

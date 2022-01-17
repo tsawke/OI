@@ -21,7 +21,7 @@ bool slanting[3][30];
 bool available[30][30];
 int ans(0);
 bool GetMap(void);
-int main(){
+int main(){//Debug Required
     int n = read<int>();
     for(int i = 1; i <= n; ++i)for(int j = 1; j <= n; ++j)available[i][j] = GetMap();
     dfs(1, n);
@@ -68,4 +68,3 @@ inline T read(void){
     ret *= flag;
     return ret;
 }
-//TODO 

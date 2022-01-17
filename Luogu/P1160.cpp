@@ -18,25 +18,26 @@ bool unexist[110000];
 vector<int>::iterator _pos[110000];
 vector<int>que;
 int main(){
-    int n(read());
-    que.push_back(1);
-    _pos[1] = que.begin();
-    for(int i = 2; i <= n; ++i){
-        int k(read()); int pos(read());
-        que.insert(next(_pos[k], pos), i);
-        _pos[i] = next(_pos[k], pos);
-        //TODO
+    // int n(read());
+    // que.push_back(1);
+    // _pos[1] = que.begin();
+    // for(int i = 2; i <= n; ++i){
+    //     int k(read()); int pos(read());
+    //     que.insert(next(_pos[k], pos), i);
+    //     _pos[i] = next(_pos[k], pos);
+    //     //
         
-        /*for(vector<int>::iterator itea = que.begin(); itea != que.end(); ++itea){
-            if(*itea == k){que.insert(next(itea, pos), i); break;}
-        }*/
-    }
-    int m(read());
-    for(int i = 1; i <= m; ++i)unexist[read()] = true;
-    for(vector<int>::iterator itea = que.begin(); itea != que.end(); ++itea){
-        if(!unexist[*itea])printf("%d ", *itea);
-    }printf("\n");
+    //     /*for(vector<int>::iterator itea = que.begin(); itea != que.end(); ++itea){
+    //         if(*itea == k){que.insert(next(itea, pos), i); break;}
+    //     }*/
+    // }
+    // int m(read());
+    // for(int i = 1; i <= m; ++i)unexist[read()] = true;
+    // for(vector<int>::iterator itea = que.begin(); itea != que.end(); ++itea){
+    //     if(!unexist[*itea])printf("%d ", *itea);
+    // }printf("\n");
 
+    //TODO Completion Required
     system("pause");
     return 0;
 }

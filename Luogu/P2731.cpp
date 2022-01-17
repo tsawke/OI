@@ -52,7 +52,7 @@ int main(){
 }
 void dfs(int vertex, int steps){
     // printf("DFS: vert:%d  setps:%d\n", vertex, steps);
-    if(steps >= 497){
+                        if(steps >= 497){
                             printf("IN DFS vertex = %d    steps = %d\n", vertex, steps);
                             for(int c = 1; c <= ::vertAmt; ++c){
                                 printf("No.%d  ", c);
@@ -61,7 +61,7 @@ void dfs(int vertex, int steps){
                                 }printf("\n");
                             }
                             sleep(5);
-    }
+                        }
     if(steps >= edgeAmt + 1){
         for(auto i : route)printf("%d\n", i);
         exit(0);
@@ -109,7 +109,7 @@ inline T read(void)
     ret *= flag;
 	return ret;
 }
-/*TODO
+/*TODO Debug Required
 Q: https://www.luogu.com.cn/problem/P2731
 https://www.luogu.com.cn/record/66671258
 

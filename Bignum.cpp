@@ -27,7 +27,7 @@ class Integer{
         Integer(vector<int>);
         void Init(void);
         Integer operator+(const Integer&);
-        Ingeger operator-(const Integer&);//TODO -*/
+        Integer operator-(const Integer&);//TODO Completion Required -*/
         void PrintInt(void);
     protected:
     private:

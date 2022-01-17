@@ -37,12 +37,12 @@ int main(){
         int x = read(), y = read(), flag = read();
         chess[x][y] = flag ? 1 : -1;//1:yellow -1:red
     }
-    printf("Print Chess[][]:\n");
-    for(int i = 1; i <= chessSize; ++i){
-        for(int j = 1; j <= chessSize; ++j)
-            printf("%2d%c", chess[i][j], j == chessSize ? '\n' : ' ');
-    }
-    printf("\n");
+    // printf("Print Chess[][]:\n");
+    // for(int i = 1; i <= chessSize; ++i){
+    //     for(int j = 1; j <= chessSize; ++j)
+    //         printf("%2d%c", chess[i][j], j == chessSize ? '\n' : ' ');
+    // }
+    // printf("\n");
     q.push(tuple<int, int, bool, int, int>(1, 1, false, 0, chess[1][1]));
     bfs();
     printf("%d\n", minCoin == INT_MAX ? -1 : minCoin);
@@ -86,13 +86,13 @@ void bfs(void){
             //     addCoin += 2;
             // }
             // if(nowCoin > 22)
-            if(temp_count <= 5)
-            printf("Find Values In bfs: from%d,%d to%d,%d used=%d nowC=%d addC=%d lastCol=%d nowCol=%d\n",
-                x, y, toX, toY, used_, nowCoin, addCoin, nowColor, nowColor_);
+            // if(temp_count <= 5)
+            // printf("Find Values In bfs: from%d,%d to%d,%d used=%d nowC=%d addC=%d lastCol=%d nowCol=%d\n",
+            //     x, y, toX, toY, used_, nowCoin, addCoin, nowColor, nowColor_);
             q.push(tuple<int, int, bool, int, int>(toX, toY, used_, nowCoin + addCoin, nowColor_));
         }
     }
-    printf("Complete a bfs\n"); ++temp_count;
+    // printf("Complete a bfs\n"); ++temp_count;
     for(auto i : update_vis){
         int x, y;
         tie(x, y) = i;
@@ -102,8 +102,7 @@ void bfs(void){
 	if(!q.empty())bfs();
 }
 template <typename T = int>
-inline T read(void)
-{
+inline T read(void){
 	T ret(0);
 	short flag(1);
 	char c = getchar();
@@ -118,4 +117,3 @@ inline T read(void)
     ret *= flag;
 	return ret;
 }
-//TODO

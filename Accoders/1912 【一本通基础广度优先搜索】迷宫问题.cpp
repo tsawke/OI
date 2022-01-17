@@ -14,7 +14,7 @@
 #include <queue>
 using namespace std;
 
-//TODO  ERROR 
+//ERROR 
 
 class coord{
 	public:

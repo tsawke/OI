@@ -23,7 +23,7 @@ int main(){
 	for(int i = -300; i <= -1; ++i)if(p[i])printf("%d %d\n", i, p[i]);
 	for(int i = 0; i <= 400; ++i)if(S[i])printf("%d %d\n", i, S[i]);
 	printf("%d", height >= 0 ? height / n : -1);
-
+//TODO Debug Required
 //    system("pause");
     return 0;
 }
@@ -44,4 +44,3 @@ inline T read(void)
     ret *= flag;
 	return ret;
 }
-//TODO
