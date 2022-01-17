@@ -20,6 +20,7 @@ vector< tuple<int, int, int>/*fromVertex, toVertex, wealth*/ >edge;
 class Union_Find{
 public:
     Union_Find(void);
+    bool cmp(tuple<int, int, int>, tuple<int, int, int>);
     int Find(int);
     void Merge(int, int);
     int Kruskal(void);
@@ -38,12 +39,16 @@ int main(){
 
     return 0;
 }
-const bool tuple<int, int, int>::operator<(const tuple<int, int, int>tup)const{
-    return get<2>(*this) < get<2>(tup);
-}//TODO Modification Required
+// const bool tuple<int, int, int>::operator<(const tuple<int, int, int>tup)const{
+//     return get<2>(*this) < get<2>(tup);
+// }//TODO Modification Required:如何对STL中的类的符号进行重载
 int Union_Find::Kruskal(void){
     int ans(INT_MAX);
-
+    Union_Find *pUF = &unionFind;
+    sort(edge.begin(), edge.end(), *pUF->cmp);//TODO Modification Required:sort中第三个参数为什么可以不带(),函数没有括号是什么类型,此时的sort应该怎么写
+}
+bool Union_Find::cmp(tuple<int, int, int>a, tuple<int, int, int>b){
+    return get<2>(a) < get<2>(b);
 }
 void Union_Find::Merge(int a, int b){
     int a_f = this->Find(a), b_f = this->Find(b);
