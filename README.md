@@ -57,6 +57,9 @@
         所有用于输入的函数读入失败返回值都是-1吗?cin可以不用!=EOF是因为cin读入失败返回0吗?
     diff. char c[size] && char *c && string
     undefined? e.g.https://blog.csdn.net/dpfordor/article/details/1958077
+    环的定义就是至少有三个点吗,如果有自环等不能算作一个环吗
+    对于一般的语句中的函数执行顺序，是否除了scanf，cin之类的其他的均是正向的?
+        即如果输入1 2,那么如a[read()] = read()等均为a[1] = 2;如scanf("%d%d", &a[read()], &a[read()])
 
 # TEXT-TODO
     https://zhuanlan.zhihu.com/p/89721008                       &数的因数个数与质因数分解的关系

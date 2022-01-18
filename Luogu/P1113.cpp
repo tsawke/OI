@@ -11,23 +11,19 @@
 #include <map>
 #include <unistd.h>
 #include <functional>
-#define PRINTA for(auto i : a)printf("%d ", i);printf("\n")
-#define INITA memset(a, 0, sizeof(a))
 using namespace std;
 typedef unsigned long long unll;
 typedef long long ll;
 template <typename T = int>
 inline T read(void);
+
+int n;
 int main(){
-	int a[10];
+	n = read();
+    for(int i = 1; i <= n; ++i){
+        
+    }
 
-    INITA;
-    a[read()] = read();
-    PRINTA;
-
-    INITA;
-    scanf("%d%d", &a[read()], &a[read()]);
-    PRINTA;
 
     return 0;
 }

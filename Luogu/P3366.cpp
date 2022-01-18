@@ -22,7 +22,7 @@ public:
     Union_Find(void);
     bool cmp(tuple<int, int, int>, tuple<int, int, int>);
     int Find(int);
-    void Merge(int, int);
+    void Union(int, int);
     int Kruskal(void);
 private:
     int fa[5100];
@@ -35,22 +35,36 @@ int main(){
         int from = read(), to = read(), wealth = read();
         edge.push_back(tuple<int, int, int>(from, to, wealth));
     }
-    printf("%d\n", unionFind.Kruskal());
+    int ret = unionFind.Kruskal();
+    if(ret != -1)printf("%d\n", ret);
+    else printf("orz\n");
 
     return 0;
 }
-// const bool tuple<int, int, int>::operator<(const tuple<int, int, int>tup)const{
+// const bool tuple<int, int, int>::operator<(const tuple<int, int, int>&tup)const{
 //     return get<2>(*this) < get<2>(tup);
 // }//TODO Modification Required:如何对STL中的类的符号进行重载
 int Union_Find::Kruskal(void){
     int ans(INT_MAX);
-    Union_Find *pUF = &unionFind;
-    sort(edge.begin(), edge.end(), *pUF->cmp);//TODO Modification Required:sort中第三个参数为什么可以不带(),函数没有括号是什么类型,此时的sort应该怎么写
+    sort(edge.begin(), edge.end(), this->cmp);//TODO Modification Required:sort中第三个参数为什么可以不带(),函数没有括号是什么类型,此时的sort应该怎么写
+    int edgeAmt(0);
+    int treeWealth(0);
+    for(auto i : edge){
+        int from, to, wealth;
+        tie(from, to, wealth) = i;
+        if(this->Find(from) != this->Find(to)){
+            treeWealth += wealth;
+            ++edgeAmt;
+            this->Union(from, to);
+        }
+        if(edgeAmt == n - 1)return treeWealth;
+    }
+    return -1;
 }
 bool Union_Find::cmp(tuple<int, int, int>a, tuple<int, int, int>b){
     return get<2>(a) < get<2>(b);
 }
-void Union_Find::Merge(int a, int b){
+void Union_Find::Union(int a, int b){
     int a_f = this->Find(a), b_f = this->Find(b);
     if(this->size[a_f] < this->size[b_f])swap(a_f, b_f);
     this->fa[b_f] = a_f;
