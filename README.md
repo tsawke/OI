@@ -52,7 +52,7 @@
         判断结尾时不同系统换行等应该都不一样,那么是应该写成如s[i]!=EOF && s[i]!='\n' && s[i]!='\r'这些是否可行?
         gets因无法判断长度被"禁用"了,那么cin.getline是不是没有什么问题了?
         对于strlen,显然其是从头到\0为止判断长度,那么如果是fgets获取的,结尾应该是\n,\r之类的还是\n和\0,返回的长度是否会包含\n等
-    correct? scanf()!=EOF && (c = getchar()) != EOF && gets(s) != EOF...
+    scanf()!=EOF && (c = getchar()) != EOF && gets(s) != EOF...
         头文件中有宏定义EOF=-1, scanf输入失败返回-1. 对于getchar()如果读入失败返回-1赋值给char类型的c再跟EOF比较不会出错吗
         所有用于输入的函数读入失败返回值都是-1吗?cin可以不用!=EOF是因为cin读入失败返回0吗?
     diff. char c[size] && char *c && string
@@ -61,7 +61,7 @@
     对于一般的语句中的函数执行顺序，是否除了scanf，cin之类的其他的均是正向的?
         即如果输入1 2,那么如a[read()] = read()等均为a[1] = 2;如scanf("%d%d", &a[read()], &a[read()])
 
-# TEXT-TODO
+# TEXT
     https://zhuanlan.zhihu.com/p/89721008                       &数的因数个数与质因数分解的关系
     https://blog.csdn.net/liu16659/article/details/79093513     &最长不下降子序列详解
     https://blog.csdn.net/bell041030/article/details/88911180   &杨辉三角与组合数
@@ -73,7 +73,8 @@
     https://xknote.com/blog/114975.html                         &memset初始化max&min
     https://www.cnblogs.com/chenleideblog/p/12745271.html       &对于堆(优先队列)的说明
     https://www.luogu.com.cn/blog/Tweetuzki/solution-p3366      &Borůvka (Sollin)最小生成树
-
+    https://blog.csdn.net/qq_35650589/article/details/102713589 &AOE图和关键路径的求解
+    https://blog.csdn.net/Zhouzi_heng/article/details/115014059 &可行的VSCode配置C++
 
 # Website
     Luogu OJ        https://www.luogu.com.cn/

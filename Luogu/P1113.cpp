@@ -11,23 +11,56 @@
 #include <map>
 #include <unistd.h>
 #include <functional>
+#include <queue>
 using namespace std;
 typedef unsigned long long unll;
 typedef long long ll;
 template <typename T = int>
 inline T read(void);
-
+tuple< vector<int>, int, int, int, bool /*toVertex, wealth, indegree, time, vis*/ >vertex[11000];
+queue<int>vertQ;
+queue<int>topoSequence;
+bool TopoSort(void);
 int n;
 int main(){
+	for(int i = 1; i <= 10100; ++i)get<4>(vertex[i]) = get<3>(vertex[i]) = get<2>(vertex[i]) = get<1>(vertex[i]) = 0;
+	// for(int i = 1; i <= 10100; ++i)for(int j = 1; j <= 3; ++j)get<j, decltype(vertex[i])>(vertex[i]) = 0;
+	//TODO Modification Required:为什么这里面模板函数get中<>不能直接填int类型变量
 	n = read();
     for(int i = 1; i <= n; ++i){
-        
+		int num = read();
+		int wealth = read();
+		get<1>(vertex[num]) = wealth;
+		int works;
+		while(works = read()){
+			get<0>(vertex[works]).push_back(num);
+			++get<2>(vertex[num]);
+		}
     }
 
 
     return 0;
 }
+bool TopoSort(void){
+	for(int i = 1; i <= n; ++i){
+		if(!get<2>(vertex[i]) && !get<4>(vertex[i])){
+			vertQ.push(i);
+			get<4>(vertex[i]) = true;
+			get<3>(vertex[i]) = get<1>(vertex[i]);
+		}
+	}
+	while(!vertQ.empty()){
+		int vert = vertQ.front();
+		vertQ.pop();
+		for(auto i : get<0>(vertex[vert])){
+			// get<0>(vertex[vert]).erase()
+			//TODO Completion Required
+			if(!--get<2>(vertex[i])){
 
+			}
+		}
+	}
+}
 template <typename T = int>
 inline T read(void)
 {
