@@ -20,7 +20,7 @@ vector< tuple<int, int, int>/*fromVertex, toVertex, wealth*/ >edge;
 class Union_Find{
 public:
     Union_Find(void);
-    bool cmp(tuple<int, int, int>, tuple<int, int, int>);
+    static bool cmp(tuple<int, int, int>, tuple<int, int, int>);
     int Find(int);
     void Union(int, int);
     int Kruskal(void);
@@ -41,12 +41,9 @@ int main(){
 
     return 0;
 }
-// const bool tuple<int, int, int>::operator<(const tuple<int, int, int>&tup)const{
-//     return get<2>(*this) < get<2>(tup);
-// }//TODO Modification Required:如何对STL中的类的符号进行重载
 int Union_Find::Kruskal(void){
     int ans(INT_MAX);
-    sort(edge.begin(), edge.end(), this->cmp);//TODO Modification Required:sort中第三个参数为什么可以不带(),函数没有括号是什么类型,此时的sort应该怎么写
+    sort(edge.begin(), edge.end(), Union_Find::cmp);//TODO Modification Required:sort中第三个参数为什么可以不带(),函数没有括号是什么类型,此时的sort应该怎么写
     int edgeAmt(0);
     int treeWealth(0);
     for(auto i : edge){
