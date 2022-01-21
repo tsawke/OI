@@ -76,6 +76,7 @@
     https://blog.csdn.net/qq_35650589/article/details/102713589 &AOE图和关键路径的求解
     https://blog.csdn.net/Zhouzi_heng/article/details/115014059 &可行的VSCode配置C++
     https://blog.csdn.net/qq_41453285/article/details/106321820 &Nginx配置CGI程序
+    https://www.runoob.com/cplusplus/cpp-web-programming.html   &C++ Web
 
 # Website
     Luogu OJ        https://www.luogu.com.cn/
