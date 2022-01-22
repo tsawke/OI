@@ -14,17 +14,6 @@
 
 
 # AC
-## JDFZ
-    1929 求最长不下降序列长度
-    1387 VIJOS-P1255 月饼盒
-    1742 生成全排列
-    1858 n皇后问题
-    1859 n皇后问题again
-    3117 勇敢的热气球驾驶者
-    1270 [NOIP2004]合并果子 T2
-    1418 [NOIP2000]单词接龙 T3
-    1523 VIJOS-P1446 最短路上的统计
-
 ## Luogu
     1219 [USACO1.5]八皇后 Checker Challenge
     1019 [NOIP2000 提高组] 单词接龙
@@ -38,7 +27,20 @@
     3916 图的遍历
     3371 [模板]单源最短路径(弱化版)
     4779 [模板]单源最短路径(标准版)
+    3366 [模板]最小生成树
+    1113 杂物
     
+## JDFZ
+    1929 求最长不下降序列长度
+    1387 VIJOS-P1255 月饼盒
+    1742 生成全排列
+    1858 n皇后问题
+    1859 n皇后问题again
+    3117 勇敢的热气球驾驶者
+    1270 [NOIP2004]合并果子 T2
+    1418 [NOIP2000]单词接龙 T3
+    1523 VIJOS-P1446 最短路上的统计
+
 ## YBT
     1374 铲雪车(snow)
 ## BAILIAN
@@ -60,6 +62,7 @@
     环的定义就是至少有三个点吗,如果有自环等不能算作一个环吗
     对于一般的语句中的函数执行顺序，是否除了scanf，cin之类的其他的均是正向的?
         即如果输入1 2,那么如a[read()] = read()等均为a[1] = 2;如scanf("%d%d", &a[read()], &a[read()])
+    Tarjan回溯时的判断in stack问题https://www.bilibili.com/video/BV19J411J7AZ?p=5
 
 # TEXT
     https://zhuanlan.zhihu.com/p/89721008                       &数的因数个数与质因数分解的关系
@@ -77,6 +80,7 @@
     https://blog.csdn.net/Zhouzi_heng/article/details/115014059 &可行的VSCode配置C++
     https://blog.csdn.net/qq_41453285/article/details/106321820 &Nginx配置CGI程序
     https://www.runoob.com/cplusplus/cpp-web-programming.html   &C++ Web
+    https://www.cnblogs.com/yutian-blogs/p/15129640.html        &关键路径
 
 # Website
     Luogu OJ        https://www.luogu.com.cn/

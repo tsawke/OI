@@ -12,6 +12,12 @@
 #include <unistd.h>
 #include <functional>
 #include <queue>
+#define SUBMIT
+#ifndef SUBMIT
+#define PRINT for(int i = 1; i <= n; ++i)printf("%d%c", get<3>(vertex[i]), i == n ? '\n' : ' ')
+#else
+#define PRINT 
+#endif
 using namespace std;
 typedef unsigned long long unll;
 typedef long long ll;
@@ -20,28 +26,28 @@ inline T read(void);
 tuple< vector<int>, int, int, int, bool /*toVertex, wealth, indegree, time, vis*/ >vertex[11000];
 queue<int>vertQ;
 queue<int>topoSequence;
-bool TopoSort(void);
+void TopoSort(void);
 int n;
 int main(){
-	for(int i = 1; i <= 10100; ++i)get<4>(vertex[i]) = get<3>(vertex[i]) = get<2>(vertex[i]) = get<1>(vertex[i]) = 0;
-	// for(int i = 1; i <= 10100; ++i)for(int j = 1; j <= 3; ++j)get<j, decltype(vertex[i])>(vertex[i]) = 0;
-	//TODO Modification Required:为什么这里面模板函数get中<>不能直接填int类型变量
+	for(int i = 1; i <= 10100; ++i)get<4>(vertex[i]) = bool((get<3>(vertex[i]) = get<2>(vertex[i]) = get<1>(vertex[i]) = 0));
 	n = read();
     for(int i = 1; i <= n; ++i){
 		int num = read();
 		int wealth = read();
 		get<1>(vertex[num]) = wealth;
 		int works;
-		while(works = read()){
+		while((works = read())){
 			get<0>(vertex[works]).push_back(num);
 			++get<2>(vertex[num]);
 		}
     }
-
-
+	TopoSort();
+	int _max(0);
+	for(int i = 1; i <= n; ++i)_max = max(_max, get<3>(vertex[i]));
+	printf("%d\n", _max);
     return 0;
 }
-bool TopoSort(void){
+void TopoSort(void){
 	for(int i = 1; i <= n; ++i){
 		if(!get<2>(vertex[i]) && !get<4>(vertex[i])){
 			vertQ.push(i);
@@ -49,16 +55,17 @@ bool TopoSort(void){
 			get<3>(vertex[i]) = get<1>(vertex[i]);
 		}
 	}
+	PRINT;
 	while(!vertQ.empty()){
 		int vert = vertQ.front();
 		vertQ.pop();
 		for(auto i : get<0>(vertex[vert])){
-			// get<0>(vertex[vert]).erase()
-			//TODO Completion Required
+			get<3>(vertex[i]) = max(get<3>(vertex[i]), get<3>(vertex[vert]) + get<1>(vertex[i]));
 			if(!--get<2>(vertex[i])){
-
+				vertQ.push(i);
 			}
 		}
+		PRINT;
 	}
 }
 template <typename T = int>

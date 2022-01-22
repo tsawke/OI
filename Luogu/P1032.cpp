@@ -23,9 +23,9 @@ queue < string > Q;
 void BFS(int);
 int main(){
 	cin >> A >> B;
-    do ++N;
-    while (cin >> From[N] >> To[N]);
-    //TODO while(cin) or while(scanf!=EOF)结束循环是在全部输入后还是输入完成后下一次循环
+
+    // while (cin >> From[++N] >> To[N]);
+
     Q.push(A);
     BFS(0);
     return 0;
