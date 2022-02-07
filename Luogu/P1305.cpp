@@ -1,3 +1,4 @@
+//C++11
 #include <cstdio>
 #include <algorithm>
 #include <cstring>
@@ -15,11 +16,28 @@ typedef unsigned long long unll;
 typedef long long ll;
 template <typename T = int>
 inline T read(void);
-
-
+int n;
+int root;
+vector< int > vertex[210];
+void prev(int);
 int main(){
-	
+    n = read();
+    for(int i = 1; i <= n; ++i){
+        string input;
+        cin>>input;
+        if(input.at(1) != '*')vertex[int(input.at(0))].push_back(int(input.at(1)));
+        if(input.at(2) != '*')vertex[int(input.at(0))].push_back(int(input.at(2)));
+        if(i == 1)root = int(input.at(0));
+    }
+    prev(root);
+    printf("\n");
     return 0;
+}
+void prev(int root){
+    printf("%c", char(root));
+    for(auto i : vertex[root]){
+        prev(i);
+    }
 }
 
 template <typename T = int>
