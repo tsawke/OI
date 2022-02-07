@@ -31,6 +31,7 @@
     1113 杂物
     1030 [NOIP2001 普及组] 求先序排列
     1305 新二叉树
+    1087 [NOIP2004 普及组] FBI 树
     
 ## JDFZ
     1929 求最长不下降序列长度
@@ -50,21 +51,8 @@
 
 
 # Problems
-    diff. scanf(%s) && gets(s) && fgets(s) && cin.getline(s, n) (为什么cin.getline WA 而 scanf AC)
-    只有fget相关的会读入'\n'之类的并存到s里吗?其他的是读入'\n'等停止但不保存到s里
-        若使用fgets等,应该如何判断读入后的s数组是否为结尾等呢?输入结尾的话是否会存在s[n]=EOF(同时这里还有个char类型是否可以存EOF即-1)
-        判断结尾时不同系统换行等应该都不一样,那么是应该写成如s[i]!=EOF && s[i]!='\n' && s[i]!='\r'这些是否可行?
-        gets因无法判断长度被"禁用"了,那么cin.getline是不是没有什么问题了?
-        对于strlen,显然其是从头到\0为止判断长度,那么如果是fgets获取的,结尾应该是\n,\r之类的还是\n和\0,返回的长度是否会包含\n等
-    scanf()!=EOF && (c = getchar()) != EOF && gets(s) != EOF...
-        头文件中有宏定义EOF=-1, scanf输入失败返回-1. 对于getchar()如果读入失败返回-1赋值给char类型的c再跟EOF比较不会出错吗
-        所有用于输入的函数读入失败返回值都是-1吗?cin可以不用!=EOF是因为cin读入失败返回0吗?
-    diff. char c[size] && char *c && string
-    undefined? e.g.https://blog.csdn.net/dpfordor/article/details/1958077
-    环的定义就是至少有三个点吗,如果有自环等不能算作一个环吗
-    对于一般的语句中的函数执行顺序，是否除了scanf，cin之类的其他的均是正向的?
-        即如果输入1 2,那么如a[read()] = read()等均为a[1] = 2;如scanf("%d%d", &a[read()], &a[read()])
     Tarjan回溯时的判断in stack问题https://www.bilibili.com/video/BV19J411J7AZ?p=5
+    Tarjan求最小环
 
 # TEXT
     https://zhuanlan.zhihu.com/p/89721008                       &数的因数个数与质因数分解的关系
