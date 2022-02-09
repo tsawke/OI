@@ -15,6 +15,8 @@ typedef unsigned long long unll;
 typedef long long ll;
 template <typename T = int>
 inline T read(void);
+int fa[210000];
+int Find(int, int&);
 
 
 int main(){
