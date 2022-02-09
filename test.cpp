@@ -7,16 +7,17 @@
 #include <iostream>
 
 namespace test{
-    int a = 1;
+    namespace test4{
+        int a = 0;
+    }
 }
 
 namespace test2{
-    using namespace std;
-    cout<<"test"<<endl;
+    
 }
 
 namespace test3{
-    std::cout<<""
+    // std::cout<<""
 }
 
 using namespace std;
@@ -27,8 +28,8 @@ using __gnu_pbds::priority_queue;
 int main(){
     
     //cout<<"test\n";
-    priority_queue<
-    __gnu_pbds::priority_queue<int, >;
+    // priority_queue<
+    // __gnu_pbds::priority_queue<int, >;
     // printf("Hello, World!\n");
     // pause();
     return 0;

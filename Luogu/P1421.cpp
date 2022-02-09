@@ -1,3 +1,4 @@
+//C++11
 #include <cstdio>
 #include <algorithm>
 #include <cstring>
@@ -15,25 +16,13 @@ typedef unsigned long long unll;
 typedef long long ll;
 template <typename T = int>
 inline T read(void);
-int n;
-int fa[210000];
-int Find(int, int&);
-
-
 int main(){
-	n = read();
-	for(int i = 1; i <= n; ++i)fa[i] = i;
-	for(int i = 1; i <= n; ++i){
-		
+	int a = read(), b = read();
+	int mon = a * 10 + b;
+	printf("%d\n", mon / 19);
 
 
-	}
     return 0;
-}
-int Find(int x, int& cnt){
-	++cnt;
-	if(fa[x] == x)return x;
-	return Find(fa[x], cnt);
 }
 
 template <typename T = int>
