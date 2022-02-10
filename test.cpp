@@ -11,7 +11,7 @@ namespace test{
         int a = 0;
     }
 }
-
+//
 namespace test2{
     
 }
