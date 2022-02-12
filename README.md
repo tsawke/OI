@@ -51,7 +51,6 @@
 
 
 # Problems
-    Tarjan回溯时的判断in stack问题https://www.bilibili.com/video/BV19J411J7AZ?p=5
     Tarjan求最小环
 
 # TEXT
