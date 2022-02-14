@@ -63,6 +63,7 @@ int main(){
     return 0;
 }
 int cal(int root, int edgeN){
+    printf("Now Cal (root=%d, edgeN=%d)\n", root, edgeN);
     if(vertex[root].empty())return 0;
     int LC = vertex[root].at(0).first, LW = vertex[root].at(0).second;
     int RC = vertex[root].at(1).first, RW = vertex[root].at(1).second;

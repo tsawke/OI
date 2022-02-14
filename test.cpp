@@ -26,7 +26,7 @@ using __gnu_pbds::priority_queue;
 // using namespace __gnu_pbds;
 // using namespace __gnu_pbds;
 int main(){
-    
+    printf("%d\n%d\n%d\n%d\n", 0x3f3f3f3f, 2 * 0x3fffffff, 0x7f7f7f7f, 0x7fffffff);
     //cout<<"test\n";
     // priority_queue<
     // __gnu_pbds::priority_queue<int, >;
