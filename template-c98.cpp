@@ -11,6 +11,8 @@
 #include <map>
 #include <unistd.h>
 #include <functional>
+#include <queue>
+#include <stack>
 using namespace std;
 typedef unsigned long long unll;
 typedef long long ll;

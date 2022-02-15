@@ -18,61 +18,61 @@ typedef unsigned long long unll;
 typedef long long ll;
 template <typename T = int>
 inline T read(void);
-vector< pair<int, int> /*toVertex, wealth*/ >vertex[110];
-queue< tuple<int, int, int> >toBePush;
-int outD[110];
-int inD[110];
+vector<pair<int, int> /*toVertex, wealth*/ >vertex[1100000];
+void ReadTree(const int, const int = 1);
+void DescTree(const int);
 int dp[110][110];
 int n, q;
-int cal(int, int);
+int Cal(int, int, int);
 int main(){
-	n = read(), q = read();
-    inD[1] = 1;
-    for(int i = 1; i < n; ++i){
+	::n = read(), ::q = read();
+    // ReadTree(::n);
+    // DescTree(::n);
+
+    for(int i = 1; i <= n - 1; ++i){
         int from = read(), to = read(), wealth = read();
-        // printf("No.%d  ready to push %d->%d, inDfrom=%d, inDto=%d\n", i, from, to, inD[from], inD[to]);sleep(2);
-        if(inD[from] && !inD[to])vertex[from].push_back(make_pair(to, wealth)), ++inD[to];
-        else if(!inD[from] && inD[to])vertex[to].push_back(make_pair(from, wealth)), ++inD[from];
-        // else if(inD[from] && inD[to])
-        else toBePush.push(tuple<int, int, int>(from, to, wealth));
-        // edge.push_back(Edge(from, to, wealth));
-        
-    }
-    while(!toBePush.empty()){
-        auto values = toBePush.front();
-        toBePush.pop(); 
-        // printf("%d %d\n", get<0>(values), get<1>(values));sleep(1);                                                                                                                                    
-        int from, to, wealth;
-        tie(from, to, wealth) = values;
-        if(inD[from] && !inD[to])vertex[from].push_back(make_pair(to, wealth)), ++inD[to];
-        else if(!inD[from] && inD[to])vertex[to].push_back(make_pair(from, wealth)), ++inD[from];
-        else toBePush.push(values);
-    }
-    for(int i = 1; i <= n; ++i){
-        for(auto v : vertex[i]){
-            printf("%d->%d     ", i, v.first);
-        }if(!vertex[i].empty())printf("\n");
+        vertex[from].push_back(make_pair(to, wealth));
+        vertex[to].push_back(make_pair(from, wealth));
     }
 
+    printf("%d\n", Cal(1, q, -1));
 
-    printf("ANS---%d\n", cal(1, q));
-    for(int i = 1; i <= n; ++i){
-        for(int j = 1; j <= q; ++j)
-            printf("%d%c", dp[i][j], j == q ? '\n' : ' ');
-    }
+    // for(int i = 1; i <= n; ++i)
+    //     for(int j = 1; j <= q; ++j)
+    //         printf("%d%c", dp[i][j], j == q ? '\n' : ' ');
     return 0;
 }
-int cal(int root, int edgeN){
-    printf("Now Cal (root=%d, edgeN=%d)\n", root, edgeN);
-    if(vertex[root].empty())return 0;
+
+int Cal(int root, int edgeN, int father){
+    // printf("Now Cal (root=%d, edgeN=%d) subTreeNum=%d\n", root, edgeN, vertex[root].size());
+    // sleep(1);
+    if(vertex[root].size() == 1 || !edgeN)return 0;
+    // printf("Do CAL\n");
+    if(dp[root][edgeN])return dp[root][edgeN];
     int LC = vertex[root].at(0).first, LW = vertex[root].at(0).second;
     int RC = vertex[root].at(1).first, RW = vertex[root].at(1).second;
+    if(LC == father)LC = vertex[root].at(2).first, LW = vertex[root].at(2).second;
+    if(RC == father)RC = vertex[root].at(2).first, RW = vertex[root].at(2).second;
+    // printf("    subtree not empty --- LC=%d, LW=%d, RC=%d, RW=%d\n", LC, LW, RC, RW);
     for(int i = 0; i <= edgeN; ++i){
-        if(!i)dp[root][i] = max(dp[root][i], cal(RC, edgeN - 1) + RW);
-        else if(i == edgeN)dp[root][i] = max(dp[root][i], cal(LC, i - 1) + LW);
-        else dp[root][i] = max(dp[root][i], cal(LC, i - 1) + LW + cal(RC, edgeN - i - 1) + RW);
+        // printf("        Now is going to cal lCN=%d, rCN=%d\n", i - 1, edgeN - i - 1);
+        if(!i)dp[root][edgeN] = max(dp[root][edgeN], Cal(RC, edgeN - 1, root) + RW);
+        else if(i == edgeN)dp[root][edgeN] = max(dp[root][edgeN], Cal(LC, i - 1, root) + LW);
+        else dp[root][edgeN] = max(dp[root][edgeN], Cal(LC, i - 1, root) + LW + Cal(RC, edgeN - i - 1, root) + RW);
+        // printf("$$$   %d\n", Cal(LC, i - 1) + LW);
+        // printf("        After cal lCN=%d, rCN=%d, dp[][]=%d\n", i - 1, edgeN - i - 1, dp[root][edgeN]);
     }
     return dp[root][edgeN];
+}
+
+void DescTree(const int n){
+    for(int i = 1; i <= n; ++i){
+        if(vertex[i].empty())continue;
+        printf("%d => ", i);
+        for(auto v : vertex[i]){
+            printf("%d(%d) ", v.first, v.second);
+        }printf("\n");
+    }
 }
 template <typename T = int>
 inline T read(void)
@@ -91,6 +91,11 @@ inline T read(void)
     ret *= flag;
 	return ret;
 }
+/*
+3 1
+1 2 20
+1 5 120
+*/
 
 
 //OLD
