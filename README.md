@@ -19,8 +19,6 @@
 # Problems
     Tarjan求最小环
     最短路计数
-    比赛允许用时间种子之类的获取随机数吗
-    break为什么不能用','
 
 # TEXT
     https://zhuanlan.zhihu.com/p/89721008                       &数的因数个数与质因数分解的关系

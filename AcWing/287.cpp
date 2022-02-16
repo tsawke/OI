@@ -14,6 +14,10 @@
 #include <functional>
 #include <queue>
 #include <stack>
+// #define SUBMIT
+#ifndef SUBMIT
+#include <sys/time.h>
+#endif
 using namespace std;
 typedef unsigned long long unll;
 typedef long long ll;
@@ -26,6 +30,9 @@ void dfsByRoot(int, int, int *&);
 void dfsChangeRoot(int, int, const int*&, int*&);
 int T;
 int main(){
+#ifndef SUBMIT
+    freopen("./287-data.in", "r", stdin);
+#endif
 	T = read();
     for(int t = 1; t <= T; ++t){
         int n = read();
@@ -35,6 +42,7 @@ int main(){
             vertex[from].push_back(make_pair(to, wealth));
             vertex[to].push_back(make_pair(from, wealth));
         }
+        printf("Input Success\n");
         printf("%d\n", Cal(n, rand() % n + 1));
     }
     return 0;
@@ -85,15 +93,25 @@ int Cal(const int n, int root){
     int postF[210000];
     // memset(postF, 0, sizeof(postF));
     // for(int i = 1; i <= n; ++i)postF = 0;
+#ifndef SUBMIT
+    timeval t1, t2, t3;
+    double timeUse1, timeUse2;
+    gettimeofday(&t1, NULL);
+#endif
     for(int i = 1; i <= n; ++i){
         if(vertex[i].size() == 1 && i != root)postF[i] = INT_MAX;
         else postF[i] = 0;
     }
-    // DescTree(n);
+    
+    DescTree(n);
     dfsByRoot(root, -1, postF);
     // for(int i = 1; i <= n; ++i){
     //     printf("%d#%d%c", i, postF[i], i == n ? '\n' : ' ');
     // }
+    printf("dfsByRoot Success\n");
+#ifndef SUBMIT
+    gettimeofday(&t2, NULL);
+#endif
     int flow[210000];
     // memset(flow, 0, sizeof(flow));
     for(int i = 1; i <= n; ++i){
@@ -104,6 +122,16 @@ int Cal(const int n, int root){
     //     printf("%d#%d%c", i, postF[i], i == n ? '\n' : ' ');
     // }
     dfsChangeRoot(root, -1, postF, flow);
+    printf("dfsChangeRoot Success\n");
+#ifndef SUBMIT
+    gettimeofday(&t3, NULL);
+
+    timeUse1 = (t2.tv_sec - t1.tv_sec) + double((t2.tv_usec - t1.tv_usec) / 1000000.0);
+    timeUse2 = (t3.tv_sec - t2.tv_sec) + double((t3.tv_usec - t2.tv_usec) / 1000000.0);
+
+    printf("dfsByRoot use Time --- %.6f\n", timeUse1);
+    printf("dfsChangeRoot use Time --- %.6f\n", timeUse2);
+#endif
     // for(int i = 1; i <= n; ++i){
     //     printf("%d#%d%c", i, flow[i], i == n ? '\n' : ' ');
     // }
