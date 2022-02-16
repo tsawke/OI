@@ -28,7 +28,7 @@ char c1[1100], c2[1100];
 int main(){
 //	cin.getline(c1, 1010);
 //  cin.getline(c2, 1010);
-	scanf("%s%s", &c1, &c2);
+	scanf("%s%s", c1, c2);
     Integer a(c1, strlen(c1)), b(c2, strlen(c2));
     Integer ans = add(a, b);
     for(int i = 1; i <= ans.len; ++i)printf("%d", ans.value[i]);

@@ -20,6 +20,7 @@
     Tarjan求最小环
     最短路计数
     比赛允许用时间种子之类的获取随机数吗
+    break为什么不能用','
 
 # TEXT
     https://zhuanlan.zhihu.com/p/89721008                       &数的因数个数与质因数分解的关系
@@ -38,6 +39,8 @@
     https://blog.csdn.net/qq_41453285/article/details/106321820 &Nginx配置CGI程序
     https://www.runoob.com/cplusplus/cpp-web-programming.html   &C++ Web
     https://www.cnblogs.com/yutian-blogs/p/15129640.html        &关键路径
+    https://zhuanlan.zhihu.com/p/122375531                      &网络流
+    
 
 # Website
     Luogu OJ        https://www.luogu.com.cn/
@@ -48,5 +51,5 @@
     POJ-Submit      http://bailian.openjudge.cn/
     OI WIKI         https://oi-wiki.org/
     Coding DevOps   https://monkey-hyx.coding.net/
-    一本通           http://ybt.ssoier.cn:8088/index.php
-    
+    YBT           http://ybt.ssoier.cn:8088/index.php
+    Graph Editor    https://csacademy.com/app/graph_editor/

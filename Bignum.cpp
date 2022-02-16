@@ -39,7 +39,7 @@ class Integer{
 
 char c1[1100], c2[1100];
 int main(){
-	scanf("%s%s", &::c1, &::c2);
+	scanf("%s%s", ::c1, ::c2);
     Integer a(::c1, strlen(::c1)), b(::c2, strlen(::c2));
     (a + b).PrintInt();
     
