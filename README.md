@@ -38,6 +38,9 @@
     https://www.runoob.com/cplusplus/cpp-web-programming.html   &C++ Web
     https://www.cnblogs.com/yutian-blogs/p/15129640.html        &关键路径
     https://zhuanlan.zhihu.com/p/122375531                      &网络流
+    https://blog.csdn.net/smile_zhangw/article/details/80894159 &循环队列
+    https://oi-wiki.org/dp/dynamic/                             &动态dp
+    
     
 
 # Website

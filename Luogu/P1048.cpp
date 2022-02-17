@@ -19,10 +19,17 @@ typedef unsigned long long unll;
 typedef long long ll;
 template <typename T = int>
 inline T read(void);
-
+int T, n;
+int _time[110], wealth[110];
+int dp[1100];
 int main(){
-	
-
+	T = read(); n = read();
+    for(int i = 1; i <= n; ++i)
+        _time[i] = read(), wealth[i] = read();
+    for(int i = 1; i <= n; ++i)
+        for(int j = T; j >= 1; --j)
+            if(j >= _time[i])dp[j] = max(dp[j], dp[j - _time[i]] + wealth[i]);
+    printf("%d\n", dp[T]);
 
     return 0;
 }

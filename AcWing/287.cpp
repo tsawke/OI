@@ -33,6 +33,8 @@ int main(){
 #ifndef SUBMIT
     freopen("./287-data.in", "r", stdin);
 #endif
+    vertex[1].reserve(110000);
+    for(int i = 2; i <= 110000; ++i)vertex[i].reserve(2);
 	T = read();
     for(int t = 1; t <= T; ++t){
         int n = read();

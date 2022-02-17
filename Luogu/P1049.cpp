@@ -19,10 +19,16 @@ typedef unsigned long long unll;
 typedef long long ll;
 template <typename T = int>
 inline T read(void);
-
+int Volume, n;
+int volume[50];
+int dp[21000];
 int main(){
-	
-
+	Volume = read(), n = read();
+	for(int i = 1; i <= n; ++i)volume[i] = read();
+	for(int i = 1; i <= n; ++i)
+		for(int j = Volume; j >= 1; --j)
+			if(j >= volume[i])dp[j] = max(dp[j], dp[j - volume[i]] + volume[i]);
+	printf("%d\n", Volume - dp[Volume]);
 
     return 0;
 }
