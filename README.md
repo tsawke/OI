@@ -52,5 +52,7 @@
     POJ-Submit      http://bailian.openjudge.cn/
     OI WIKI         https://oi-wiki.org/
     Coding DevOps   https://monkey-hyx.coding.net/
-    YBT           http://ybt.ssoier.cn:8088/index.php
-    Graph Editor    https://csacademy.com/app/graph_editor/
+    YBT             http://ybt.ssoier.cn:8088/index.php
+    Graph Tool      https://csacademy.com/app/graph_editor/
+    Text Tool       https://csacademy.com/app/diffing_tool/
+    Geometry Tool   https://csacademy.com/app/geometry_widget/

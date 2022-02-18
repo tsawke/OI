@@ -20,10 +20,11 @@ typedef unsigned long long unll;
 typedef long long ll;
 template <typename T = int>
 inline T read(void);
-
+int n, size;
+deque< pair<int, int> >deq;
 int main(){
-	
-
+    n = read(), size = read();
+    while
 
     return 0;
 }

@@ -1,4 +1,4 @@
-//C++11 - Template
+//C++11
 #include <cstdio>
 #include <algorithm>
 #include <cstring>
@@ -15,15 +15,21 @@
 #include <unistd.h>
 
 using namespace std;
-typedef unsigned int uint;
 typedef unsigned long long unll;
 typedef long long ll;
 template <typename T = int>
 inline T read(void);
-
+int n;
+int lastValue(0);
+int maxValue(INT_MIN);
 int main(){
-	
-
+    n = read();
+    for(int i = 1; i <= n; ++i){
+        int value = read();
+        lastValue = max(lastValue + value, value);
+        maxValue = max(maxValue, lastValue);
+    }
+    printf("%d\n", maxValue);
 
     return 0;
 }
