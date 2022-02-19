@@ -19,6 +19,8 @@
 # Problems
     Tarjan求最小环
     最短路计数
+    元素周期律 碱金属等规律，密度熔沸点等
+    熔沸点等与氢键范德华力等的关系
 
 # TEXT
     https://zhuanlan.zhihu.com/p/89721008                       &数的因数个数与质因数分解的关系
