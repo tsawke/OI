@@ -13,7 +13,7 @@
 #include <stack>
 #include <functional>
 #include <unistd.h>
-
+#define log2(n) (floor(log(n) / log(2.00)))
 using namespace std;
 typedef unsigned int uint;
 typedef unsigned long long unll;
@@ -27,19 +27,35 @@ int dp[1100];
 void makeDP(int, int, bool);
 int main(){
 	sHour = read(), sMinute = read(), eHour = read(), eMinute = read();
+    N = read();
     Time = (eHour - sHour) * 60 + (eMinute - sMinute) * 1;
     for(int i = 1; i <= N; ++i){
         int time = read(), value = read(), times = read();
         if(!times) makeDP(time, value, true);
         else{
-            int base = int();
+            int base = 1;
+            while(times > 0){
+                // int POW = int(pow(2, base));
+                // if(POW > times){--base; continue;}
+                // times -= POW;
+                // --base;
+                if(times < base){
+                    makeDP(time * times, value * times, false);
+                    break;
+                }
+                else{
+                    times -= base;
+                    makeDP(time * base, value * base, false);
+                    base *= 2;
+                }
+            }
         }
     }
-
-
+    printf("%d\n", dp[Time]);
     return 0;
 }
 void makeDP(int time, int value, bool mode/*false--01 true--complete*/){
+    // printf("Making DP time = %d  value = %d  mode = %d\n", time, value, (int)mode);
     if(mode)
         for(int j = time; j <= ::Time; ++j)
             dp[j] = max(dp[j], dp[j - time] + value);
