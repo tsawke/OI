@@ -23,25 +23,29 @@
     熔沸点等与氢键范德华力等的关系
 
 # TEXT
-    https://zhuanlan.zhihu.com/p/89721008                       &数的因数个数与质因数分解的关系
-    https://blog.csdn.net/liu16659/article/details/79093513     &最长不下降子序列详解
-    https://blog.csdn.net/bell041030/article/details/88911180   &杨辉三角与组合数
-    http://c.biancheng.net/view/597.html                        &C++ next_permutation
-    https://www.cnblogs.com/Morning-Glory/p/11747744.html       &卡特兰数
-    https://www.cnblogs.com/c1299401227/p/5370685.html          &C++ String
-    https://zhuanlan.zhihu.com/p/377183341                      &命名规范
-    https://developer.aliyun.com/article/619121                 &命名规范-aliyun
-    https://xknote.com/blog/114975.html                         &memset初始化max&min
-    https://www.cnblogs.com/chenleideblog/p/12745271.html       &对于堆(优先队列)的说明
-    https://www.luogu.com.cn/blog/Tweetuzki/solution-p3366      &Borůvka (Sollin)最小生成树
-    https://blog.csdn.net/qq_35650589/article/details/102713589 &AOE图和关键路径的求解
-    https://blog.csdn.net/Zhouzi_heng/article/details/115014059 &可行的VSCode配置C++
-    https://blog.csdn.net/qq_41453285/article/details/106321820 &Nginx配置CGI程序
-    https://www.runoob.com/cplusplus/cpp-web-programming.html   &C++ Web
-    https://www.cnblogs.com/yutian-blogs/p/15129640.html        &关键路径
-    https://zhuanlan.zhihu.com/p/122375531                      &网络流
-    https://blog.csdn.net/smile_zhangw/article/details/80894159 &循环队列
-    https://oi-wiki.org/dp/dynamic/                             &动态dp
+    https://zhuanlan.zhihu.com/p/89721008                           &数的因数个数与质因数分解的关系
+    https://blog.csdn.net/liu16659/article/details/79093513         &最长不下降子序列详解
+    https://blog.csdn.net/bell041030/article/details/88911180       &杨辉三角与组合数
+    http://c.biancheng.net/view/597.html                            &C++ next_permutation
+    https://www.cnblogs.com/Morning-Glory/p/11747744.html           &卡特兰数
+    https://www.cnblogs.com/c1299401227/p/5370685.html              &C++ String
+    https://zhuanlan.zhihu.com/p/377183341                          &命名规范
+    https://developer.aliyun.com/article/619121                     &命名规范-aliyun
+    https://xknote.com/blog/114975.html                             &memset初始化max    &min
+    https://www.cnblogs.com/chenleideblog/p/12745271.html           &对于堆(优先队列)的说明
+    https://www.luogu.com.cn/blog/Tweetuzki/solution-p3366          &Borůvka (Sollin)最小生成树
+    https://blog.csdn.net/qq_35650589/article/details/102713589     &AOE图和关键路径的求解
+    https://blog.csdn.net/Zhouzi_heng/article/details/115014059     &可行的VSCode配置C++
+    https://blog.csdn.net/qq_41453285/article/details/106321820     &Nginx配置CGI程序
+    https://www.runoob.com/cplusplus/cpp-web-programming.html       &C++ Web
+    https://www.cnblogs.com/yutian-blogs/p/15129640.html            &关键路径
+    https://zhuanlan.zhihu.com/p/122375531                          &网络流
+    https://blog.csdn.net/smile_zhangw/article/details/80894159     &循环队列
+    https://oi-wiki.org/dp/dynamic/                                 &动态dp
+    https://blog.csdn.net/qie_wei/article/details/78571191          &逆元
+    https://www.luogu.com.cn/blog/Troverld/qun-lun-xue-xi-bi-ji     &群论
+    https://www.zhihu.com/people/one-seventh/posts                  &Pecco的算法笔记
+    https://blog.csdn.net/weixin_42979819/article/details/103969556 &单调队列优化DP——最大子序列和
     
     
 
