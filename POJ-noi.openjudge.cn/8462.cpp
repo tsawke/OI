@@ -1,4 +1,4 @@
-//C++11
+//C++11 - Template
 #include <cstdio>
 #include <algorithm>
 #include <cstring>
@@ -20,26 +20,23 @@ typedef unsigned long long unll;
 typedef long long ll;
 template <typename T = int>
 inline T read(void);
-int Weight, N;
-int maxGroupN(-1);
-int dp[1100];
-vector< pair<int, int>/*weight, value*/ > group[1100];
+
+int T;
+
 int main(){
-	Weight = read(), N = read();
-    for(int i = 1; i <= N; ++i){
-        int weight = read(), value = read(), groupN = read();
-        group[groupN].push_back(make_pair(weight, value));
-        maxGroupN = max(maxGroupN, groupN);
-    }
-    for(int g = 1; g <= maxGroupN; ++g){
-        if(group[g].empty())continue;
-        for(int i = Weight; i >= 1; --i)/*weight*/{
-            for(int j = 1; j <= (int)group[g].size(); ++j)/*group[g] N*/{
-                if(group[g].at(j - 1).first <= i)dp[i] = max(dp[i], dp[i - group[g].at(j - 1).first] + group[g].at(j - 1).second);
-            }
+	T = read();
+    for(int times = 1; times <= T; ++times){
+        int N = read();
+        deque< int > deq;
+        deq.push_back(0);
+        deq.push_back(read());
+        for(int i = 2; i <= N; ++i){
+            int element = read();
+            deq.push_back(max(deq.front() + element, deq.at(1)));
+            deq.pop_front();
         }
+        printf("%d\n", max(deq.front(), deq.back()));
     }
-    printf("%d\n", dp[Weight]);
 
     return 0;
 }
