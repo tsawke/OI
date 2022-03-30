@@ -24,29 +24,37 @@ inline T read(void);
 struct Vertex{
     ll value = 0;
     ll lazymark = 0;
+    ll lazymark2 = 1;
     int lRange = 0, rRange = 0;
     int GetVertexN(void){return this->rRange - this->lRange + 1;}
 };
 int N, operationN;
+ll MOD;
 Vertex segTree[110000 * 4];
 void BuildSegTree_WithInput(int = 1, int = N, int = 1);
 void UpdateSegTree_BySection(int, int, int, int = 1);
+void UpdateSegTree_BySection_Multiply(int, int, int, int = 1);
 ll QuerySegTree_BySection(int, int, int = 1);
 void PushDownLazymark(int);
+void PushDownLazymark2(int);
 void DescSegTree(int);
 int main(){
-	N = read(), operationN = read();
+	N = read(), operationN = read(), MOD = read<ll>();
     BuildSegTree_WithInput();
     // DescSegTree(N * 4);
     for(int i = 1; i <= operationN; ++i){
         int mode = read();
         if(mode == 1){
             int lS = read(), rS = read(), value = read();
-            UpdateSegTree_BySection(lS, rS, value);
+            UpdateSegTree_BySection_Multiply(lS, rS, value);
         }
         if(mode == 2){
+            int lS = read(), rS = read(), value = read();
+            UpdateSegTree_BySection(lS, rS, value);
+        }
+        if(mode == 3){
             int lS = read(), rS = read();
-            printf("%lld\n", QuerySegTree_BySection(lS, rS));
+            printf("%lld\n", QuerySegTree_BySection(lS, rS) % MOD);
         }
         // DescSegTree(N * 4);
     }
@@ -77,6 +85,17 @@ void PushDownLazymark(int rootVertex){
     segTree[rootVertex * 2 + 1].lazymark += segTree[rootVertex].lazymark;
     segTree[rootVertex].lazymark = 0;
 }
+void PushDownLazymark2(int rootVertex){
+    segTree[rootVertex * 2].value *= segTree[rootVertex].lazymark2;
+    segTree[rootVertex * 2 + 1].value *= segTree[rootVertex].lazymark2;
+    segTree[rootVertex * 2].lazymark2 *= segTree[rootVertex].lazymark2;
+    segTree[rootVertex * 2 + 1].lazymark2 *= segTree[rootVertex].lazymark2;
+    segTree[rootVertex * 2].value %= MOD;
+    segTree[rootVertex * 2].lazymark2 %= MOD;
+    segTree[rootVertex * 2 + 1].value %= MOD;
+    segTree[rootVertex * 2 + 1].lazymark2 %= MOD;
+    segTree[rootVertex].lazymark2 = 1;
+}
 void BuildSegTree_WithInput(int lRange, int rRange, int rootVertex){
     if(lRange == rRange){
         segTree[rootVertex].value = read();
@@ -99,9 +118,11 @@ ll QuerySegTree_BySection(int lSectionRange, int rSectionRange, int rootVertex){
         return 0;
     if(segTree[rootVertex].lazymark && segTree[rootVertex].lRange != segTree[rootVertex].rRange)
         PushDownLazymark(rootVertex);
+    if(segTree[rootVertex].lazymark2 != 1 && segTree[rootVertex].lRange != segTree[rootVertex].rRange)
+        PushDownLazymark2(rootVertex);
     return 
-        QuerySegTree_BySection(lSectionRange, rSectionRange, rootVertex * 2) +
-        QuerySegTree_BySection(lSectionRange, rSectionRange, rootVertex * 2 + 1);
+        QuerySegTree_BySection(lSectionRange, rSectionRange, rootVertex * 2) % MOD +
+        QuerySegTree_BySection(lSectionRange, rSectionRange, rootVertex * 2 + 1) % MOD;
 }
 void UpdateSegTree_BySection(int lSectionRange, int rSectionRange, int updValue, int rootVertex){
     if(lSectionRange <= segTree[rootVertex].lRange && segTree[rootVertex].rRange <= rSectionRange){
@@ -120,6 +141,24 @@ void UpdateSegTree_BySection(int lSectionRange, int rSectionRange, int updValue,
     segTree[rootVertex].value = segTree[rootVertex * 2].value + segTree[rootVertex * 2 + 1].value;
     // if(segTree[rootVertex * 2].GetVertexN())UpdateSegTree_BySection(segTree[rootVertex * 2].lRange, segTree[rootVertex * 2].rRange, updValue, rootVertex * 2);
     // if(segTree[rootVertex * 2 + 1].GetVertexN())UpdateSegTree_BySection(segTree[rootVertex * 2 + 1].lRange, segTree[rootVertex * 2 + 1].rRange, updValue, rootVertex * 2 + 1);
+}
+void UpdateSegTree_BySection_Multiply(int lSectionRange, int rSectionRange, int updValue, int rootVertex){
+    if(lSectionRange <= segTree[rootVertex].lRange && segTree[rootVertex].rRange <= rSectionRange){
+        segTree[rootVertex].value *= updValue;
+        segTree[rootVertex].lazymark2 *= updValue;
+        segTree[rootVertex].value %= MOD;
+        segTree[rootVertex].lazymark2 %= MOD;
+        return;
+    }
+    if(segTree[rootVertex].rRange < lSectionRange || rSectionRange < segTree[rootVertex].lRange)
+        return;
+    if(segTree[rootVertex].lazymark && segTree[rootVertex].lRange != segTree[rootVertex].rRange)
+        PushDownLazymark2(rootVertex);
+    if(segTree[rootVertex * 2].GetVertexN())
+        UpdateSegTree_BySection_Multiply(lSectionRange, rSectionRange, updValue, rootVertex * 2);
+    if(segTree[rootVertex * 2 + 1].GetVertexN())
+        UpdateSegTree_BySection_Multiply(lSectionRange, rSectionRange, updValue, rootVertex * 2 + 1);
+    segTree[rootVertex].value = segTree[rootVertex * 2].value + segTree[rootVertex * 2 + 1].value;
 }
 template <typename T = int>
 inline T read(void)
