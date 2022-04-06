@@ -22,10 +22,20 @@ template <typename T = int>
 inline T read(void);
 
 struct Vertex{
-    ll value = 0;
-    ll lazymark = 0;
-    ll lazymark2 = 1;
-    int lRange = 0, rRange = 0;
+    // ll value = 0;
+    // ll lazymark = 0;
+    // ll lazymark2 = 1;
+    // int lRange = 0, rRange = 0;
+    ll value;
+    ll lazymark;
+    ll lazymark2;
+    int lRange, rRange;
+    void init(void){
+        this->lazymark2 = 1;
+        this->lazymark = 0;
+        this->lRange = this->rRange = 0;
+        this->value = 0;
+    }
     int GetVertexN(void){return this->rRange - this->lRange + 1;}
 };
 int N, operationN;
@@ -40,6 +50,7 @@ void PushDownLazymark2(int);
 void DescSegTree(int);
 int main(){
 	N = read(), operationN = read(), MOD = read<ll>();
+    for(int i = 1; i <= N * 4; ++i)segTree[i].init();
     BuildSegTree_WithInput();
     // DescSegTree(N * 4);
     for(int i = 1; i <= operationN; ++i){
@@ -79,6 +90,8 @@ void DescSegTree(int N){
     }
 }
 void PushDownLazymark(int rootVertex){
+    if(segTree[rootVertex * 2].lazymark2 != 1)PushDownLazymark2(rootVertex * 2);
+    if(segTree[rootVertex * 2 + 1].lazymark2 != 1)PushDownLazymark2(rootVertex * 2 + 1);
     segTree[rootVertex * 2].value += segTree[rootVertex].lazymark * segTree[rootVertex * 2].GetVertexN();
     segTree[rootVertex * 2 + 1].value += segTree[rootVertex].lazymark * segTree[rootVertex * 2 + 1].GetVertexN();
     segTree[rootVertex * 2].lazymark += segTree[rootVertex].lazymark;
@@ -86,6 +99,8 @@ void PushDownLazymark(int rootVertex){
     segTree[rootVertex].lazymark = 0;
 }
 void PushDownLazymark2(int rootVertex){
+    if(segTree[rootVertex * 2].lazymark)PushDownLazymark(rootVertex * 2);
+    if(segTree[rootVertex * 2 + 1].lazymark)PushDownLazymark(rootVertex * 2 + 1);
     segTree[rootVertex * 2].value *= segTree[rootVertex].lazymark2;
     segTree[rootVertex * 2 + 1].value *= segTree[rootVertex].lazymark2;
     segTree[rootVertex * 2].lazymark2 *= segTree[rootVertex].lazymark2;
