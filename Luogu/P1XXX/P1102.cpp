@@ -21,8 +21,6 @@ typedef long long ll;
 template <typename T = int>
 inline T read(void);
 
-
-
 int main(){
 	
 

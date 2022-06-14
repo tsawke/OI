@@ -20,11 +20,15 @@ typedef unsigned long long unll;
 typedef long long ll;
 template <typename T = int>
 inline T read(void);
-
-
-
+int N;
 int main(){
-	
+	N = read();
+    for(int i = 2; i * i <= N; ++i){
+        if(N % i == 0){
+            printf("%d\n", N / i);
+            return 0;
+        }
+    }
 
 
     return 0;

@@ -20,16 +20,24 @@ typedef unsigned long long unll;
 typedef long long ll;
 template <typename T = int>
 inline T read(void);
-
-
-
+ll kpow(ll, ll, ll);
 int main(){
-	
-
+	ll a = read<ll>(), b = read<ll>(), mod = read<ll>();
+    printf("%lld^%lld mod %lld=%lld\n", a, b, mod, kpow(a, b, mod));
 
     return 0;
 }
-
+ll kpow(ll _a, ll _b, ll MOD){
+    ll ret(1);
+    ll a(_a);
+    ll b(_b);
+    while(b > 0){
+        if(b & 1) ret = (ret * a) % MOD;
+        b >>= 1;
+        a = (a * a) % MOD;
+    }
+    return ret;
+}
 template <typename T = int>
 inline T read(void)
 {

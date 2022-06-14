@@ -21,11 +21,22 @@ typedef long long ll;
 template <typename T = int>
 inline T read(void);
 
-
-
+int N;
+int factor[10100];
 int main(){
-	
-
+	N = read();
+    for(int i = 1; i <= N; ++i){
+        int t(i), fact(2);
+        while(t > 1){
+            while(t % fact == 0){
+                t /= fact;
+                ++factor[fact];
+            }++fact;
+        }
+    }
+    for(int i = 1; i <= N; ++i){
+        if(factor[i])printf("%d %d\n", i, factor[i]);
+    }
 
     return 0;
 }
