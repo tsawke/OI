@@ -22,18 +22,21 @@ template <typename T = int>
 inline T read(void);
 
 int N;
-int a[1100][1100];
-int dp[1100][1100];
+int stone[310];
+int Sstone[310];
+int dp[310][310];
 int main(){
 	N = read();
-	for(int i = 1; i <= N; ++i)for(int j = 1; j <= i; ++j)a[i][j] = read();
-	dp[1][1] = a[1][1];
-	for(int i = 2; i <= N; ++i)
-		for(int j = 1; j <= i; ++j)
-			dp[i][j] = max(j != i ? dp[i - 1][j] : -1, j != 1 ? dp[i - 1][j - 1] : -1) + a[i][j];
-	int ans(INT_MIN);
-	for(int i = 1; i <= N; ++i)ans = max(ans, dp[N][i]);
-	printf("%d\n", ans);
+    for(int i = 1; i <= N; ++i){
+        stone[i] = read();
+        Sstone[i] = Sstone[i - 1] + stone[i];
+        dp[i][i] = 0;
+    }
+    for(int i = 1; i <= N; ++i){
+        int cost = Sstone[i]; 
+        for(int )
+    }
+
 
     return 0;
 }

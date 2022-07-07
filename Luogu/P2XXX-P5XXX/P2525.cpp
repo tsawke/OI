@@ -22,18 +22,13 @@ template <typename T = int>
 inline T read(void);
 
 int N;
-int a[1100][1100];
-int dp[1100][1100];
+vector<int>v;
+
 int main(){
-	N = read();
-	for(int i = 1; i <= N; ++i)for(int j = 1; j <= i; ++j)a[i][j] = read();
-	dp[1][1] = a[1][1];
-	for(int i = 2; i <= N; ++i)
-		for(int j = 1; j <= i; ++j)
-			dp[i][j] = max(j != i ? dp[i - 1][j] : -1, j != 1 ? dp[i - 1][j - 1] : -1) + a[i][j];
-	int ans(INT_MIN);
-	for(int i = 1; i <= N; ++i)ans = max(ans, dp[N][i]);
-	printf("%d\n", ans);
+    N = read();
+    for(int i = 1; i <= N; ++i)v.push_back(read());
+    if(!prev_permutation(v.begin(), v.end()))printf("ERROR\n");
+    for(int i = 1; i <= N; ++i)printf("%d%c", v.at(i - 1), i == N ? '\n' : ' ');
 
     return 0;
 }

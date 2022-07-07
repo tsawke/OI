@@ -1,4 +1,4 @@
-//C++11 - Template
+//TODO lower or upper?
 #include <cstdio>
 #include <algorithm>
 #include <cstring>
@@ -21,19 +21,18 @@ typedef long long ll;
 template <typename T = int>
 inline T read(void);
 
-int N;
-int a[1100][1100];
-int dp[1100][1100];
+vector< int > UnRise;
+vector< int > UnReduce;
+
 int main(){
-	N = read();
-	for(int i = 1; i <= N; ++i)for(int j = 1; j <= i; ++j)a[i][j] = read();
-	dp[1][1] = a[1][1];
-	for(int i = 2; i <= N; ++i)
-		for(int j = 1; j <= i; ++j)
-			dp[i][j] = max(j != i ? dp[i - 1][j] : -1, j != 1 ? dp[i - 1][j - 1] : -1) + a[i][j];
-	int ans(INT_MIN);
-	for(int i = 1; i <= N; ++i)ans = max(ans, dp[N][i]);
-	printf("%d\n", ans);
+	int temp;
+    while(scanf("%d", &temp) != EOF && temp != -1){
+        if(UnRise.empty() || UnRise.back() >= temp)UnRise.push_back(temp);
+        else *upper_bound(UnRise.begin(), UnRise.end(), temp, greater<int>()) = temp;
+        if(UnReduce.empty() || UnReduce.back() < temp)UnReduce.push_back(temp);
+        else *lower_bound(UnReduce.begin(), UnReduce.end(), temp, less<int>()) = temp;
+    }
+    printf("%d\n%d\n", (int)UnRise.size(), (int)UnReduce.size());
 
     return 0;
 }

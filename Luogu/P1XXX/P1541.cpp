@@ -21,19 +21,19 @@ typedef long long ll;
 template <typename T = int>
 inline T read(void);
 
-int N;
-int a[1100][1100];
-int dp[1100][1100];
+int N, M;
+int score[510], card[210];
+int dp[510][210];
 int main(){
-	N = read();
-	for(int i = 1; i <= N; ++i)for(int j = 1; j <= i; ++j)a[i][j] = read();
-	dp[1][1] = a[1][1];
-	for(int i = 2; i <= N; ++i)
-		for(int j = 1; j <= i; ++j)
-			dp[i][j] = max(j != i ? dp[i - 1][j] : -1, j != 1 ? dp[i - 1][j - 1] : -1) + a[i][j];
-	int ans(INT_MIN);
-	for(int i = 1; i <= N; ++i)ans = max(ans, dp[N][i]);
-	printf("%d\n", ans);
+	N = read(), M = read();
+    for(int i = 1; i <= N; ++i)score[i] = read();
+    for(int i = 1; i <= M; ++i)card[i] = read();
+    for(int i = 1; i <= N; ++i){
+        for(int j = 1; j <= min(i, M); ++j){
+            dp[i][j] = max(dp[i - card[j]][j - 1] + score[i])
+        }
+    }
+
 
     return 0;
 }

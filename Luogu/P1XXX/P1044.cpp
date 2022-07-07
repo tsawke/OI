@@ -21,20 +21,16 @@ typedef long long ll;
 template <typename T = int>
 inline T read(void);
 
+int C[110][110];
 int N;
-int a[1100][1100];
-int dp[1100][1100];
+
 int main(){
 	N = read();
-	for(int i = 1; i <= N; ++i)for(int j = 1; j <= i; ++j)a[i][j] = read();
-	dp[1][1] = a[1][1];
-	for(int i = 2; i <= N; ++i)
-		for(int j = 1; j <= i; ++j)
-			dp[i][j] = max(j != i ? dp[i - 1][j] : -1, j != 1 ? dp[i - 1][j - 1] : -1) + a[i][j];
-	int ans(INT_MIN);
-	for(int i = 1; i <= N; ++i)ans = max(ans, dp[N][i]);
-	printf("%d\n", ans);
-
+    for(int i = 0; i <= 2 * N; ++i)C[i][0] = 1;
+    for(int i = 1; i <= 2 * N; ++i)
+        for(int j = 1; j <= N; ++j)
+            C[i][j] = C[i - 1][j - 1] + C[i - 1][j];
+    printf("%d\n", C[2 * N][N] - C[2 * N][N - 1]);
     return 0;
 }
 

@@ -22,18 +22,29 @@ template <typename T = int>
 inline T read(void);
 
 int N;
-int a[1100][1100];
-int dp[1100][1100];
+int height[110];
+int dpL[110], dpR[110];
 int main(){
 	N = read();
-	for(int i = 1; i <= N; ++i)for(int j = 1; j <= i; ++j)a[i][j] = read();
-	dp[1][1] = a[1][1];
-	for(int i = 2; i <= N; ++i)
-		for(int j = 1; j <= i; ++j)
-			dp[i][j] = max(j != i ? dp[i - 1][j] : -1, j != 1 ? dp[i - 1][j - 1] : -1) + a[i][j];
+	for(int i = 1; i <= N; ++i)height[i] = read();
+	for(int i = 0; i <= 101; ++i)dpL[i] = dpR[i] = 1;
+	for(int i = 1; i <= N; ++i){
+		for(int k = 1; k < i; ++k){
+			if(height[k] < height[i])dpL[i] = max(dpL[i], dpL[k] + 1);
+		}
+	}
+	reverse(height + 1, height + N + 1);
+	for(int i = 1; i <= N; ++i){
+		for(int k = 1; k < i; ++k){
+			if(height[k] < height[i])dpR[i] = max(dpR[i], dpR[k] + 1);
+		}
+	}
 	int ans(INT_MIN);
-	for(int i = 1; i <= N; ++i)ans = max(ans, dp[N][i]);
-	printf("%d\n", ans);
+	// for(int i = 1; i <= N; ++i)printf("%d ", dpL[i]); printf("\n");
+	// for(int i = 1; i <= N; ++i)printf("%d ", dpR[i]); printf("\n");
+	for(int i = 1; i <= N; ++i)ans = max(ans, dpL[i] + dpR[N - i] - 1);
+	printf("%d\n", N - ans);
+
 
     return 0;
 }

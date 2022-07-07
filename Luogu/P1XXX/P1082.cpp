@@ -21,23 +21,27 @@ typedef long long ll;
 template <typename T = int>
 inline T read(void);
 
-int N;
-int a[1100][1100];
-int dp[1100][1100];
+ll a, b;
+ll x, y;
+void exgcd(ll, ll);
 int main(){
-	N = read();
-	for(int i = 1; i <= N; ++i)for(int j = 1; j <= i; ++j)a[i][j] = read();
-	dp[1][1] = a[1][1];
-	for(int i = 2; i <= N; ++i)
-		for(int j = 1; j <= i; ++j)
-			dp[i][j] = max(j != i ? dp[i - 1][j] : -1, j != 1 ? dp[i - 1][j - 1] : -1) + a[i][j];
-	int ans(INT_MIN);
-	for(int i = 1; i <= N; ++i)ans = max(ans, dp[N][i]);
-	printf("%d\n", ans);
+	a = read<ll>(), b = read<ll>();
+    exgcd(a, b);
+    printf("%lld\n", (x % b + b) % b);
 
     return 0;
 }
-
+void exgcd(ll a, ll b){
+    if(!b){
+        x = 1ll;
+        y = 0ll;
+        return;
+    }
+    exgcd(b, a % b);
+    ll temp(x);
+    x = y;
+    y = temp - y * (a / b);
+}
 template <typename T = int>
 inline T read(void)
 {

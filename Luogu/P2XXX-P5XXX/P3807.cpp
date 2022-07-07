@@ -20,24 +20,22 @@ typedef unsigned long long unll;
 typedef long long ll;
 template <typename T = int>
 inline T read(void);
-
-int N;
-int a[1100][1100];
-int dp[1100][1100];
+int T;
+ll lucas(ll, ll, ll);
+ll getC(ll, ll, ll);
 int main(){
-	N = read();
-	for(int i = 1; i <= N; ++i)for(int j = 1; j <= i; ++j)a[i][j] = read();
-	dp[1][1] = a[1][1];
-	for(int i = 2; i <= N; ++i)
-		for(int j = 1; j <= i; ++j)
-			dp[i][j] = max(j != i ? dp[i - 1][j] : -1, j != 1 ? dp[i - 1][j - 1] : -1) + a[i][j];
-	int ans(INT_MIN);
-	for(int i = 1; i <= N; ++i)ans = max(ans, dp[N][i]);
-	printf("%d\n", ans);
+	
+
 
     return 0;
 }
-
+ll lucas(ll n, ll m, ll MOD){
+    if(!m)return 1ll;
+    return (getC(n % MOD, m % MOD, MOD) * lucas(n / MOD, m / MOD, MOD) % MOD);
+}
+ll getC(ll n, ll m, ll MOD){
+    return ()
+}
 template <typename T = int>
 inline T read(void)
 {

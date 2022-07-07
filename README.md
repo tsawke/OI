@@ -1,26 +1,34 @@
 # OJ-TODO
+## Luogu
+    7913 - 扫描线优化100+10 -> 100+15
+    5490 - 扫描线
+<!-- 
+    1216
+    3956 - Dijkstra
+    1032 
+-->
+
 ## JDFZ
+
+
+<!-- 
     1050
     1300
     1635
     2982
     dfs 1945 1946 1271 1532 1947 1948 1973 1621 1239 1807 1785 3117
-    1788 [NOIP2012]文化之旅 T4
-
-## Luogu
-    1216
-    3956 - Dijkstra
-    1032
+    1788 [NOIP2012]文化之旅 T4 
+-->
 
 ## LibreOJ
+<!--
     10153
+-->
 
 
 # Problems
     Tarjan求最小环
     最短路计数
-    元素周期律 碱金属等规律，密度熔沸点等
-    熔沸点等与氢键范德华力等的关系
 
 # TEXT
     https://zhuanlan.zhihu.com/p/89721008                           &数的因数个数与质因数分解的关系
@@ -46,6 +54,8 @@
     https://www.luogu.com.cn/blog/Troverld/qun-lun-xue-xi-bi-ji     &群论
     https://www.zhihu.com/people/one-seventh/posts                  &Pecco的算法笔记
     https://blog.csdn.net/weixin_42979819/article/details/103969556 &单调队列优化DP——最大子序列和
+    https://blog.csdn.net/qq_41653433/article/details/88976544      &线性筛
+    https://www.cnblogs.com/oier/p/9925392.html                     &Tips
     
     
 
