@@ -27,21 +27,21 @@ void Init(void);
 int main(){
 	int a, b;
     Init();
-    for(int i = 1; i <= 10; ++i){
-        for(int j = 0; j <= 9; ++j)
-            printf("%d ", f[i][j]);
-        printf("\n");
-    }
+    // for(int i = 1; i <= 10; ++i){
+    //     for(int j = 0; j <= 9; ++j)
+    //         printf("%d ", f[i][j]);
+    //     printf("\n");
+    // }
     while(scanf("%d%d", &a, &b) != EOF && a != -1 && b != -1){
-        printf("\\TEST dpa = %d, dpb = %d\n", DP(a - 1), DP(b));
-        // printf("%d\n", DP(b) - DP(a - 1));
+        // printf("\\TEST dpa = %d, dpb = %d\n", DP(a - 1), DP(b));
+        printf("%d\n", DP(b) - DP(a - 1));
     }
     return 0;
 }
 
 int DP(int n){
-    // if(n == -1)return 0;
-    if(!n)return 0;
+    if(n == -1)return 0;
+    if(!n)return 1;
     vector< int >nums;
     int ans(0);
     while(n)nums.push_back(n % 10), n /= 10;
@@ -57,11 +57,20 @@ int DP(int n){
     //         printf("Now Minus f[%d][%d] = %d,  ans = %d\n", nums.size() - i + 1, k, f[nums.size() - i + 1][k], ans);
     //     }
     // }
-    for(int i = 0; i <= nums.front() - 1; ++i){
-        ans += f[nums.size()][i];
+    // for(int i = 0; i <= nums.front() - 1; ++i){
+    //     ans += f[nums.size()][i];
+    // }
+    // if(nums.size() == 1){ans += f[nums.size()][nums.front()]; return ans;}
+    // int last = nums.front();int temp(0);
+    int last(0);int len = nums.size();
+    for(vector<int>::iterator itea = nums.begin(); itea != nums.end(); ++itea, --len){
+        for(int j = last; j < *itea; ++j){
+            ans += f[len][j];
+        }
+        if(last > *itea)break;
+        last = *itea;
+        if(itea == nums.end() - 1)++ans;
     }
-    int last = nums.front();
-    for(vector<)
     return ans;
 }
 void Init(void){
