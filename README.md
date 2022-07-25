@@ -1,5 +1,17 @@
 # OJ-TODO
 ## Luogu
+    4387
+    6155
+    1440
+    2085
+    1323
+    7610
+    5300
+    2254
+    3466
+    CF1153F
+
+    2657
     7913 - 扫描线优化100+10 -> 100+15
     5490 - 扫描线
 <!-- 
@@ -30,6 +42,9 @@
     Tarjan求最小环
     最短路计数
 
+    时间复杂度公式
+    ST表&优化
+
 # TEXT
     https://zhuanlan.zhihu.com/p/89721008                           &数的因数个数与质因数分解的关系
     https://blog.csdn.net/liu16659/article/details/79093513         &最长不下降子序列详解
@@ -56,6 +71,7 @@
     https://blog.csdn.net/weixin_42979819/article/details/103969556 &单调队列优化DP——最大子序列和
     https://blog.csdn.net/qq_41653433/article/details/88976544      &线性筛
     https://www.cnblogs.com/oier/p/9925392.html                     &Tips
+    https://blog.csdn.net/hzf0701/article/details/116717851         &数位DP
     
     
 

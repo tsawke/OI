@@ -21,10 +21,12 @@ typedef long long ll;
 template <typename T = int>
 inline T read(void);
 
-
-
+int N, M, k;
+int st, en;
+vector< pair<int, int>/*toVertex, price*/ >vertex;
 int main(){
-	
+	N = read(), M = read(), k = read();
+    st = read(), en = read();
 
 
     return 0;

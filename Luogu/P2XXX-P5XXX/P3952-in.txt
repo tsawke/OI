@@ -1,0 +1,56 @@
+1
+54 O(n^9)
+F a 8 n
+F b 60 62
+F c 20 n
+F d 81 n
+F e 70 n
+F f 78 n
+E
+E
+E
+E
+E
+E
+F a 76 n
+F b 34 n
+F c 16 n
+F d 2 n
+F e 5 n
+F f 87 n
+F g 8 n
+F h 3 n
+F i n 17
+E
+E
+E
+E
+E
+E
+E
+E
+E
+F a 90 n
+F b 79 n
+F c 24 n
+F d 58 n
+F e 58 n
+F f 61 32
+F g 5 n
+F h 80 n
+F i 54 n
+F j 5 n
+F k 79 97
+F l 61 86
+E
+E
+E
+E
+E
+E
+E
+E
+E
+E
+E
+E
