@@ -35,41 +35,53 @@ unll CreateNum(int, int, vector<int>);
 unll qPow(unll, unll, unll = ULONG_LONG_MAX);
 
 signed main(){
-    freopen("./P2602-OUTPUT.txt", "w", stdout);
+    // freopen("./P2602-OUTPUT.txt", "w", stdout);
     Init();
-    
-    for(int i = 1; i <= 4; ++i){
-        printf("I = %llu:\n", i);
-        for(int j = 0; j <= 9; ++j){
-            printf("            ");
-            for(int k = 0; k <= 9; ++k)printf("%llu ", f[i][j][k]);
-            printf("\n");
-        }
-    }
+    // vector< int >Test;
+    // Test.push_back(1ull);
+    // Test.push_back(0ull);
+    // printf("TEST\\\\ CreateNum(10)->1~2 => %llu\n\n", CreateNum(2, 2, Test));
+    // for(int i = 1; i <= 4; ++i){
+    //     printf("I = %llu:\n", i);
+    //     for(int j = 0; j <= 9; ++j){
+    //         printf("            ");
+    //         for(int k = 0; k <= 9; ++k)printf("%llu ", f[i][j][k]);
+    //         printf("\n");
+    //     }
+    // }
 
-    for(int i = 1; i <= 4; ++i){
-        printf("I = %llu:\n", i);
-        for(int j = 0; j <= 9; ++j){
-            printf("            ");
-            for(int k = 0; k <= 9; ++k)printf("%llu ", f0[i][j][k]);
-            printf("\n");
-        }
-    }
+    // for(int i = 1; i <= 4; ++i){
+    //     printf("I = %llu:\n", i);
+    //     for(int j = 0; j <= 9; ++j){
+    //         printf("            ");
+    //         for(int k = 0; k <= 9; ++k)printf("%llu ", f0[i][j][k]);
+    //         printf("\n");
+    //     }
+    // }
 
-	// a = read<unll>(), b = read<unll>();
-    // vector <int> ansa ( DP(a - 1) );
-    // vector <int> ansb ( DP(b) );
-    // for(int i = 0; i <= 9; ++i)ansb.at(i) -= ansa.at(i);
-    // // for(auto i : ansa)printf("%lld ", i);
-    // // printf("\n");
-    // for(auto i : ansb)printf("%llu ", i);
+	a = read<unll>(), b = read<unll>();
+    vector <int> ansa ( DP(a - 1) );
+    vector <int> ansb ( DP(b) );
+    for(int i = 0; i <= 9; ++i)ansb.at(i) -= ansa.at(i);
+    // for(auto i : ansa)printf("%lld ", i);
     // printf("\n");
-
-    for(int i = 1; i <= 1000; ++i){
-        vector <int> ans (DP(i));
-        printf("No.%llu  [0]=>%llu%s", i, ans.at(0), (i % 5 == 0 || i == 1000) ? "\n" : "    ");
-        ans.clear();
-    }
+    for(auto i : ansb)printf("%llu ", i);
+    printf("\n");
+// for(int i = 1; i <= 1000; ++i){
+//         vector <int> ans (DP(i));
+//         printf("No.%llu  [0]=>%llu%s", i, ans.at(0), (i % 5 == 0 || i == 1000) ? "\n" : "    ");
+//         ans.clear();
+//     }
+//     for(int i = 100000; i <= 100050; ++i){
+//         vector <int> ans (DP(i));
+//         printf("No.%llu  [0]=>%llu%s", i, ans.at(0), (i % 5 == 0 || i == 1000) ? "\n" : "    ");
+//         ans.clear();
+//     }
+//     for(int i = 10000; i <= 10050; ++i){
+//         vector <int> ans (DP(i));
+//         printf("No.%llu  [0]=>%llu%s", i, ans.at(0), (i % 5 == 0 || i == 1000) ? "\n" : "    ");
+//         ans.clear();
+//     }
     return 0;
 }
 unll qPow(unll a, unll b, unll MOD){
@@ -85,9 +97,14 @@ unll qPow(unll a, unll b, unll MOD){
     return ret;
 }
 unll CreateNum(int s, int e, vector<int>nums){
+    bool allZero(true);
     unll ret(0ull);
     unll mul(1ull);
-    for(int i = e; i >= s; --i)ret += nums.at(i - 1) * mul, mul *= 10ull;
+    for(int i = e; i >= s; --i){
+        if(allZero && nums.at(i - 1) != 0)allZero = false;
+        ret += nums.at(i - 1) * mul, mul *= 10ull;
+    }
+    if(allZero) return 0ull;
     return ret;
 }
 vector<int> DP(unll n){
@@ -126,22 +143,29 @@ vector<int> DP(unll n){
             for(int r = 0; r <= 9; ++r)
                 anss.at(r) += f[i][j][r];
     int LastNums[10];
+    int LastNum(10);
     memset(LastNums, 0ull, sizeof(LastNums));
     int s(0ull);
     for(vector< int >::iterator itea = nums.begin(); itea != nums.end(); ++itea){
-        for(int j = itea == nums.begin() ? 1 : 0; j < *itea; ++j){
+        for(int j = itea == nums.begin() ? (len != 1 ? 1 : 0) : 0; j < *itea; ++j){
+            // printf("ans += f[%llu][%llu]\n", len, j);
             for(int r = 0; r <= 9; ++r){
-                anss.at(r) += f[len][j][r];
+                anss.at(r) += f[len - s][j][r];
             }
         }
         ++s;
         if(itea != nums.begin()){
             unll subNum = CreateNum(s, nums.size(), nums);
-            for(int r = 0; r <= 9; ++r){
-                anss[r] += LastNums[r] * subNum;
-            }
+            // if(len == 5)printf("CreateNum --> %llu\n", subNum);
+            // for(int r = 0; r <= 9; ++r){
+            //     anss[r] += subNum;
+            //     if(len == 5 && LastNums[r])printf("Find lastnum --> [%llu] => %llu\n", r, LastNums[r]);
+            // }
+            anss[LastNum] += subNum;
+            // if(len == 5)printf("Lastnum => %llu  SubNum => %llu\n", LastNum, subNum);
         }
         LastNums[*itea]++;
+        LastNum = *itea;
 
     }
     for(auto i : nums)++anss[i];
@@ -173,7 +197,7 @@ void Init(void){
     // copy(begin(f), end(f), begin(f0));
     memcpy(f0, f, sizeof(f));
     for(int i = 2; i <= 12; ++i){
-        for(int j = 1; j <= i - 1; ++j)f0[i][0][0] -= qPow(10ull, (unll)i - j);
+        for(int j = 1; j <= i - 1; ++j)f0[i][0][0] -= qPow(10ull, (unll)i - j - 1);
     }
 }
 template <typename T = int>

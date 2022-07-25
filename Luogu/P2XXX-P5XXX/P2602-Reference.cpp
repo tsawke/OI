@@ -41,8 +41,21 @@ int main()
     // solve(b,cntb);
     // for(int i=0;i<=9;i++)
     // printf("%lld ",cntb[i]-cnta[i]);
-
     for(int i = 1; i <= 1000; ++i){
+        long long ans[20];
+        memset(ans, 0ll, sizeof(ans));
+        solve(i, ans);
+        printf("No.%d  [0]=>%lld%s", i, ans[0] + 1, (i % 5 == 0 || i == 1000) ? "\n" : "    ");
+        // ans.clear();
+    }
+    for(int i = 100000; i <= 100050; ++i){
+        long long ans[20];
+        memset(ans, 0ll, sizeof(ans));
+        solve(i, ans);
+        printf("No.%d  [0]=>%lld%s", i, ans[0] + 1, (i % 5 == 0 || i == 1000) ? "\n" : "    ");
+        // ans.clear();
+    }
+    for(int i = 10000; i <= 10050; ++i){
         long long ans[20];
         memset(ans, 0ll, sizeof(ans));
         solve(i, ans);
