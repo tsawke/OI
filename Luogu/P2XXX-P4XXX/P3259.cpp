@@ -46,7 +46,13 @@ int main(){
         pos[cnt].lightRED = lR, pos[cnt].lightGreen = lG;
     }
     for(int i = 1; i <= M; ++i){
-        str
+        string st, en, name;
+        cin>>st>>en>>name;
+        int len = read();
+        int s = posN.find(st)->second;
+        int e = posN.find(en)->second;
+        vertex[s].push_back(make_pair(e, len));
+        vertex[e].push_back(make_pair(s, len));
     }
 
     return 0;

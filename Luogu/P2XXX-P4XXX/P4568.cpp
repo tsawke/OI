@@ -1,4 +1,5 @@
-//C++98
+//C++11 - Template
+//TODO
 #include <cstdio>
 #include <algorithm>
 #include <cstring>
@@ -9,27 +10,36 @@
 #include <iostream>
 #include <string>
 #include <map>
-#include <unistd.h>
-#include <functional>
 #include <queue>
 #include <stack>
+#include <functional>
+#include <unistd.h>
 
 using namespace std;
+typedef unsigned int uint;
 typedef unsigned long long unll;
 typedef long long ll;
-template <typename T>
+template <typename T = int>
 inline T read(void);
 
-
-
+int N, M, k;
+int st, en;
+vector< pair<int, int>/*toVertex, price*/ >vertex[20][11000];
 int main(){
-	
-
-
+	N = read(), M = read(), k = read();
+    st = read(), en = read();
+	for(int i = 1; i <= M; ++i){
+		int from = read(), to = read(), price = read();
+		vertex[0][from].push_back(make_pair(to, price));
+		vertex[0][to].push_back(make_pair(from, price));
+	}
+	for(int i = 1; i <= k; ++k){
+		copy(vertex[i - 1]->begin())	
+	}
     return 0;
 }
 
-template <typename T>
+template <typename T = int>
 inline T read(void)
 {
 	T ret(0);

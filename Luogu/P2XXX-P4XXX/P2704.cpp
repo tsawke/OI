@@ -21,17 +21,23 @@ typedef long long ll;
 template <typename T = int>
 inline T read(void);
 
-int N, M, k;
-int st, en;
-vector< pair<int, int>/*toVertex, price*/ >vertex;
+int N, M;
+bool _map[110][110];
+int dp[110][2100][2100]; //i-line  from j to k
 int main(){
-	N = read(), M = read(), k = read();
-    st = read(), en = read();
-
+	N = read(), M = read();
+	for(int i = 1; i <= N; ++i)
+		for(int j = 1; j <= M; ++j)
+			_map[i][j] = readChar();
+	
 
     return 0;
 }
-
+inline bool readChar(void){
+	char c = getchar();
+	while(c != 'P' && c != 'H')c = getchar();
+	return c == 'P' ? false : true;
+}
 template <typename T = int>
 inline T read(void)
 {
