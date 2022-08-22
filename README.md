@@ -112,8 +112,12 @@
     https://blog.csdn.net/qq_41653433/article/details/88976544      &线性筛
     https://www.cnblogs.com/oier/p/9925392.html                     &Tips
     https://blog.csdn.net/hzf0701/article/details/116717851         &数位DP
-    
-    
+    https://blog.csdn.net/devout_/article/details/105348614         &光速幂
+    http://c.biancheng.net/view/1439.html                           &Basic_String
+    https://zhuanlan.zhihu.com/p/42639682                           &矩阵快速幂
+    https://blog.csdn.net/zxyoi_dreamer/article/details/83067544    &O(1)快速乘
+    https://zhuanlan.zhihu.com/p/105439034                          &ST表
+
 
 # Website
     Luogu OJ        https://www.luogu.com.cn/
