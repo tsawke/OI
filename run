@@ -1,0 +1,27 @@
+#!/bin/bash
+# WorkDir=$(pwd)
+# echo $WorkDir
+
+Dir=$(find /home/jdoi/cpp/ -name "$1.cpp")
+
+declare -i cnt
+cnt=0
+for i in $Dir
+do
+    echo Completely find $1.cpp at $i
+    cnt=($cnt+1)
+done;
+if [ $cnt -gt 1 ] 
+then
+    echo Find too many files
+    exit 1
+fi
+
+rm -rf /home/jdoi/cpp/OI/1
+echo Completely delete old file
+g++ $Dir -o /home/jdoi/cpp/OI/1 -fsanitize=undefined,signed-integer-overflow,address -Wall -std=c++14 -g -fdiagnostics-color=always
+echo g++ Complete
+echo Ready to run...
+/home/jdoi/cpp/OI/1
+# g++ $WorkDir/$1.cpp -o 1 -fsanitize=undefined,signed-integer-overflow,address -Wall -std=c++14 -g -fdiagnostics-color=always
+#g++ $WorkDir/$1.cpp -o 1 -fdiagnostics-color=always -std=c++14 -O2

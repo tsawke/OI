@@ -11,6 +11,9 @@ typedef long long ll;
 #define LEFT true
 #define RIGHT false
 
+#define lsize(node) (node->ls ? node->ls->size : 0)
+#define rsize(node) (node->rs ? node->rs->size : 0)
+
 #define dire direction
 #define npt nullptr
 #define pri priority
@@ -18,7 +21,6 @@ typedef long long ll;
 template<typename T = int>
 inline T read(void);
 struct Treap{
-    Treap *fa;
     Treap *ls, *rs;
     int size;
     int val;
@@ -31,7 +33,7 @@ struct Treap{
         this->pri = rand();
     }
 };
-int chkS(Treap *node){if(node == npt)return 0; return (node->rs == npt ? 0 : node->rs->size) - (node->ls == npt ? 0 : node->ls->size);}
+int chkS(Treap *node){if(node == npt)return 0; return (rsize(node)) - (lsize(node));}
 int chkP(Treap *node){
     if(node == npt)return 0;
     if(node->ls == npt && node->rs == npt)return 0;
@@ -42,8 +44,8 @@ int chkP(Treap *node){
 int N;
 int CalSuf(Treap*, int);
 int CalPre(Treap*, int);
-int QueryVal(Treap*, int, int);
-int QueryRank(Treap*, int, int);
+int QueryVal(Treap*, int);
+int QueryRank(Treap*, int);
 void Delete(Treap*&, int);
 void Insert(Treap*&, int);
 void Rotate(Treap*&, bool);
@@ -52,7 +54,8 @@ void Desc(void);
 void DescTree(Treap*);
 Treap *root;
 int main(){
-    freopen("in.txt", "r", stdin);
+    // freopen("in.txt", "r", stdin);
+    freopen("./out.txt", "w", stdout);
     srand(315); (void)rand();
     N = read();
     (void)read(); int _val = read();
@@ -62,8 +65,8 @@ int main(){
         switch(opt){
             case 1:{Insert(root, x); break;}
             case 2:{Delete(root, x); break;}
-            case 3:{printf("%d\n", QueryRank(root, x, 0)); break;}
-            case 4:{printf("%d\n", QueryVal(root, x, 0)); break;}
+            case 3:{printf("%d\n", QueryRank(root, x)); break;}
+            case 4:{printf("%d\n", QueryVal(root, x)); break;}
             case 5:{printf("%d\n", CalPre(root, x)); break;}
             case 6:{printf("%d\n", CalSuf(root, x)); break;}
         }
@@ -86,37 +89,50 @@ int CalPre(Treap *node, int val){
     }
     return ret;
 }
-int QueryVal(Treap *node, int rank, int cur){
+int QueryVal(Treap *node, int rank){
     // printf("Node--- left%d, right%d\n", node->ls, node->rs);
+    // if(node == npt)return -1;
+    // if(cur + (lsize(node)) + node->cnt < rank)return QueryVal(node->rs, rank, cur + (lsize(node)) + node->cnt);
+    // else if(cur + (lsize(node)) >= rank)return QueryVal(node->ls, rank, cur);
+    // else return node->val;
     if(node == npt)return -1;
-    if(cur + (node->ls == npt ? 0 : node->ls->size) + node->cnt < rank)return QueryVal(node->rs, rank, cur + (node->ls == npt ? 0 : node->ls->size) + node->cnt);
-    else if(cur + (node->ls == npt ? 0 : node->ls->size) >= rank)return QueryVal(node->ls, rank, cur);
-    else return node->val;
+    if(rank <= (lsize(node))) return QueryVal(node->ls, rank);
+    else if(rank <= (lsize(node)) + node->cnt)return node->val;
+    else return QueryVal(node->rs, rank - (lsize(node)) - node->cnt);
 }
-int QueryRank(Treap *node, int val, int cur){
+int QueryRank(Treap *node, int val){
+    printf("Querying Val= %d, node->val = %d\n", val, node->val);
     if(node == npt)return -1;
-    if(val == node->val)return cur + (node->ls == npt ? 0 : node->ls->size) + 1;
-    if(val > node->val)return QueryRank(node->rs, val, cur + (node->ls == npt ? 0 : node->ls->size) + node->cnt);
-    else return QueryRank(node->ls, val, cur);
+    if(val == node->val)return (lsize(node)) + 1;
+    else if(val < node->val){
+        if(node->ls == npt)return 1;
+        else return QueryRank(node->ls, val);
+    }else{
+        if(node->rs == npt)return node->size + 1;
+        else return (lsize(node)) + node->cnt + QueryRank(node->rs, val);
+    }
+    // if(val > node->val)return QueryRank(node->rs, val, cur + (lsize(node)) + node->cnt);
+    // else return QueryRank(node->ls, val, cur);
 }
 void Delete(Treap *&node, int val){
     // Desc();printf("\n");sleep(5);
     if(node == npt)return;
     if(val == node->val){
-        if(node->cnt >= 2){node->cnt--; Pushup(node); return;}
-        if(node->ls == npt && node->rs == npt)return (void)(node = npt);
-        if(chkP(node) > 0)Rotate(node, RIGHT), Delete(node->ls, val);
+        if(node->cnt >= 2){node->cnt--; node->size--; return;}
+        if(node->ls == npt && node->rs == npt){node = npt; return;}//return (void)(node = npt);
+        if(node->ls == npt || node->rs == npt){node = node->ls ? node->ls : node->rs; return;}
+        if(node->ls->pri < node->rs->pri)Rotate(node, RIGHT), Delete(node->ls, val);
         else Rotate(node, LEFT), Delete(node->rs, val);
         Pushup(node);
         return;
     }
-    if(val < node->val)Delete(node->ls, val);
+    else if(val < node->val)Delete(node->ls, val);
     else Delete(node->rs, val);
     Pushup(node);
 }
 void Insert(Treap *&node, int val){
     if(node == npt)return (void)(node = new Treap(val));
-    if(node->val == val)return (void)node->cnt++;
+    if(node->val == val){node->cnt++, node->size++; return;}
     if(val < node->val)Insert(node->ls, val);
     else Insert(node->rs, val);
     if(node->ls != npt && node->ls->pri < node->pri)Rotate(node, RIGHT);
@@ -141,12 +157,14 @@ void Rotate(Treap *&node, bool dire){
         auto tmp = node->rs;
         node->rs = node->rs->ls;
         tmp->ls = node;
+        Pushup(tmp), Pushup(node);
         node = tmp;
     }
     else{//node, node->ls != npt
         auto tmp = node->ls;
         node->ls = node->ls->rs;
         tmp->rs = node;
+        Pushup(tmp), Pushup(node);
         node = tmp;
     }
 }
@@ -154,7 +172,7 @@ void Pushup(Treap *node){
     if(node == npt)return;
     // node->lsize = node->ls == npt ? 0 : node->ls->lsize + node->ls == npt ? 0 : node->ls->rsize + node->ls->cnt;
     // node->rsize = node->rs == npt ? 0 : node->rs->lsize + node->rs == npt ? 0 : node->rs->rsize + node->rs->cnt;
-    node->size = node->cnt + (node->ls == npt ? 0 : node->ls->size) + (node->rs == npt ? 0 : node->rs->size);
+    node->size = node->cnt + (lsize(node)) + (rsize(node));
 }
 void Desc(void){DescTree(root);}
 void DescTree(Treap *node){
