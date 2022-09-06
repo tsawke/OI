@@ -55,7 +55,7 @@ void DescTree(Treap*);
 Treap *root;
 int main(){
     // freopen("in.txt", "r", stdin);
-    freopen("./out.txt", "w", stdout);
+    // freopen("./out.txt", "w", stdout);
     srand(315); (void)rand();
     N = read();
     (void)read(); int _val = read();
@@ -101,7 +101,7 @@ int QueryVal(Treap *node, int rank){
     else return QueryVal(node->rs, rank - (lsize(node)) - node->cnt);
 }
 int QueryRank(Treap *node, int val){
-    printf("Querying Val= %d, node->val = %d\n", val, node->val);
+    // printf("Querying Val= %d, node->val = %d\n", val, node->val);
     if(node == npt)return -1;
     if(val == node->val)return (lsize(node)) + 1;
     else if(val < node->val){
@@ -121,8 +121,8 @@ void Delete(Treap *&node, int val){
         if(node->cnt >= 2){node->cnt--; node->size--; return;}
         if(node->ls == npt && node->rs == npt){node = npt; return;}//return (void)(node = npt);
         if(node->ls == npt || node->rs == npt){node = node->ls ? node->ls : node->rs; return;}
-        if(node->ls->pri < node->rs->pri)Rotate(node, RIGHT), Delete(node->ls, val);
-        else Rotate(node, LEFT), Delete(node->rs, val);
+        if(node->ls->pri < node->rs->pri)Rotate(node, RIGHT), Delete(node->rs, val);
+        else Rotate(node, LEFT), Delete(node->ls, val);
         Pushup(node);
         return;
     }

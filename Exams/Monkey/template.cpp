@@ -1,39 +1,33 @@
+#define _USE_MATH_DEFINES
 #include <bits/stdc++.h>
+
+#define PI M_PI
+#define E M_E
+#define npt nullptr
+
 using namespace std;
+
+mt19937 rnd(random_device{}());
+int rndd(int l, int r){return rnd() % (r - l + 1) + l;}
 
 typedef unsigned int uint;
 typedef unsigned long long unll;
 typedef long long ll;
 
 
+
 template<typename T = int>
 inline T read(void);
 
-struct Trie{
-    int size;
-    Trie *ls, *rs;
-    Trie(int size){
-        this->size = size;
-        this->ls = this->rs = nullptr;
-    }
-};
-void Insert(Trie *node, int val){
 
-}
+
 int main(){
-    (void)read(); int x = read();
-    Trie tmp(0); Trie *root = &tmp;
-    int N = read();
-    while(N--){
-        int opt = read(), x = read();
-        switch(opt){
-            case 1:{}
-        }
-    }
 
 
+    fprintf(stderr, "Time: %.6lf\n", (double)clock() / CLOCKS_PER_SEC);
     return 0;
 }
+
 
 
 template<typename T>
