@@ -12,7 +12,7 @@ abbr
 
 using namespace std;
 
-mt19937 rnd(random_device{}());
+mt19937 rnd(315);
 int rndd(int l, int r){return rnd() % (r - l + 1) + l;}
 
 typedef unsigned int uint;
