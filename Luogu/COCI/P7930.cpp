@@ -41,7 +41,7 @@ int main(){
     return 0;
 }
 void FWT(comp* poly, int lim, pattern pat){
-    for(int len = 1; len < lim; len *= 3)
+    for(int len = 1; len < lim; len *= 3)//分治区间半（1/k）长度
         for(int px = 0; px < lim; px += 3 * len)
             for(int p = 0; p < len; ++p){
                 int pos1(px + p + len * 0),

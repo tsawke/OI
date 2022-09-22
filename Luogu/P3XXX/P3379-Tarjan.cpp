@@ -48,40 +48,30 @@ struct Edge{
 ROPNEW(eData);
 
 Edge* head[510000];
+vector < pair < int, int > > ask[510000];
+int ans[510000];
+bool vis[510000];
 
-int jp[510000][20];
-int depth[510000];
-int lg[510000] = {0, 0};
-
-void dfs(int p, int fa = 0){
-	depth[p] = depth[fa] + 1;
-	jp[p][0] = fa;
-	for(int i = 1; i <= lg[depth[p]]; ++i)jp[p][i] = jp[jp[p][i - 1]][i - 1];
-	for(auto i = head[p]; i; i = i->nxt)if(i->to != fa)dfs(i->to, p);
-}
-int lca(int u, int v){
-	if(depth[u] < depth[v])swap(u, v);
-	// for(int i = lg[depth[u] - depth[v]]; i >= 0; --i)if(depth[jp[u][i]] <= depth[v])u = jp[u][i];
-	while(depth[u] > depth[v])u = jp[u][lg[depth[u] - depth[v]]];
-	if(u == v)return u;
-	for(int i = lg[depth[u]]; i >= 0; --i)if(jp[u][i] != jp[v][i])u = jp[u][i], v = jp[v][i];
-	return jp[u][0];
+void Tarjan(int p, int fa = -1){
+    vis[p] = true;
+    for(auto i = head[p]; i; i = i->nxt)if(!vis[i->to] && i->to != fa)Tarjan(i->to, p), uf.merge(p, i->to);
+    for(auto i : ask[p]){if(vis[i.first])ans[i.second] = uf.find(i.first);}
 }
 
 int main(){
     N = read(), Q = read(); int rt = read();
-    for(int i = 2; i <= 501000; ++i)lg[i] = lg[i >> 1] + 1;
-	for(int i = 1; i <= N - 1; ++i){
+    for(int i = 1; i <= N - 1; ++i){
         int f = read(), t = read();
         head[f] = new Edge{head[f], t};
         head[t] = new Edge{head[t], f};
     }
-	dfs(rt);
-	// for(int i = 1; i <= 5; ++i)for(int j = 0; j <= 5; ++j)printf("%d%c", jp[i][j], j == 5 ? '\n' : ' ');
     for(int q = 1; q <= Q; ++q){
         int u = read(), v = read();
-		printf("%d\n", lca(u, v));
+        ask[u].push_back({v, q});
+        ask[v].push_back({u, q});
     }
+    Tarjan(rt);
+    for(int i = 1; i <= Q; ++i)printf("%d\n", ans[i]);
 
     fprintf(stderr, "Time: %.6lf\n", (double)clock() / CLOCKS_PER_SEC);
     return 0;
