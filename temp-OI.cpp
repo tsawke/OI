@@ -1,45 +1,66 @@
-tuple < Node*, Node*, Node* > split_by_rk(Node *cur, int rk) {
-  if (cur == nullptr) return {nullptr, nullptr, nullptr};
-  int ls_siz = cur->ch[0] == nullptr ? 0 : cur->ch[0]->siz;
-  if (rk <= ls_siz) {
-    // 排名和 cur 相等的节点在左子树
-    Node *l, *mid, *r;
-    tie(l, mid, r) = split_by_rk(cur->ch[0], rk);
-    cur->ch[0] = r;  // 返回的第三个 treap 中的排名都大于 rk
-    // cur 的左子树被设成 r 后，整个 cur 中节点的排名都大于 rk
-    cur->upd_siz();
-    return {l, mid, cur};
-  } else if (rk <= ls_siz + cur->cnt) {
-    // 和 cur 相等的就是当前节点
-    Node *lt = cur->ch[0];
-    Node *rt = cur->ch[1];
-    cur->ch[0] = cur->ch[1] = nullptr;
-    // 分裂后第二个 treap 只有一个节点，所有要把它的子树设置为空
-    return {lt, cur, rt};
-  } else {
-    // 排名和 cur 相等的节点在右子树
-    // 递归过程同上
-    Node *l, *mid, *r;
-    tie(l, mid, r) = split_by_rk(cur->ch[1], rk - ls_siz - cur->cnt);
-    cur->ch[1] = l;
-    cur->upd_siz();
-    return {cur, mid, r};
-  }
+#define _USE_MATH_DEFINES
+#include <bits/extc++.h>
+
+#define PI M_PI
+#define E M_E
+#define npt nullptr
+#define SON i->to
+#define OPNEW void* operator new(size_t)
+#define ROPNEW(arr) void* Edge::operator new(size_t){static Edge* P = arr; return P++;}
+
+/******************************
+abbr
+
+******************************/
+
+using namespace std;
+using namespace __gnu_pbds;
+
+mt19937 rnd(random_device{}());
+int rndd(int l, int r){return rnd() % (r - l + 1) + l;}
+bool rnddd(int x){return rndd(1, 100) <= x;}
+
+typedef unsigned int uint;
+typedef unsigned long long unll;
+typedef long long ll;
+typedef long double ld;
+
+
+
+template<typename T = int>
+inline T read(void);
+
+
+
+int main(){
+	vector < int > t;
+	for(int i = 1; i <= 100; ++i)t.push_back(i);
+	printf("%d\n", t.capacity());
+	t.resize(8);
+	printf("%d\n", t[20]);
+	printf("%d\n", t.capacity());
+	t.shrink_to_fit();
+	printf("%d\n", t[20]);
+	printf("%d\n", t.capacity());
+
+	fprintf(stderr, "Time: %.6lf\n", (double)clock() / CLOCKS_PER_SEC);
+	return 0;
 }
 
-int qval_by_rank(Node *cur, int rk) {
-  Node *l, *mid, *r;
-  tie(l, mid, r) = split_by_rk(cur, rk);
-  int ret = mid->val;
-  root = merge(merge(l, mid), r);
-  return ret;
+
+
+template<typename T>
+inline T read(void){
+	T ret(0);
+	short flag(1);
+	char c = getchar();
+	while(c != '-' && !isdigit(c))c = getchar();
+	if(c == '-')flag = -1, c = getchar();
+	while(isdigit(c)){
+		ret *= 10;
+		ret += int(c - '0');
+		c = getchar();
+	}
+	ret *= flag;
+	return ret;
 }
-
-/*
-
-对原文中非旋 Treap 的完整代码中的错误进行修改并对 split_by_rk 函数进行重写
-
-原文中非旋 Treap 完整代码中的 qnex 函数 漏加了 int ret = qval_by_rank(temp.second, 1); 一句，会导致CE，进行了修改。
-对于非旋 Treap 中 split_by_rk 的返回值，写成 tuple 的形式并用 tie 接受返回值显然更加直观且便捷。
-
-*/

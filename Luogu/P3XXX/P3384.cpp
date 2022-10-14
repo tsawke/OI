@@ -7,11 +7,6 @@
 #define SON i->to
 #define siz(p) (p ? p->siz : 0)
 
-/******************************
-abbr
-
-******************************/
-
 using namespace std;
 
 mt19937 rnd(random_device{}());
@@ -133,7 +128,7 @@ public:
 
 void ModifyTree(Node* from, Node* to, int val){
     while(top(from) != top(to)){
-        if(dep(from) < dep(to))swap(from, to);
+        if(dep(top(from)) < dep(top(to)))swap(from, to);
         st.Modify(dfn(from->top), dfn(from), val);
         from = from ? from->top->fa : npt;
     }
@@ -143,7 +138,7 @@ void ModifyTree(Node* from, Node* to, int val){
 ll QueryTree(Node* from, Node* to){
     ll ret(0);
     while(top(from) != top(to)){
-        if(dep(from) < dep(to))swap(from, to);
+        if(dep(top(from)) < dep(top(to)))swap(from, to);
         ret = (ret + st.Query(dfn(from->top), dfn(from))) % MOD;
         from = from ? from->top->fa : npt;
     }
@@ -153,7 +148,7 @@ ll QueryTree(Node* from, Node* to){
 }
 
 int main(){
-    freopen("in.txt", "r", stdin);
+    // freopen("in.txt", "r", stdin);
     N = read(), M = read(), R = read(), MOD = read();
     for(int i = 1; i <= N; ++i)tr[i] = new Node(read());
     for(int i = 1; i <= N - 1; ++i){
@@ -177,8 +172,6 @@ int main(){
     fprintf(stderr, "Time: %.6lf\n", (double)clock() / CLOCKS_PER_SEC);
     return 0;
 }
-
-
 
 template<typename T>
 inline T read(void){
