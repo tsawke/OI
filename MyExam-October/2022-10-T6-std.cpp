@@ -32,7 +32,7 @@ int splitM;
 int a[MAXN];
 int cnt[MAXN], len[MAXN];
 bitset < MAXN > cur;
-bitset < MAXN > sum[MAXN / 3 + 10];
+bitset < MAXN > sum[MAXN];
 
 struct Query{
     int l, r;
@@ -72,6 +72,8 @@ void Solve(void){
         printf("%d\n", len[i] - 3 * (int)sum[i].count());
 }
 int main(){
+    freopen("d0te__sturct.in", "r", stdin);
+    freopen("d0te__sturct.out", "w", stdout);
     N = read(), M = read();
     vector < int > arr;
     for(int i = 1; i <= N; ++i)a[i] = read(), arr.push_back(a[i]);
