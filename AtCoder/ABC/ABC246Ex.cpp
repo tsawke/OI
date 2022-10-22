@@ -20,16 +20,14 @@ typedef unsigned long long unll;
 typedef long long ll;
 typedef long double ld;
 
-#define MAXN (int)(5e4)
-#define INF (0x3f3f3f3f)
+#define MAXN (int)(1e5 + 100)
+#define MOD (int)(998244353)
 
 template< typename T = int >
 inline T read(void);
 
-int N, M;
-int lg[MAXN << 3];
-int pos[MAXN << 1];
-int a[MAXN];
+int N, Q;
+int S[MAXN];
 
 struct Matrix3{
     int val[3][3];
@@ -39,13 +37,18 @@ struct Matrix3{
             {v10, v11, v12},
             {v20, v21, v22}
         }{;}
+    Matrix3(int S):
+        val{
+            {1, S != 0, 0},
+            {S != 1, 1, 0},
+            {S != 1, S != 0, 1}
+        }{;}
     Matrix3(int val[][3]){for(int i = 0; i <= 2; ++i)for(int j = 0; j <= 2; ++j)this->val[i][j] = val[i][j];}
     Matrix3(void) = default;
     friend const Matrix3 operator * (const Matrix3 &x, const Matrix3 &y){
-        int val[3][3];
-        for(int i = 0; i <= 2; ++i)for(int j = 0; j <= 2; ++j)val[i][j] = -INF;
+        int val[3][3]; memset(val, 0, sizeof val);
         for(int i = 0; i <= 2; ++i)for(int j = 0; j <= 2; ++j)for(int p = 0; p <= 2; ++p)
-            val[i][j] = max({val[i][j], x.val[i][p] + y.val[p][j], -INF});
+            val[i][j] = ((ll)val[i][j] + (ll)x.val[i][p] * y.val[p][j] % MOD) % MOD;
         return Matrix3(val);
     }
     void Print(void){
@@ -54,47 +57,44 @@ struct Matrix3{
     }
 }mt[MAXN];
 
-class CatTree{
+class SegTree{
 private:
-    Matrix3 tr[30][MAXN << 1];
-    #define MID ((gl + gr) >> 1)
+    Matrix3 tr[MAXN << 2];
     #define LS (p << 1)
     #define RS (LS | 1)
+    #define MID ((gl + gr) >> 1)
 public:
-    void Build(int p = 1, int dep = 1, int gl = 1, int gr = N){
-        // printf("Building l = %d, r = %d, p = %d, dep = %d\n", gl, gr, p, dep);
-        if(gl == gr)return pos[gl = gr] = p, void();
-        tr[dep][MID] = mt[MID];
-        tr[dep][MID + 1] = mt[MID + 1];
-        //Tips: Matrix operation does not have the commutative law.
-        for(int i = MID - 1; i >= gl; --i)tr[dep][i] = mt[i] * tr[dep][i + 1];
-        for(int i = MID + 1 + 1; i <= gr; ++i)tr[dep][i] = tr[dep][i - 1] * mt[i];
-        Build(LS, dep + 1, gl, MID);
-        Build(RS, dep + 1, MID + 1, gr);
+    void Pushup(int p){tr[p] = tr[LS] * tr[RS];}
+    void Build(int p = 1, int gl = 1, int gr = N){
+        if(gl == gr)return tr[p] = mt[gl = gr], void();
+        Build(LS, gl, MID);
+        Build(RS, MID + 1, gr);
+        Pushup(p);
     }
-    Matrix3 Query(int l, int r){
-        if(l == r)return mt[l = r];
-        int dep = lg[pos[l]] - lg[pos[l] ^ pos[r]];
-        // tr[dep][l].Print(), tr[dep][r].Print();
-        return tr[dep][l] * tr[dep][r];
+    void Modify(int idx, Matrix3 v, int p = 1, int gl = 1, int gr = N){
+        if(gl == gr)return tr[p] = v, void();
+        if(idx <= MID)Modify(idx, v, LS, gl, MID);
+        else Modify(idx, v, RS, MID + 1, gr);
+        Pushup(p);
     }
-}ct;
+    Matrix3 Query(void){return tr[1];}
+}st;
 
 int main(){
-    N = read();
-    int rN(1); while(rN < N)rN <<= 1;
-    for(int i = 1; i <= N; ++i)
-        a[i] = read(),
-        mt[i] = Matrix3(0, -INF, -INF, a[i], a[i], -INF, a[i], a[i], 0);
-    N = rN;
-    lg[0] = lg[1] = 1;
-    for(int i = 2; i <= (N << 2) + 10; ++i)lg[i] = lg[i >> 1] + 1;
-    ct.Build();
-    M = read();
-    for(int m = 1; m <= M; ++m){
-        int l = read(), r = read();
-        auto ans = Matrix3(-INF, 0, 0, -INF, -INF, -INF, -INF, -INF, -INF) * ct.Query(l, r);
-        printf("%d\n", ans.val[0][0]);
+    N = read(), Q = read();
+    string s; cin >> s;
+    for(int i = 1; i <= (int)s.size(); ++i)
+        S[i] = s.at(i - 1) == '?' ? -1 : int(s.at(i - 1) - '0'),
+        mt[i] = Matrix3(S[i]);
+    st.Build();
+    Matrix3 origin(0, 0, 1, 0, 0, 0, 0, 0, 0);
+    while(Q--){
+        int p = read();
+        char c = getchar(); while(c != '0' && c != '1' && c != '?')c = getchar();
+        int flag = c == '?' ? -1 : int(c - '0');
+        st.Modify(p, Matrix3(flag));
+        auto ans = origin * st.Query();
+        printf("%d\n", (int)((ll)(ans.val[0][0] + ans.val[0][1]) % MOD));
     }
     fprintf(stderr, "Time: %.6lf\n", (double)clock() / CLOCKS_PER_SEC);
     return 0;
