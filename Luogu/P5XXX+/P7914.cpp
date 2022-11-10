@@ -20,23 +20,34 @@ typedef unsigned long long unll;
 typedef long long ll;
 typedef long double ld;
 
-template<typename T = int>
+#define MOD (int)(1e9 + 7)
+
+template< typename T = int >
 inline T read(void);
 
-int a[210000];
+int N, K;
+string S;
+int dp[510][510][10]; //[l, r], mode
+/***************
+ * 1: *******
+ * 2: (*****)
+ * 3: *****()()
+ * 4: ()()*****
+ * 5: ****()()****
+ * 6: ()()*****()()
+***************/
 
 int main(){
-    int N = read(), K = read(), X = read();
-    for(int i = 1; i <= N; ++i){a[i] = read();while(K && a[i] >= X)--K, a[i] -= X;}
-    sort(a + 1, a + N + 1, greater < int >());
-    ll ans(0);
-    for(int i = K + 1; i <= N; ++i)ans += a[i];
-    printf("%lld\n", ans);
+    N = read(), K = read(); cin >> S;
+    
+
     fprintf(stderr, "Time: %.6lf\n", (double)clock() / CLOCKS_PER_SEC);
     return 0;
 }
 
-template<typename T>
+
+
+template < typename T >
 inline T read(void){
     T ret(0);
     short flag(1);

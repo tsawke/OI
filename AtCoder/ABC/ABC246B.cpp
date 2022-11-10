@@ -20,12 +20,8 @@ typedef unsigned long long unll;
 typedef long long ll;
 typedef long double ld;
 
-
-
 template<typename T = int>
 inline T read(void);
-
-
 
 int main(){
     int x = read(), y = read();
@@ -35,8 +31,6 @@ int main(){
     fprintf(stderr, "Time: %.6lf\n", (double)clock() / CLOCKS_PER_SEC);
     return 0;
 }
-
-
 
 template<typename T>
 inline T read(void){

@@ -20,37 +20,40 @@ typedef unsigned long long unll;
 typedef long long ll;
 typedef long double ld;
 
-
+#define MOD (ll)(1e9 + 7)
+#define GetSum1(x) ((x) > 0 ? sum1[x] : 0)
+#define GetSum2(x) ((x) > 0 ? sum2[x] : 0)
 
 template< typename T = int >
 inline T read(void);
 
 int N;
-int st[210];
-int sum[210];
-int dp_mx[210][210], dp_mn[210][210];
+int y[110000];
+int l[110000], r[110000], up[110000];
+ll sum1[110000];
+ll sum2[110000];
 
 int main(){
-    memset(dp_mn, 0x3f, sizeof dp_mn);
     N = read();
-    for(int i = 1; i <= N; ++i)st[i + N] = st[i] = read();
-    for(int i = 1; i <= N * 2; ++i)sum[i] = sum[i - 1] + st[i], dp_mn[i][i] = 0;
-    for(int len = 1; len <= N; ++len){
-        for(int l = 1; l <= N * 2 - len + 1; ++l){
-            int r = l + len - 1;
-            for(int spl = l; spl <= r - 1; ++spl){
-                dp_mx[l][r] = max(dp_mx[l][r], dp_mx[l][spl] + dp_mx[spl + 1][r] + sum[r] - sum[l - 1]);
-                dp_mn[l][r] = min(dp_mn[l][r], dp_mn[l][spl] + dp_mn[spl + 1][r] + sum[r] - sum[l - 1]);
-            }
-        }
-    }int mx(0), mn(INT_MAX);
-    for(int i = 1; i <= N; ++i)mx = max(mx, dp_mx[i][i + N - 1]), mn = min(mn, dp_mn[i][i + N - 1]);
-    printf("%d\n%d\n", mn, mx);
+    for(int i = 1; i <= N; ++i){
+        int rx = read() + 1, ry = read() + 1;
+        y[rx] = ry;
+    }l[0] = INT_MAX; r[N + 1] = -1;
+    for(int i = 1; i <= N; ++i)l[i] = min(l[i - 1], y[i]);
+    for(int i = N; i >= 1; --i)r[i] = max(r[i + 1], y[i]);
+    int cur = r[1];
+    for(int i = 1; i <= N; ++i)while(cur && cur >= l[i])up[cur] = i, --cur;
+    for(int i = 1; i <= N; ++i)sum1[i] = (sum1[i - 1] + up[i]) % MOD;
+    for(int i = 1; i <= N; ++i)sum2[i] = (sum2[i - 1] + sum1[i]) % MOD;
+    ll ans(0);
+    for(int i = 1; i <= N; ++i){
+        ans = (ans + ((ll)r[i] - l[i]) * (r[i] - l[i] + 1) / 2ll % MOD * i % MOD) % MOD;
+        ans = (ans - GetSum2(r[i] - 1) + GetSum2(l[i] - 2) + MOD) % MOD;
+        ans = (ans + ((ll)r[i] - l[i] + 1) * GetSum1(l[i] - 1) % MOD) % MOD;
+    }printf("%lld\n", ans);
     fprintf(stderr, "Time: %.6lf\n", (double)clock() / CLOCKS_PER_SEC);
     return 0;
 }
-
-
 
 template < typename T >
 inline T read(void){

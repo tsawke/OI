@@ -20,23 +20,37 @@ typedef unsigned long long unll;
 typedef long long ll;
 typedef long double ld;
 
-template<typename T = int>
+
+
+template< typename T = int >
 inline T read(void);
 
-int a[210000];
+void Gen(void){
+    FILE* input = fopen("in.txt", "w");
+    int N = rndd(1, 20);
+    fprintf(input, "%d\n", N);
+    for(int i = 1; i <= N; ++i){
+        fprintf(input, "%d\n", rndd(1, (int)1e9) * (rnddd(50) ? 1 : -1));
+    }
+    fclose(input);
+}
 
 int main(){
-    int N = read(), K = read(), X = read();
-    for(int i = 1; i <= N; ++i){a[i] = read();while(K && a[i] >= X)--K, a[i] -= X;}
-    sort(a + 1, a + N + 1, greater < int >());
-    ll ans(0);
-    for(int i = K + 1; i <= N; ++i)ans += a[i];
-    printf("%lld\n", ans);
+    while(true){
+        Gen();
+        system("./bl < in.txt > bl.out");
+        system("./my < in.txt > my.out");
+        if(system("diff my.out bl.out"))printf("WA\n"), exit(0);
+        else printf("Accept!\n");
+    }
+
     fprintf(stderr, "Time: %.6lf\n", (double)clock() / CLOCKS_PER_SEC);
     return 0;
 }
 
-template<typename T>
+
+
+template < typename T >
 inline T read(void){
     T ret(0);
     short flag(1);

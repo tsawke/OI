@@ -20,23 +20,37 @@ typedef unsigned long long unll;
 typedef long long ll;
 typedef long double ld;
 
-template<typename T = int>
+template< typename T = int >
 inline T read(void);
 
-int a[210000];
+int N;
+ll M;
+int F[110000], S[110000];
+
+bool Check(int lim){
+    ll sum(0);
+    for(int i = 1; i <= N; ++i){
+        if(S[i] > lim){sum = 0; continue;}
+        sum += F[i];
+        if(sum >= M)return true;
+    }return false;
+}
 
 int main(){
-    int N = read(), K = read(), X = read();
-    for(int i = 1; i <= N; ++i){a[i] = read();while(K && a[i] >= X)--K, a[i] -= X;}
-    sort(a + 1, a + N + 1, greater < int >());
-    ll ans(0);
-    for(int i = K + 1; i <= N; ++i)ans += a[i];
-    printf("%lld\n", ans);
+    N = read(), M = read < ll >();
+    int mx(-1);
+    for(int i = 1; i <= N; ++i)F[i] = read(), S[i] = read(), mx = max(mx, S[i]);
+    int l = 1, r = mx, ans(-1);
+    while(l <= r){
+        int mid((l + r) >> 1);
+        if(Check(mid))ans = mid, r = mid - 1;
+        else l = mid + 1;
+    }printf("%d\n", ans);
     fprintf(stderr, "Time: %.6lf\n", (double)clock() / CLOCKS_PER_SEC);
     return 0;
 }
 
-template<typename T>
+template < typename T >
 inline T read(void){
     T ret(0);
     short flag(1);

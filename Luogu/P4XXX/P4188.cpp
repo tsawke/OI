@@ -20,37 +20,40 @@ typedef unsigned long long unll;
 typedef long long ll;
 typedef long double ld;
 
-
-
 template< typename T = int >
 inline T read(void);
 
+struct Line{
+    int l, r;
+    friend const bool operator < (const Line &a, const Line &b){return a.l < b.l;}
+}a[110000];
+vector < int > pos;
 int N;
-int st[210];
-int sum[210];
-int dp_mx[210][210], dp_mn[210][210];
+int d[210000];
+int sum[210000];
 
 int main(){
-    memset(dp_mn, 0x3f, sizeof dp_mn);
     N = read();
-    for(int i = 1; i <= N; ++i)st[i + N] = st[i] = read();
-    for(int i = 1; i <= N * 2; ++i)sum[i] = sum[i - 1] + st[i], dp_mn[i][i] = 0;
-    for(int len = 1; len <= N; ++len){
-        for(int l = 1; l <= N * 2 - len + 1; ++l){
-            int r = l + len - 1;
-            for(int spl = l; spl <= r - 1; ++spl){
-                dp_mx[l][r] = max(dp_mx[l][r], dp_mx[l][spl] + dp_mx[spl + 1][r] + sum[r] - sum[l - 1]);
-                dp_mn[l][r] = min(dp_mn[l][r], dp_mn[l][spl] + dp_mn[spl + 1][r] + sum[r] - sum[l - 1]);
-            }
-        }
-    }int mx(0), mn(INT_MAX);
-    for(int i = 1; i <= N; ++i)mx = max(mx, dp_mx[i][i + N - 1]), mn = min(mn, dp_mn[i][i + N - 1]);
-    printf("%d\n%d\n", mn, mx);
+    for(int i = 1; i <= N; ++i)a[i].l = read(), a[i].r = read(), pos.emplace_back(a[i].l), pos.emplace_back(a[i].r);
+    sort(pos.begin(), pos.end());
+    auto endpos = unique(pos.begin(), pos.end());
+    int siz = distance(pos.begin(), endpos);
+    for(int i = 1; i <= N; ++i)
+        a[i].l = distance(pos.begin(), upper_bound(pos.begin(), endpos, a[i].l)),
+        a[i].r = distance(pos.begin(), upper_bound(pos.begin(), endpos, a[i].r));
+    for(int i = 1; i <= N; ++i)d[a[i].l]++, d[a[i].r]--;
+    int tot(0);
+    for(int i = 1; i < siz; ++i){
+        d[i] += d[i - 1];
+        if(d[i])tot += pos.at(i + 1 - 1) - pos.at(i - 1);
+        if(d[i] == 1)sum[i] += pos.at(i + 1 - 1) - pos.at(i - 1);
+        sum[i] += sum[i - 1];
+    }int mx(-1);
+    for(int i = 1; i <= N; ++i)mx = max(mx, tot - (sum[a[i].r - 1] - sum[a[i].l - 1]));
+    printf("%d\n", mx);
     fprintf(stderr, "Time: %.6lf\n", (double)clock() / CLOCKS_PER_SEC);
     return 0;
 }
-
-
 
 template < typename T >
 inline T read(void){

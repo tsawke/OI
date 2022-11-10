@@ -1,0 +1,1 @@
+g++ $1.cpp -o 114514 -std=c++14 -g -fsanitize=undefined,signed-integer-overflow,address -Wall

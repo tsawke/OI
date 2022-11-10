@@ -20,23 +20,29 @@ typedef unsigned long long unll;
 typedef long long ll;
 typedef long double ld;
 
-template<typename T = int>
+
+
+template< typename T = int >
 inline T read(void);
 
-int a[210000];
+int N;
+int a[510000];
 
 int main(){
-    int N = read(), K = read(), X = read();
-    for(int i = 1; i <= N; ++i){a[i] = read();while(K && a[i] >= X)--K, a[i] -= X;}
-    sort(a + 1, a + N + 1, greater < int >());
-    ll ans(0);
-    for(int i = K + 1; i <= N; ++i)ans += a[i];
-    printf("%lld\n", ans);
+    int T = read();
+    while(T--){
+        N = read();
+        for(int i = 1; i <= N; ++i)a[i] = read();
+        
+    }
+
     fprintf(stderr, "Time: %.6lf\n", (double)clock() / CLOCKS_PER_SEC);
     return 0;
 }
 
-template<typename T>
+
+
+template < typename T >
 inline T read(void){
     T ret(0);
     short flag(1);

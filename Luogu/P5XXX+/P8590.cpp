@@ -20,23 +20,49 @@ typedef unsigned long long unll;
 typedef long long ll;
 typedef long double ld;
 
-template<typename T = int>
+#define MOD 998244353
+#define int ll
+
+template< typename T = int >
 inline T read(void);
 
-int a[210000];
+int N, K;
+ll a[1100000];
+ll sum[1100000];
+ll sumsq[1100000];
+ll ans(0);
 
-int main(){
-    int N = read(), K = read(), X = read();
-    for(int i = 1; i <= N; ++i){a[i] = read();while(K && a[i] >= X)--K, a[i] -= X;}
-    sort(a + 1, a + N + 1, greater < int >());
-    ll ans(0);
-    for(int i = K + 1; i <= N; ++i)ans += a[i];
-    printf("%lld\n", ans);
+signed main(){
+    N = read(), K = read();
+    int sp(0);
+    for(int i = 1; i <= N; ++i)
+        a[i] = read(),
+        sum[i] = (sum[i - 1] + a[i] + MOD) % MOD,
+        sumsq[i] = (sumsq[i - 1] + a[i] * a[i] % MOD) % MOD,
+        sp = a[i] < 0 ? i : sp;
+    for(int k = 1; k <= K; ++k){
+        while(sp && abs(a[sp] + 1) < abs(a[sp] + k))--sp;
+        ans = (
+            ans +
+            (sumsq[N] +
+                (
+                    2ll * sum[sp] % MOD +
+                    (sp +
+                    (2 * k % MOD * ((sum[N] - sum[sp] + MOD) % MOD)) % MOD +
+                    (N - sp) * k % MOD * k % MOD
+                    ) % MOD
+                ) % MOD
+            )
+        ) % MOD;
+    }printf("%lld\n", ans);
+
     fprintf(stderr, "Time: %.6lf\n", (double)clock() / CLOCKS_PER_SEC);
     return 0;
 }
 
-template<typename T>
+
+
+template < typename T >
 inline T read(void){
     T ret(0);
     short flag(1);

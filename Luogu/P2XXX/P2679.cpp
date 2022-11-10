@@ -20,23 +20,34 @@ typedef unsigned long long unll;
 typedef long long ll;
 typedef long double ld;
 
-template<typename T = int>
+#define MOD (int)(1e9 + 7)
+
+template< typename T = int >
 inline T read(void);
 
-int a[210000];
+int N, M, K;
+string S1, S2;
+int dp[2][202][202][2];
 
 int main(){
-    int N = read(), K = read(), X = read();
-    for(int i = 1; i <= N; ++i){a[i] = read();while(K && a[i] >= X)--K, a[i] -= X;}
-    sort(a + 1, a + N + 1, greater < int >());
-    ll ans(0);
-    for(int i = K + 1; i <= N; ++i)ans += a[i];
-    printf("%lld\n", ans);
+    N = read(), M = read(), K = read();
+    cin >> S1 >> S2;
+    for(int i = 0; i <= N; ++i)dp[i & 1][0][0][0] = 1;
+    for(int i = 1; i <= N; ++i)
+        for(int j = 1; j <= M; ++j)
+            for(int k = 1; k <= K; ++k)
+                    dp[i & 1][j][k][0] = ((ll)dp[(i - 1) & 1][j][k][0] + dp[(i - 1) & 1][j][k][1] ) % MOD,
+                    dp[i & 1][j][k][1] = S1.at(i - 1) == S2.at(j - 1)
+                        ? ((ll)dp[(i - 1) & 1][j - 1][k - 1][0] + dp[(i - 1) & 1][j - 1][k - 1][1] + dp[(i - 1) & 1][j - 1][k][1]) % MOD
+                        : 0;
+    printf("%lld\n", ((ll)dp[N & 1][M][K][0] + dp[N & 1][M][K][1]) % MOD);
     fprintf(stderr, "Time: %.6lf\n", (double)clock() / CLOCKS_PER_SEC);
     return 0;
 }
 
-template<typename T>
+
+
+template < typename T >
 inline T read(void){
     T ret(0);
     short flag(1);

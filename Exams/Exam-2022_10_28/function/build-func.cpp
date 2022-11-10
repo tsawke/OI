@@ -20,23 +20,37 @@ typedef unsigned long long unll;
 typedef long long ll;
 typedef long double ld;
 
-template<typename T = int>
+
+
+template< typename T = int >
 inline T read(void);
 
-int a[210000];
+int a[1100000];
 
 int main(){
-    int N = read(), K = read(), X = read();
-    for(int i = 1; i <= N; ++i){a[i] = read();while(K && a[i] >= X)--K, a[i] -= X;}
-    sort(a + 1, a + N + 1, greater < int >());
-    ll ans(0);
-    for(int i = K + 1; i <= N; ++i)ans += a[i];
-    printf("%lld\n", ans);
+    while(true){
+        FILE* input = fopen("in.txt", "w");
+        int N = rndd(800, 1000), K = rndd(800, 1000);
+        a[0] = -11451411;
+        for(int i = 1; i <= N; ++i)a[i] = a[i - 1] + rndd(0, 1145);
+        fprintf(input, "%d %d\n", N, K);
+        for(int i = 1; i <= N; ++i)fprintf(input, "%d\n", a[i]);
+        fclose(input);
+        system("./my < ./in.txt > ./my.out");
+        system("./bl < ./in.txt > ./bl.out");
+        if(system("diff ./my.out ./bl.out"))printf("Wrong!\n"), exit(0);
+        else printf("Accept!\n");
+    }
+    
+
+
     fprintf(stderr, "Time: %.6lf\n", (double)clock() / CLOCKS_PER_SEC);
     return 0;
 }
 
-template<typename T>
+
+
+template < typename T >
 inline T read(void){
     T ret(0);
     short flag(1);

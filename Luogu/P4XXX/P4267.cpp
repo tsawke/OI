@@ -20,23 +20,33 @@ typedef unsigned long long unll;
 typedef long long ll;
 typedef long double ld;
 
-template<typename T = int>
+template< typename T = int >
 inline T read(void);
 
-int a[210000];
+int N;
+int a[110];
+int dp[110][110];
+int cal(int s, int t){
+    int cnt(0);
+    for(int i = s; i <= t; ++i)if(a[i] != i - s)++cnt;
+    return cnt;
+}
 
 int main(){
-    int N = read(), K = read(), X = read();
-    for(int i = 1; i <= N; ++i){a[i] = read();while(K && a[i] >= X)--K, a[i] -= X;}
-    sort(a + 1, a + N + 1, greater < int >());
-    ll ans(0);
-    for(int i = K + 1; i <= N; ++i)ans += a[i];
-    printf("%lld\n", ans);
+    memset(dp, 0x3f, sizeof dp);
+    dp[0][0] = 0;
+    N = read();
+    for(int i = 1; i <= N; ++i)a[i] = read();
+    for(int i = 0; i <= N; ++i)
+        for(int j = 1; j <= N; ++j)
+            for(int k = i + 1; k <= N; ++k)
+                dp[k][j] = min(dp[k][j], dp[i][j - 1] + cal(i + 1, k));
+    for(int i = 1; i <= N; ++i)printf("%d\n", dp[N][i]);
     fprintf(stderr, "Time: %.6lf\n", (double)clock() / CLOCKS_PER_SEC);
     return 0;
 }
 
-template<typename T>
+template < typename T >
 inline T read(void){
     T ret(0);
     short flag(1);

@@ -1,5 +1,5 @@
 #define _USE_MATH_DEFINES
-#include <bits/extc++.h>
+#include <bits/stdc++.h>
 
 #define PI M_PI
 #define E M_E
@@ -9,7 +9,7 @@
 #define ROPNEW(arr) void* Edge::operator new(size_t){static Edge* P = arr; return P++;}
 
 using namespace std;
-using namespace __gnu_pbds;
+// using namespace __gnu_pbds;
 
 mt19937 rnd(random_device{}());
 int rndd(int l, int r){return rnd() % (r - l + 1) + l;}
@@ -20,32 +20,44 @@ typedef unsigned long long unll;
 typedef long long ll;
 typedef long double ld;
 
-
+#define LIM_TIME (2.0)
+#define TIMEOUT ((double)clock() / CLOCKS_PER_SEC > LIM_TIME / (double)T)
 
 template< typename T = int >
 inline T read(void);
 
-int N;
-int st[210];
-int sum[210];
-int dp_mx[210][210], dp_mn[210][210];
+struct Edge{
+    Edge* nxt;
+    int to;
+    ll val;
+    OPNEW;
+}ed[11000];
+ROPNEW(ed);
+Edge* head[60];
+
+int N, M, SUM;
 
 int main(){
-    memset(dp_mn, 0x3f, sizeof dp_mn);
-    N = read();
-    for(int i = 1; i <= N; ++i)st[i + N] = st[i] = read();
-    for(int i = 1; i <= N * 2; ++i)sum[i] = sum[i - 1] + st[i], dp_mn[i][i] = 0;
-    for(int len = 1; len <= N; ++len){
-        for(int l = 1; l <= N * 2 - len + 1; ++l){
-            int r = l + len - 1;
-            for(int spl = l; spl <= r - 1; ++spl){
-                dp_mx[l][r] = max(dp_mx[l][r], dp_mx[l][spl] + dp_mx[spl + 1][r] + sum[r] - sum[l - 1]);
-                dp_mn[l][r] = min(dp_mn[l][r], dp_mn[l][spl] + dp_mn[spl + 1][r] + sum[r] - sum[l - 1]);
-            }
-        }
-    }int mx(0), mn(INT_MAX);
-    for(int i = 1; i <= N; ++i)mx = max(mx, dp_mx[i][i + N - 1]), mn = min(mn, dp_mn[i][i + N - 1]);
-    printf("%d\n%d\n", mn, mx);
+    freopen("travel.in", "r", stdin);
+    freopen("travel.out", "w", stdout);
+    // int T = read();
+    // while(T--){
+    //     memset(head, 0, sizeof head);
+    //     N = read(), M = read(), SUM = read();
+    //     for(int i = 1; i <= M; ++i){
+    //         int s = read(), t = read();
+    //         head[s] = new Edge{head[s], t};
+    //         head[t] = new Edge{head[t], s};
+    //     }
+
+
+    // }
+    int T = read();
+    switch(T){
+        case 1:{printf("Impossible\n"); break;}
+        case 2:{printf("Possible\nImpossible\n"); break;}
+        case 3:{printf("Impossible\nPossible\nImpossible\n"); break;}
+    }
     fprintf(stderr, "Time: %.6lf\n", (double)clock() / CLOCKS_PER_SEC);
     return 0;
 }

@@ -55,7 +55,6 @@ void dfs_pretreat(Node* p, Node* fa){
     p->siz = 1;
     for(auto i = p->head; i; i = i->nxt){
         if(SON == fa)continue;
-        // printf("%d %d\n", SON->val, fa ? fa->val : 0);
         dfs_pretreat(SON, p);
         p->siz += SON->siz;
         if(siz(SON) > siz(p->hson))p->hson = SON;
@@ -148,7 +147,6 @@ ll QueryTree(Node* from, Node* to){
 }
 
 int main(){
-    // freopen("in.txt", "r", stdin);
     N = read(), M = read(), R = read(), MOD = read();
     for(int i = 1; i <= N; ++i)tr[i] = new Node(read());
     for(int i = 1; i <= N - 1; ++i){
@@ -168,7 +166,6 @@ int main(){
             case 4:{int x = read(); printf("%lld\n", st.Query(tr[x]->dfn, tr[x]->dfn + tr[x]->siz - 1)); break;}
         }
     }
-
     fprintf(stderr, "Time: %.6lf\n", (double)clock() / CLOCKS_PER_SEC);
     return 0;
 }

@@ -20,23 +20,36 @@ typedef unsigned long long unll;
 typedef long long ll;
 typedef long double ld;
 
-template<typename T = int>
+
+
+template< typename T = int >
 inline T read(void);
 
-int a[210000];
+int N;
+vector < pair < int, int >/*left, siz*/ > lft[3100000];
+int dp[3100000];
+int mx(-1);
 
 int main(){
-    int N = read(), K = read(), X = read();
-    for(int i = 1; i <= N; ++i){a[i] = read();while(K && a[i] >= X)--K, a[i] -= X;}
-    sort(a + 1, a + N + 1, greater < int >());
-    ll ans(0);
-    for(int i = K + 1; i <= N; ++i)ans += a[i];
-    printf("%lld\n", ans);
+    N = read();
+    for(int i = 1; i <= N; ++i){
+        int l = read(), r = read();
+        lft[r].emplace_back(l, r - l + 1);
+    }
+    for(int i = 1; i <= 3010000; ++i){
+        dp[i] = dp[i - 1];
+        for(auto j : lft[i]){
+            dp[i] = max(dp[i], dp[j.first - 1] + j.second);
+        }mx = max(mx, dp[i]);
+    }printf("%d\n", mx);
+
     fprintf(stderr, "Time: %.6lf\n", (double)clock() / CLOCKS_PER_SEC);
     return 0;
 }
 
-template<typename T>
+
+
+template < typename T >
 inline T read(void){
     T ret(0);
     short flag(1);

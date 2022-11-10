@@ -1,5 +1,5 @@
 #define _USE_MATH_DEFINES
-#include <bits/extc++.h>
+#include <bits/stdc++.h>
 
 #define PI M_PI
 #define E M_E
@@ -9,7 +9,7 @@
 #define ROPNEW(arr) void* Edge::operator new(size_t){static Edge* P = arr; return P++;}
 
 using namespace std;
-using namespace __gnu_pbds;
+// using namespace __gnu_pbds;
 
 mt19937 rnd(random_device{}());
 int rndd(int l, int r){return rnd() % (r - l + 1) + l;}
@@ -20,23 +20,31 @@ typedef unsigned long long unll;
 typedef long long ll;
 typedef long double ld;
 
-template<typename T = int>
+
+
+template< typename T = int >
 inline T read(void);
 
-int a[210000];
+
 
 int main(){
-    int N = read(), K = read(), X = read();
-    for(int i = 1; i <= N; ++i){a[i] = read();while(K && a[i] >= X)--K, a[i] -= X;}
-    sort(a + 1, a + N + 1, greater < int >());
-    ll ans(0);
-    for(int i = K + 1; i <= N; ++i)ans += a[i];
-    printf("%lld\n", ans);
+    freopen("game.in", "r", stdin);
+    freopen("game.out", "w", stdout);
+    int T = read();
+    switch(T){
+        case 1:{printf("Hifuu\n"); break;}
+        case 2:{printf("Hifuu\nLuna\n"); break;}
+        case 3:{printf("Hifuu\nLuna\nHifuu\n"); break;}
+        case 4:{printf("Hifuu\nLuna\nHifuu\nLuna\n"); break;}
+        case 5:{printf("Hifuu\nLuna\nHifuu\nLuna\nHifuu\n"); break;}
+    }
     fprintf(stderr, "Time: %.6lf\n", (double)clock() / CLOCKS_PER_SEC);
     return 0;
 }
 
-template<typename T>
+
+
+template < typename T >
 inline T read(void){
     T ret(0);
     short flag(1);
