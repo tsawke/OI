@@ -20,7 +20,7 @@ typedef unsigned long long unll;
 typedef long long ll;
 typedef long double ld;
 
-#define MOD (ll)(1e9 + 7)
+#define MOD (ll)(LONG_LONG_MAX)
 
 template< typename T = int >
 inline T read(void);
@@ -43,7 +43,7 @@ __int128_t qpow(ll a, ll b){
 void dfs(int p = 1, ll base = 1, __int128_t phi = 1, __int128_t div = 1){
     if(p > tot){
         phi *= base, phi /= div, phi %= MOD;
-        ans = (ans + phi * qpow(2, N / base) % MOD) % MOD;
+        ans = (ans + phi * N / base/*(qpow(2, N / base)*/ % MOD) % MOD;
         return;
     }
     dfs(p + 1, base, phi, div);
@@ -63,7 +63,7 @@ int main(){
         ++cur;
     }if(tmp > 1)fact[++tot] = {tmp, 1};
     dfs();
-    ans = ((((ans + 2 - N) % MOD) - qpow(2, N)) % MOD + MOD) % MOD;
+    // ans = ((((ans + 2 - N) % MOD) - qpow(2, N)) % MOD + MOD) % MOD;
     printf("%lld\n", (ll)ans);
     fprintf(stderr, "Time: %.6lf\n", (double)clock() / CLOCKS_PER_SEC);
     return 0;

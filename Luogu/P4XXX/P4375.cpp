@@ -24,28 +24,27 @@ template< typename T = int >
 inline T read(void);
 
 int N;
-int c[110000];
-int buc[110000];
-int suf[110000];
+pair < int, int > a[110000];
 
-bool Check(int pos){
-    memset(buc, 0, sizeof(int) * (N + 10));
-    for(int i = 1; i < pos; ++i)buc[N - c[i] + 1]++;
-    for(int i = N; i >= 1; --i)suf[i] = suf[i + 1] + buc[i + 1];
-    for(int i = pos; i > 1; --i)if(-suf[i] + pos >= i)return false;
-    return true;
-}
+class BIT{
+private:
+    int tr[110000];
+public:
+    int lowbit(int x){return x & -x;}
+    void Modify(int x, int v = 1){while(x <= N)tr[x] += v, x += lowbit(x);}
+    int Query(int x){int ret(0); while(x)ret += tr[x], x -= lowbit(x); return ret;}
+}bit;
 
 int main(){
     N = read();
-    for(int i = 1; i <= N; ++i)c[i] = read();
-    int l = 1, r = N, ans = -1;
-    while(l <= r){
-        int mid = (l + r) >> 1;
-        if(Check(mid))ans = mid, l = mid + 1;
-        else r = mid - 1;
-    }
-    printf("%d\n", N - ans);
+    int ans(1);
+    for(int i = 1; i <= N; ++i)a[i] = {read(), i};
+    sort(a + 1, a + N + 1);
+    for(int i = 1; i <= N; ++i)
+        bit.Modify(a[i].second),
+        ans = max(ans, i - bit.Query(i));
+    printf("%d\n", ans);
+
     fprintf(stderr, "Time: %.6lf\n", (double)clock() / CLOCKS_PER_SEC);
     return 0;
 }
@@ -53,7 +52,7 @@ int main(){
 template < typename T >
 inline T read(void){
     T ret(0);
-    short flag(1);
+    int flag(1);
     char c = getchar();
     while(c != '-' && !isdigit(c))c = getchar();
     if(c == '-')flag = -1, c = getchar();

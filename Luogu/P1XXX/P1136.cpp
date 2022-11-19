@@ -23,29 +23,28 @@ typedef long double ld;
 template< typename T = int >
 inline T read(void);
 
-int N;
-int c[110000];
-int buc[110000];
-int suf[110000];
-
-bool Check(int pos){
-    memset(buc, 0, sizeof(int) * (N + 10));
-    for(int i = 1; i < pos; ++i)buc[N - c[i] + 1]++;
-    for(int i = N; i >= 1; --i)suf[i] = suf[i + 1] + buc[i + 1];
-    for(int i = pos; i > 1; --i)if(-suf[i] + pos >= i)return false;
-    return true;
-}
+int N, K;
+string S;
+int dp[510][110][110][2];
 
 int main(){
-    N = read();
-    for(int i = 1; i <= N; ++i)c[i] = read();
-    int l = 1, r = N, ans = -1;
-    while(l <= r){
-        int mid = (l + r) >> 1;
-        if(Check(mid))ans = mid, l = mid + 1;
-        else r = mid - 1;
-    }
-    printf("%d\n", N - ans);
+    memset(dp, 0xc0, sizeof dp);
+    dp[0][0][0][1] = 0;
+    N = read(), K = read();
+    cin >> S;
+    for(int i = 1; i <= N; ++i)
+        for(int j = 0; j <= K; ++j)
+            for(int k = 0; k <= K; ++k)
+                if(S.at(i - 1) == 'j'){
+                    dp[i][j][k][0] = max(dp[i - 1][j][k][0], dp[i - 1][j][k][1]);
+                    if(j)dp[i][j][k][1] = max(dp[i - 1][j - 1][k][0] + 1, dp[i - 1][j - 1][k][1]);
+                }else{
+                    dp[i][j][k][1] = max(dp[i - 1][j][k][0] + 1, dp[i - 1][j][k][1]);
+                    if(k)dp[i][j][k][0] = max(dp[i - 1][j][k - 1][0], dp[i - 1][j][k - 1][1]);
+                }
+    int ans(0);
+    for(int i = 1; i <= K; ++i)ans = max({ans, dp[N][i][i][0], dp[N][i][i][1]});
+    printf("%d\n", ans);
     fprintf(stderr, "Time: %.6lf\n", (double)clock() / CLOCKS_PER_SEC);
     return 0;
 }
@@ -53,7 +52,7 @@ int main(){
 template < typename T >
 inline T read(void){
     T ret(0);
-    short flag(1);
+    int flag(1);
     char c = getchar();
     while(c != '-' && !isdigit(c))c = getchar();
     if(c == '-')flag = -1, c = getchar();
