@@ -19,24 +19,34 @@ typedef unsigned long long unll;
 typedef long long ll;
 typedef long double ld;
 
+#define EPS (double)(1e-8)
+
 template< typename T = int >
 inline T read(void);
 
-int N; int MOD;
-int dp[3100][3100][2];
+int N, K;
+bool vis[310][310];
+struct Coord{int x, y;}p[310];
+int ans(0);
+bool Check(Coord a, Coord b, Coord c){
+    // return (abs((double)(b.y - a.y) / (double)(b.x - a.x) - (double)(c.y - b.y) / (double)(c.x - b.x)) <= EPS);
+    return ((ll)(b.y - a.y) * (c.x - b.x) == (ll)(c.y - b.y) * (b.x - a.x));
+}
 
 int main(){
-    N = read(), MOD = read();
-    dp[1][0][1] = dp[1][1][0] = 1;
-    for(int i = 1; i <= N - 1; ++i)
-        for(int j = 0; j <= N - 1; ++j)
-            dp[i + 1][j + 1][0] = ((ll)dp[i + 1][j + 1][0] + dp[i][j][0]) % MOD,
-            dp[i + 1][j][1] = ((ll)dp[i + 1][j][1] + dp[i][j][0]) % MOD,
-            dp[i + 1][j + 1][1] = ((ll)dp[i + 1][j + 1][1] + dp[i][j][1] * 2ll) % MOD,
-            dp[i + 1][j][1] = ((ll)dp[i + 1][j][1] + dp[i][j][1]) % MOD,
-            dp[i + 1][j + 2][0] = ((ll)dp[i + 1][j + 2][0] + dp[i][j][1] * 2ll) % MOD,
-            dp[i + 1][j + 1][1] = ((ll)dp[i + 1][j + 1][1] + dp[i][j][1]) % MOD;
-    for(int i = 1; i <= N - 1; ++i)printf("%d%c", dp[N][i][1], i == N - 1 ? '\n' : ' ');
+    N = read(), K = read();
+    if(K == 1)printf("Infinity\n"), exit(0);
+    for(int i = 1; i <= N; ++i)p[i].x = read(), p[i].y = read();
+    for(int i = 1; i <= N; ++i)
+        for(int j = i + 1; j <= N; ++j)
+            if(!vis[i][j]){
+                basic_string < int > pts; pts += {i, j};
+                for(int k = 1; k <= N; ++k)
+                    if(k != i && k != j && Check(p[i], p[j], p[k]))pts += k;
+                for(auto u : pts)for(auto v : pts)vis[u][v] = true;
+                if((int)pts.size() >= K)++ans;
+            }
+    printf("%d\n", ans);
     fprintf(stderr, "Time: %.6lf\n", (double)clock() / CLOCKS_PER_SEC);
     return 0;
 }

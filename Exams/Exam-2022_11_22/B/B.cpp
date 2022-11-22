@@ -19,24 +19,32 @@ typedef unsigned long long unll;
 typedef long long ll;
 typedef long double ld;
 
-template< typename T = int >
+#define MOD (ll)(1e9 + 7)
+
+template < typename T = int >
 inline T read(void);
 
-int N; int MOD;
-int dp[3100][3100][2];
+int N, K;
+ll ans(0);
+int a[11000];
+ll dp[11000][110];
+basic_string < int > nxt[11000];
 
 int main(){
-    N = read(), MOD = read();
-    dp[1][0][1] = dp[1][1][0] = 1;
+    freopen("B.in", "r", stdin);
+    freopen("B.out", "w", stdout);
+    N = read(), K = read();
+    for(int i = 1; i <= N; ++i)a[i] = read();
+    for(int i = 1; i <= N; ++i)
+        for(int j = i + 1; j <= N; ++j)
+            if(a[j] > a[i])nxt[i] += j;
+    for(int i = 1; i <= N; ++i)dp[i][1] = 1;
     for(int i = 1; i <= N - 1; ++i)
-        for(int j = 0; j <= N - 1; ++j)
-            dp[i + 1][j + 1][0] = ((ll)dp[i + 1][j + 1][0] + dp[i][j][0]) % MOD,
-            dp[i + 1][j][1] = ((ll)dp[i + 1][j][1] + dp[i][j][0]) % MOD,
-            dp[i + 1][j + 1][1] = ((ll)dp[i + 1][j + 1][1] + dp[i][j][1] * 2ll) % MOD,
-            dp[i + 1][j][1] = ((ll)dp[i + 1][j][1] + dp[i][j][1]) % MOD,
-            dp[i + 1][j + 2][0] = ((ll)dp[i + 1][j + 2][0] + dp[i][j][1] * 2ll) % MOD,
-            dp[i + 1][j + 1][1] = ((ll)dp[i + 1][j + 1][1] + dp[i][j][1]) % MOD;
-    for(int i = 1; i <= N - 1; ++i)printf("%d%c", dp[N][i][1], i == N - 1 ? '\n' : ' ');
+        for(int j = 1; j <= K; ++j)
+            for(auto nx : nxt[i])
+                (dp[nx][j + 1] += dp[i][j]) %= MOD;
+    for(int i = 1; i <= N; ++i)(ans += dp[i][K]) %= MOD;
+    printf("%lld\n", ans);
     fprintf(stderr, "Time: %.6lf\n", (double)clock() / CLOCKS_PER_SEC);
     return 0;
 }
