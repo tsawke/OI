@@ -22,7 +22,7 @@ typedef long double ld;
 template < typename T = int >
 inline T read(void);
 
-int N, Q;
+int N, tN, Q;
 int a[510000];
 int mp[510000];
 basic_string < int > data;
@@ -33,10 +33,10 @@ struct Node{
     OPNEW;
 }nd[510000 << 5];
 void* Node::operator new(size_t){static Node* P = nd; return P++;}
+Node* rt[510000];
 
 class PerSegTree{
 private:
-    Node* rt[510000];
     #define MID ((gl + gr) >> 1)
     #define SIZ(ptr) (ptr ? ptr->val : 0)
 public:
@@ -61,11 +61,12 @@ public:
 
 
 int main(){
-    N = read(), Q = read();
-    for(int i = 1; i <= N; ++i)data += a[i] = read();
+    tN = read(), Q = read();
+    for(int i = 1; i <= tN; ++i)data += a[i] = read();
     sort(data.begin(), data.end()); data.erase(unique(data.begin(), data.end()), data.end());
-    for(int i = 1; i <= N; ++i){
-        int 
+    N = data.size();
+    for(int i = 1; i <= tN; ++i){
+        rt[i] = pst.Modify()
     }
 pst.Build();    
     fprintf(stderr, "Time: %.6lf\n", (double)clock() / CLOCKS_PER_SEC);
