@@ -19,7 +19,7 @@ then
     exit 1
 fi
 
-rm -rf /home/jdoi/cpp/build/bl
+rm -rf /home/jdoi/cpp/bl
 echo Completely delete old file
-g++ "$Dir" -o /home/jdoi/cpp/build/bl -fsanitize=undefined,signed-integer-overflow,address -Wall -std=c++14 -g -fdiagnostics-color=always
+g++ "$Dir" -o /home/jdoi/cpp/bl -fsanitize=undefined,signed-integer-overflow,address -Wall -std=c++14 -g -fdiagnostics-color=always
 echo g++ Complete
