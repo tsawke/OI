@@ -8,11 +8,6 @@
 #define rsiz(p) (p->rs ? p->rs->siz : 0)
 #define size(p) (p ? p->siz : 0)
 
-/******************************
-abbr
-
-******************************/
-
 using namespace std;
 
 mt19937 _rnd(random_device{}());
@@ -38,19 +33,19 @@ inline T read(void);
 
 int N;
 Treap* root;
-void Pushup(Treap* P){P->siz = lsiz(P) + rsiz(P);}
+void Pushup(Treap* P){if(P)P->siz = P->cnt + lsiz(P) + rsiz(P);}
 pair < Treap*, Treap* > Split(Treap* P, int val){
     if(!P)return {npt, npt};
-    if(val <= P->val){
-        auto tmp = Split(P->ls, val);
-        P->ls = tmp.second;
-        Pushup(P);
-        return {tmp.first, P};
-    }else{
+    if(val >= P->val){
         auto tmp = Split(P->rs, val);
         P->rs = tmp.first;
         Pushup(P);
         return {P, tmp.second};
+    }else{
+        auto tmp = Split(P->ls, val);
+        P->ls = tmp.second;
+        Pushup(P);
+        return {tmp.first, P};
     }
 }
 tuple < Treap*, Treap*, Treap* > Split_By_Rank(Treap* p, int rnk){
@@ -64,7 +59,7 @@ tuple < Treap*, Treap*, Treap* > Split_By_Rank(Treap* p, int rnk){
     }else if(rnk <= lsiz(p) + p->cnt){
         auto l = p->ls, r = p->rs;
         p->ls = p->rs = npt;
-        Pushup(p);
+        Pushup(p);//
         return {l, p, r};
     }else{
         Treap *l, *mid, *r;
@@ -75,8 +70,9 @@ tuple < Treap*, Treap*, Treap* > Split_By_Rank(Treap* p, int rnk){
     }
 }
 Treap* Merge(Treap* l, Treap* r){
+    if(!l && !r)return npt;
     if(!l || !r)return l ? l : r;
-    if(l->pri <= r->pri){
+    if(l->pri < r->pri){
         l->rs = Merge(l->rs, r);
         Pushup(l);
         return l;
@@ -87,10 +83,12 @@ Treap* Merge(Treap* l, Treap* r){
     }
 }
 void Insert(Treap* &p, int val){
+    // if(!p)return p = new Treap(npt, npt, val, rnd()), void();
     auto spl = Split(p, val);
     auto spll = Split(spl.first, val - 1);
     if(!spll.second)spll.second = new Treap(npt, npt, val, rnd());
     else spll.second->cnt++;
+    Pushup(spll.second);
     auto m1 = Merge(spll.first, spll.second);
     p = Merge(m1, spl.second);
 }
@@ -99,23 +97,21 @@ void Delete(Treap* &p, int val){
     auto spll = Split(spl.first, val - 1);
     if(!spll.second){printf("-1\n"); exit(1);}
     else if(spll.second->cnt == 1)spll.second = npt;
-    else spll.second->cnt--;
+    else spll.second->cnt--, Pushup(spll.second);
     auto m1 = Merge(spll.first, spll.second);
     p = Merge(m1, spl.second);
 }
 int QueryRank(Treap* &p, int val){
-    auto spl = Split(p, val);
-    auto spll = Split(spl.first, val - 1);
-    int ret = size(spll.first) + 1;
-    auto m1 = Merge(spll.first, spll.second);
-    p = Merge(m1, spl.second);
+    auto spl = Split(p, val - 1);
+    int ret = size(spl.first) + 1;
+    root = Merge(spl.first, spl.second);
     return ret;
 }
 int QueryVal(Treap* &p, int rnk){
     Treap *l, *mid, *r;
     tie(l, mid, r) = Split_By_Rank(p, rnk);
-    int ret = size(l) + 1;
-    p = Merge(Merge(l, mid), r);
+    int ret = mid->val;
+    root = Merge(Merge(l, mid), r);
     return ret;
 }
 int FindPre(Treap* &p, int val){
@@ -131,11 +127,13 @@ int FindSuf(Treap* &p, int val){
     return ret;
 }
 int main(){
+    // freopen("in.txt", "r", stdin);
     N = read();
-    (void)read();
-    root = new Treap(npt, npt, read(), rnd());
-    for(int i = 2; i <= N; ++i){
+    for(int i = 1; i <= N; ++i){
         int opt = read(), x = read();
+        // static int cnt(0);
+        // if(3 <= opt && opt <= 6)++cnt;
+        // if(cnt == 3159)printf("opt is %d\n", opt), exit(0);
         switch(opt){
             case 1:{Insert(root, x); break;}
             case 2:{Delete(root, x); break;}

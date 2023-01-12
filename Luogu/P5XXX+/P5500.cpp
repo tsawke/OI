@@ -70,7 +70,6 @@ public:
         if(l <= gl && gr <= r){
             tr[p].mx = tr[p].mxl = tr[p].mxr = tr[p].siz;
             tr[p].corl = tr[p].corr = v;
-            if(lz[p])Pushdown(p);
             lz[p] = v;
             return;
         }
