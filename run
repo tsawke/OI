@@ -21,7 +21,7 @@ fi
 
 rm -rf /home/jdoi/cpp/OI/1
 echo Completely delete old file
-g++ "$Dir" -o /home/jdoi/cpp/OI/1 -fsanitize=undefined,signed-integer-overflow,address -Wall -std=c++14 -O2 -fdiagnostics-color=always
+g++ "$Dir" -o /home/jdoi/cpp/OI/1 -fsanitize=undefined,signed-integer-overflow,address -Wall -std=c++14 -g -fdiagnostics-color=always
 echo g++ Complete
 echo Ready to run...
 /home/jdoi/cpp/OI/1

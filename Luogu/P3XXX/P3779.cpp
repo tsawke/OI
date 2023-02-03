@@ -85,11 +85,11 @@ ld f(ld x){
 ld Simpson(ld a, ld b){
     return (b - a) * (f(a) + f(b) + 4 * f((a + b) / 2.0)) / 6.0;
 }
-ld Adaptive(ld l, ld r, ld cur, ld eps = 1e-6){
+ld Adaptive(ld l, ld r, ld cur, ld eps = 1e-6, ll dep = 1){
     ld mid = (l + r) / 2.0;
     ld lval = Simpson(l, mid), rval = Simpson(mid, r);
-    if(fabs(lval + rval - cur) <= eps * 15.0)return lval + rval + (lval + rval - cur) / 15.0;
-    return Adaptive(l, mid, lval, eps / 2.0) + Adaptive(mid, r, rval, eps / 2.0);
+    if(dep >= 10 && fabs(lval + rval - cur) <= eps * 15.0)return lval + rval + (lval + rval - cur) / 15.0;
+    return Adaptive(l, mid, lval, eps / 2.0, dep + 1) + Adaptive(mid, r, rval, eps / 2.0, dep + 1);
 }
 
 int main(){
@@ -110,28 +110,23 @@ int main(){
                 printf("%.10Lf\n", ans);
             }
         }else{
-            mu = 0.0, sigma2 = 1.0;
-            ld real_mu = (ld)(M - 1) / 2.0;
-			ld real_sig = ((ld)M * M - 1.0) / 12.0;
-            for(int i = 1; i <= 10; ++i){
-                int A = read(), B = read();
-                ld L = (ld)((ld)A - N * real_mu) / sqrt(N * real_sig);
-                ld R = (ld)((ld)B - N * real_mu) / sqrt(N * real_sig);
-                // WA(80pts):
-                // printf("%.10Lf\n", Adaptive((ld)L, (ld)R, Simpson(L, R)));
-                // AC:
-                printf("%.8Lf\n", Adaptive((ld)0, (ld)R, Simpson(0, R)) - Adaptive((ld)0, (ld)L, Simpson(0, L)));
-            }
-
-            // mu = (ld)N * (ld)(M - 1) / 2.0;
-            // sigma2 = (ld)N * (ld)((ll)M * M - 1) / 12.0;
+            // mu = 0.0, sigma2 = 1.0;
+            // ld real_mu = (ld)(M - 1) / 2.0;
+			// ld real_sig = ((ld)M * M - 1.0) / 12.0;
             // for(int i = 1; i <= 10; ++i){
             //     int A = read(), B = read();
-            //     // WA(80pts):
-            //     // printf("%.8Lf\n", Adaptive((ld)A, (ld)B, Simpson(A, B)));
-            //     // WA(70pts):
-            //     // printf("%.8Lf\n", Adaptive((ld)0, (ld)B, Simpson(0, B)) - Adaptive((ld)0, (ld)A, Simpson(0, A)));
+            //     ld L = (ld)((ld)A - N * real_mu) / sqrt(N * real_sig);
+            //     ld R = (ld)((ld)B - N * real_mu) / sqrt(N * real_sig);
+            //     printf("%.8Lf\n", Adaptive((ld)L, (ld)R, Simpson(L, R)));
+            //     // printf("%.8Lf\n", Adaptive((ld)0, (ld)R, Simpson(0, R)) - Adaptive((ld)0, (ld)L, Simpson(0, L)));
             // }
+
+            mu = (ld)N * (ld)(M - 1) / 2.0;
+            sigma2 = (ld)N * (ld)((ll)M * M - 1) / 12.0;
+            for(int i = 1; i <= 10; ++i){
+                int A = read(), B = read();
+                printf("%.8Lf\n", Adaptive((ld)A, (ld)B, Simpson(A, B)));
+            }
         }
     }
     fprintf(stderr, "Time: %.6lf\n", (double)clock() / CLOCKS_PER_SEC);
