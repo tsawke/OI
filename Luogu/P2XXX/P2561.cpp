@@ -1,3 +1,12 @@
+//Tips: This is only for temporary saving.
+
+
+
+
+
+
+
+
 #define _USE_MATH_DEFINES
 #include <bits/stdc++.h>
 
@@ -37,20 +46,66 @@ public:
         while(a.nums.size() < b.nums.size())a.nums += 0;
         while(b.nums.size() < a.nums.size())b.nums += 0;
         Bignum ret; bool plus(false);
-        for(int i = 0; i < a.nums.size(); ++i)
+        for(int i = 0; i < a.nums.size(); ++i){
+            a.nums.at(i) += b.nums.at(i) + plus;
+            plus = false;
+            if(a.nums.at(i) >= 10)
+                plus = true, a.nums.at(i) %= 10;
+        }
+        if(plus)a.nums += 1;
+        reverse(a.nums.begin(), a.nums.end());
+        return a;
     }
-}
+    friend Bignum operator * (Bignum a, Bignum b){
+        reverse(a.nums.begin(), a.nums.end());
+        reverse(b.nums.begin(), b.nums.end());
+        int siz = a.size() + b.size();
+        Bignum ret;
+        for(int i = 1; i <= (int)(a.size() + b.size()); ++i)ret.nums += 0;
+        for(auto i = 0; i < (int)a.size(); ++i)
+            for(int j = 0; j < (int)b.size(); ++j)
+                ret.nums.at(i + j) += a.nums.at(i) * b.nums.at(j);
+        for(int i = 0; i < (int)a.size() - 1; ++i)
+            ret.nums.at(i + 1) += ret.nums.at(i) / 10, ret.nums.at(i) %= 10;
+        if(ret.nums.back() >= 10)ret.nums += ret.nums.back() / 10, *prev(ret.nums.end(), 2) %= 10;
+        while(ret.nums.size() > 1 && ret.nums.back() == 0)ret.nums.pop_back();
+        reverse(ret.nums.begin(), ret.nums.end());
+        return ret;
+    }
+    friend Bignum operator / (Bignum a, ll div){
 
-ll qpow(ll a, ll b){
-    ll ret(1), mul(a);
+    }
+};
+
+Bignum qpow(Bignum a, ll b){
+    Bignum ret, mul(a);
+    ret.nums += 1;
     while(b & 1){
         ret = ret * mul;
-
-    }
+        b >>= 1;
+        mul = mul * mul;
+    }return ret;
 }
 
-int main(){
+int N;
 
+int main(){
+    N = read();
+    Bignum ans; ans.nums += 0;
+    Bignum base; base.nums += 2;
+    ans = ans + (qpow(base, ll((ld)N * (N + 1) + 0.5 / 6.0)) * base);
+    // Bignum base2; base2.nums += 0;
+    ll num;
+    for(int i = 1; i <= N; ++i){
+        // Bignum mul;
+        // if(i <= 18)mul += (i + 1) >> 1;
+        // else mul += {1, 0};
+        // base2 = base2 + mul;
+        num += (i + 1) >> 1;
+    }
+    Bignum mul; mul.nums += 3;
+    ans = ans + (qpow(base, num) * mul);
+    ans = ans + qpow(base, (N * (N + 1)) >> 1);
 
     fprintf(stderr, "Time: %.6lf\n", (double)clock() / CLOCKS_PER_SEC);
     return 0;
