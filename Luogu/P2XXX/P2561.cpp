@@ -1,12 +1,3 @@
-//Tips: This is only for temporary saving.
-
-
-
-
-
-
-
-
 #define _USE_MATH_DEFINES
 #include <bits/stdc++.h>
 
@@ -38,15 +29,15 @@ int N;
 
 class Bignum{
 private:
-    basic_string < int > nums;
 public:
+    basic_string < int > nums;
     friend Bignum operator + (Bignum a, Bignum b){
         reverse(a.nums.begin(), a.nums.end());
         reverse(b.nums.begin(), b.nums.end());
         while(a.nums.size() < b.nums.size())a.nums += 0;
         while(b.nums.size() < a.nums.size())b.nums += 0;
         Bignum ret; bool plus(false);
-        for(int i = 0; i < a.nums.size(); ++i){
+        for(int i = 0; i < (int)a.nums.size(); ++i){
             a.nums.at(i) += b.nums.at(i) + plus;
             plus = false;
             if(a.nums.at(i) >= 10)
@@ -59,13 +50,12 @@ public:
     friend Bignum operator * (Bignum a, Bignum b){
         reverse(a.nums.begin(), a.nums.end());
         reverse(b.nums.begin(), b.nums.end());
-        int siz = a.size() + b.size();
         Bignum ret;
-        for(int i = 1; i <= (int)(a.size() + b.size()); ++i)ret.nums += 0;
-        for(auto i = 0; i < (int)a.size(); ++i)
-            for(int j = 0; j < (int)b.size(); ++j)
+        for(int i = 1; i <= (int)(a.nums.size() + b.nums.size()); ++i)ret.nums += 0;
+        for(auto i = 0; i < (int)a.nums.size(); ++i)
+            for(int j = 0; j < (int)b.nums.size(); ++j)
                 ret.nums.at(i + j) += a.nums.at(i) * b.nums.at(j);
-        for(int i = 0; i < (int)a.size() - 1; ++i)
+        for(int i = 0; i < (int)ret.nums.size() - 1; ++i)
             ret.nums.at(i + 1) += ret.nums.at(i) / 10, ret.nums.at(i) %= 10;
         if(ret.nums.back() >= 10)ret.nums += ret.nums.back() / 10, *prev(ret.nums.end(), 2) %= 10;
         while(ret.nums.size() > 1 && ret.nums.back() == 0)ret.nums.pop_back();
@@ -73,40 +63,42 @@ public:
         return ret;
     }
     friend Bignum operator / (Bignum a, ll div){
-
+        Bignum ret;
+        ll cur(0); bool flag(false);
+        for(auto i : a.nums){
+            cur *= 10, cur += i;
+            if(cur < div && !flag)continue;
+            flag = true, ret.nums += cur / div, cur %= div;
+        }return ret;
+    }
+    void Print(void){
+        for(auto v : nums)printf("%d", v);
+        printf("\n");
     }
 };
 
 Bignum qpow(Bignum a, ll b){
     Bignum ret, mul(a);
     ret.nums += 1;
-    while(b & 1){
-        ret = ret * mul;
+    while(b){
+        if(b & 1)ret = ret * mul;
         b >>= 1;
         mul = mul * mul;
     }return ret;
 }
 
-int N;
-
 int main(){
     N = read();
     Bignum ans; ans.nums += 0;
     Bignum base; base.nums += 2;
-    ans = ans + (qpow(base, ll((ld)N * (N + 1) + 0.5 / 6.0)) * base);
-    // Bignum base2; base2.nums += 0;
-    ll num;
-    for(int i = 1; i <= N; ++i){
-        // Bignum mul;
-        // if(i <= 18)mul += (i + 1) >> 1;
-        // else mul += {1, 0};
-        // base2 = base2 + mul;
-        num += (i + 1) >> 1;
-    }
+    ans = ans + (qpow(base, (ll)ceil((ld)N * (N + 1) / 6.0)) * base);
+    ll num(0);
+    for(int i = 1; i <= N; ++i)num += (i + 1) >> 1;
     Bignum mul; mul.nums += 3;
     ans = ans + (qpow(base, num) * mul);
     ans = ans + qpow(base, (N * (N + 1)) >> 1);
-
+    ans = ans / 6ll;
+    ans.Print();
     fprintf(stderr, "Time: %.6lf\n", (double)clock() / CLOCKS_PER_SEC);
     return 0;
 }
