@@ -156,8 +156,8 @@ Polynomial*& Quickpow(Polynomial* baseF, int len, ll k1, ll k2, ll mx){
     *F = *baseF;
     int offset(0);
     while(F->poly[offset] == 0)++offset;
-    for(int i = 0; i < len; ++i)F->poly[i] = F->poly[i + offset];
     ll mul = qpow(F->poly[offset], k2), inv = qpow(F->poly[offset], MOD - 2);
+    for(int i = 0; i < len; ++i)F->poly[i] = F->poly[i + offset];
     for(int i = 0; i < len; ++i)(F->poly[i] *= inv) %= MOD;
     *H = *Ln(F, len);
     for(int i = 0; i < len; ++i)H->poly[i] = H->poly[i] * k1 % MOD;
