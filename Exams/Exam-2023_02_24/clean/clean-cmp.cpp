@@ -28,7 +28,17 @@ inline T read(void);
 
 
 int main(){
-
+    while(true){
+        FILE* input = fopen("in.txt", "w");
+        int N = 100000, P = 65536;
+        fprintf(input, "%d %d\n", N, P);
+        for(int i = 1; i <= N; ++i)fprintf(input, "%d%c", rndd(0, P - 1), i == N ? '\n' : ' ');
+        fclose(input);
+        system("./bl < in.txt > bl.out");
+        system("./std < in.txt > std.out");
+        if(system("diff ./bl.out ./std.out"))fprintf(stderr, "Error!\n"), exit(1);
+        fprintf(stderr, "Accept!\n");
+    }
 
     fprintf(stderr, "Time: %.6lf\n", (double)clock() / CLOCKS_PER_SEC);
     return 0;

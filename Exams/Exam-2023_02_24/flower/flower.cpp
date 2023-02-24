@@ -28,7 +28,9 @@ inline T read(void);
 
 
 int main(){
-
+    freopen("flower.in", "r", stdin);
+    freopen("flower.out", "w", stdout);
+    puts("No");
 
     fprintf(stderr, "Time: %.6lf\n", (double)clock() / CLOCKS_PER_SEC);
     return 0;

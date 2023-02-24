@@ -20,16 +20,35 @@ typedef unsigned long long unll;
 typedef long long ll;
 typedef long double ld;
 
-
+#define MOD (998244353ll)
 
 template < typename T = int >
 inline T read(void);
 
+int N, K;
+int X[2100], Y[2100];
+ll ans(0);
 
+ll qpow(ll a, ll b){
+    ll ret(1), mul(a);
+    while(b){
+        if(b & 1)ret = ret * mul % MOD;
+        b >>= 1;
+        mul = mul * mul % MOD;
+    }return ret;
+}
 
 int main(){
-
-
+    N = read(), K = read();
+    for(int i = 1; i <= N; ++i)X[i] = read(), Y[i] = read();
+    for(int i = 1; i <= N; ++i){
+        ll mul(Y[i]);
+        for(int j = 1; j <= N; ++j){
+            if(i == j)continue;
+            (mul *= (K - X[j]) * qpow(X[i] - X[j], MOD - 2) % MOD) %= MOD;
+        }(mul += MOD) %= MOD;
+        (ans += mul) %= MOD;
+    }printf("%lld\n", ans);
     fprintf(stderr, "Time: %.6lf\n", (double)clock() / CLOCKS_PER_SEC);
     return 0;
 }

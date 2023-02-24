@@ -25,9 +25,23 @@ typedef long double ld;
 template < typename T = int >
 inline T read(void);
 
-
+bitset < 10 > exist[20];
 
 int main(){
+int N = read();
+    for(int i = 1; i <= 10000; ++i){
+        ll val = (ll)N * i;
+        int cnt(0);
+        while(val){
+            exist[++cnt][val % 10] = true;
+            val /= 10;
+        }
+    }
+    for(int i = 1; i <= 10; ++i){
+        printf("digit %d : ", i);
+        for(int j = 0; j <= 9; ++j)if(exist[i][j])printf("%d ", j);
+        printf("\n");
+    }
 
 
     fprintf(stderr, "Time: %.6lf\n", (double)clock() / CLOCKS_PER_SEC);

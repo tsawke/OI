@@ -25,10 +25,18 @@ typedef long double ld;
 template < typename T = int >
 inline T read(void);
 
-
+ll X;
+int K;
 
 int main(){
-
+    X = read < ll >(); K = read();
+    ll base(X);
+    ll cur(10);
+    for(int i = 1; i <= K; ++i){
+        if(base % 10 >= 5)X += cur, base += 10;
+        base /= 10, cur *= 10;
+    }
+    printf("%lld\n", X - X % (cur / 10));
 
     fprintf(stderr, "Time: %.6lf\n", (double)clock() / CLOCKS_PER_SEC);
     return 0;

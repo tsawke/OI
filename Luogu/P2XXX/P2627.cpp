@@ -20,16 +20,25 @@ typedef unsigned long long unll;
 typedef long long ll;
 typedef long double ld;
 
-
-
 template < typename T = int >
 inline T read(void);
 
-
+int N, K;
+ll A[110000];
+ll sum[110000];
+ll dp[110000];
+deque < pair < int, ll > > cur;
 
 int main(){
-
-
+    N = read(), K = read();
+    for(int i = 1; i <= N; ++i)sum[i] = sum[i - 1] + (A[i] = read());
+    cur.push_back({0, 0});
+    for(int i = 1; i <= N; ++i){
+        while(!cur.empty() && cur.front().first < i - K)cur.pop_front();
+        while(!cur.empty() && cur.back().second < dp[i - 1] - sum[i])cur.pop_back();
+        cur.push_back({i, dp[i - 1] - sum[i]});
+        dp[i] = sum[i] + (cur.empty() ? 0 : cur.front().second);
+    }printf("%lld\n", dp[N]);
     fprintf(stderr, "Time: %.6lf\n", (double)clock() / CLOCKS_PER_SEC);
     return 0;
 }

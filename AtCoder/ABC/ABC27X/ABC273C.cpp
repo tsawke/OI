@@ -25,10 +25,24 @@ typedef long double ld;
 template < typename T = int >
 inline T read(void);
 
+int N;
+pair < int, int > A[210000];
+int tmp[210000];
+int sum[210000];
+int ans[210000];
 
 
 int main(){
-
+    N = read();
+    for(int i = 1; i <= N; ++i)tmp[i] = read();
+    sort(tmp + 1, tmp + N + 1, greater < int >());
+    int cnt(0);
+    for(int i = 1; i <= N; ++i){
+        if(tmp[i] != tmp[i - 1])A[++cnt] = {tmp[i], 1};
+        else A[cnt].second++;
+    }
+    for(int i = 1; i <= cnt; ++i)ans[i - 1] += A[i].second;
+    for(int i = 0; i < N; ++i)printf("%d\n", ans[i]);
 
     fprintf(stderr, "Time: %.6lf\n", (double)clock() / CLOCKS_PER_SEC);
     return 0;

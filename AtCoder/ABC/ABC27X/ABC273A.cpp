@@ -25,11 +25,14 @@ typedef long double ld;
 template < typename T = int >
 inline T read(void);
 
-
+int N;
+ll ans(1);
 
 int main(){
-
-
+    N = read();
+    for(int i = 1; i <= N; ++i)
+        ans *= i;
+    printf("%lld\n", ans);
     fprintf(stderr, "Time: %.6lf\n", (double)clock() / CLOCKS_PER_SEC);
     return 0;
 }
