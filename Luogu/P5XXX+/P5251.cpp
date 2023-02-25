@@ -100,14 +100,45 @@ public:
         Insert(Node{l, r, val});
     }
     int Query3(int l, int r){
+        if(C == 1)return st.QueryMin(l, r);
+        int ans(INT_MAX);
         int tot(0);
         auto itR = Split(r + 1), itL = Split(l);
         auto itl = itL, itr = itL;
         while(itl != itR){
-            while(tot < C && itr != itR)
-        }
+            while(tot < C && itr != itR)if(!cnt[(itr++)->val]++)++tot;
+            if(tot == C){
+                while(cnt[itl->val] > 1)--cnt[(itl++)->val];
+                ans = min(ans, st.QuerySum(itl->r, prev(itr)->l));
+                while(tot == C && itl != itR)if(!--cnt[(itl++)->val])--tot;
+            }
+            if(itr == itR)while(itl != itR)--cnt[(itl++)->val];
+        }return ans == INT_MAX ? -1 : ans;
     }
-
+    int Query4(int l, int r){
+        int ans = st.QueryMax(l, r);
+        auto itR = Split(r + 1), itL = Split(l);
+        auto itl = itL, itr = itL;
+        while(itl != itR){
+            while(itr != itR && itr->r - itr->l + 1 == 1 && !cnt[itr->val])cnt[(itr++)->val]++;
+            if(itr != itR && itr->r - itr->l + 1 > 1){
+                if(!cnt[itr->val])ans = max(ans, st.QuerySum(itl->r, itr->l));
+                else if(itl != itr){
+                    ans = max(ans, st.QuerySum(itl->r, prev(itr)->l));
+                    while(cnt[itr->val])cnt[(itl++)->val]--;
+                    ans = max(ans, st.QuerySum(itl->r, itr->l));
+                }
+                while(itl != itr)cnt[(itl++)->val]--;
+                cnt[(itr++)->val]++;
+                continue;
+            }
+            if(itl != itr){
+                ans = max(ans, st.QuerySum(itl->r, prev(itr)->l));
+                if(itr == itR)while(itl != itR)cnt[(itl++)->val]--;
+                else while(itl != itR && cnt[itr->val])cnt[(itl++)->val]--;
+            }
+        }return ans;
+    }
 }odt;
 
 int main(){
@@ -130,11 +161,17 @@ int main(){
             }
             case 3:{
                 int l = read(), r = read();
-
+                printf("%d\n", odt.Query3(l, r));
+                break;
             }
+            case 4:{
+                int l = read(), r = read();
+                printf("%d\n", odt.Query4(l, r));
+                break;
+            }
+            default:break;
         }
     }
-
     fprintf(stderr, "Time: %.6lf\n", (double)clock() / CLOCKS_PER_SEC);
     return 0;
 }
