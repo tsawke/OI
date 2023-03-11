@@ -20,28 +20,30 @@ typedef unsigned long long unll;
 typedef long long ll;
 typedef long double ld;
 
-#define EPS (ld)(1e-10)
+#define EPS (1e-10)
 
 template < typename T = int >
 inline T read(void);
 
 ld P;
 int N, K;
-ld F[2][11000];
+ld dp[2][11000];
 
 int main(){
     scanf("%Lf", &P), N = read(), K = read();
-    bool cur(1);
-    for(int i = 1; i <= N; ++i){
-        ld K(0.0), B(0.0), base1(1.0);
-        for(int j = 1; j <= i - 1; ++j)
-            K += base1, B += base1 * F[cur ^ 1][j - 1] * P, base1 *= (1 - P);
-        F[cur][1] = (1 - B) / K;
+    if(P < EPS)printf("%.10Lf\n", N == 1 ? (ld)1 : (ld)0), exit(0);
+    dp[1][1] = 1.0;
+    bool cur(false);
+    for(int i = 2; i <= N; ++i){
+        ld K(1.0), B(0.0), base1(1.0), base2(0.0);
         for(int j = 2; j <= i; ++j)
-            F[cur][j] = (1 - P) * F[cur][j - 1] + P * F[cur ^ 1][j - 1];
+            base1 *= (1 - P), base2 = base2 * (1 - P) + P * dp[cur ^ 1][j - 1],
+            K += base1, B += base2;
+        dp[cur][1] = (1 - B) / K;
+        for(int j = 2; j <= i; ++j)
+            dp[cur][j] = (1 - P) * dp[cur][j - 1] + P * dp[cur ^ 1][j - 1];
         cur ^= 1;
-    }printf("%.9Lf\n", F[cur ^ 1][N]);
-
+    }printf("%.10Lf\n", dp[cur ^ 1][K]);
     fprintf(stderr, "Time: %.6lf\n", (double)clock() / CLOCKS_PER_SEC);
     return 0;
 }
