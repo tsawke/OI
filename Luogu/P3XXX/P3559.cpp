@@ -54,7 +54,7 @@ public:
         return *this;
     }
     void Merge(Square S){
-        len[idxr] = len[idxr] ? len[idxr] : lenr + S.lenl - 1;///////
+        len[idxr] = len[idxr] ? len[idxr] : lenr + S.lenl - 1;
         *this = Square{
             width + S.width,
             max(height - posr, S.height - S.posl) + max(posr, S.posl),
@@ -63,7 +63,7 @@ public:
             idxl,
             S.idxr,
             posl + max(S.posl - posr, 0),
-            posr + max(posr - S.posl, 0)
+            S.posr + max(posr - S.posl, 0)
         };
     }
     void Print(void){
@@ -87,29 +87,20 @@ int main(){
     int ccnt(0); bool allP(true);
     for(auto c : S)if(allP && c == 'P')++ccnt; else allP = false, opt += c == 'P';
     for(int i = 1; i <= ccnt; ++i)opt += RIGHT;
-    // int d(1); spl += 1;
-    // for(int i = 2; i <= (int)opt.size(); ++i){
-    //     d += opt(i - 1) ^ opt(i) ? 1 : -1;
-    //     if(!d)spl += i;
-    //     printf("i = %d, d = %d\n", i, d);
-    // }
     int d(0);
     for(int i = 1; i <= (int)opt.size() && (int)spl.size() < 4; ++i){
         if(!d && !opt(i))spl += i;
         else d += opt(i) ? -1 : 1;
-        // printf("i = %d,  d = %d\n", i, d);
     }
     auto GenerateSquare = [](int l, int r)->Square{
-        printf("generating l = %d, r = %d\n", l, r);
         if(l > r)return Square{0, 1, 0, 0, 0, 0, 0, 0};
         stack < bool > cur;
         sq[0] = Square();
         while(l <= r){
             if(!cur.empty() && opt(l) != cur.top()){
-                // auto tp = cur.top();
                 cur.pop();
                 if(!sq[cur.size() + 1].width)
-                    sq[cur.size() + 1] = Square{1, 2, 1, 1, l - 1, l + 1, opt[l] ? 1 : 2, opt[l] ? 2 : 1},
+                    sq[cur.size() + 1] = Square{1, 2, 1, 1, l - 1, l + 1, opt(l) ? 1 : 2, opt(l) ? 2 : 1},
                     len[l] = len[l] ? len[l] : 1;
                     // len[l] = 1;
                 else
@@ -118,32 +109,21 @@ int main(){
                 else sq[cur.size()].Merge(sq[cur.size() + 1]);
                 sq[cur.size() + 1] = Square();
             }else
-                cur.push(opt(l)), sq[cur.size()] = Square(); 
-            ++l; 
-            printf("$$$ size = %d\n", (int)cur.size());
-        }
-        // printf("Generating l = %d, r = %d:\n", l, r);
-        sq[0].Print();
-        return sq[0];
-
+                cur.push(opt(l)), sq[cur.size()] = Square();
+            ++l;
+        }return sq[0];
     };
     auto InstantiateSquare = [](void)->void{
         pos[1] = {0, 0};
         int cdire(1);
         for(int i = 2; i <= N + 1; ++i){
             pos[i] = {pos[i - 1].first + dx[cdire] * len[i - 1], pos[i - 1].second + dy[cdire] * len[i - 1]};
-            printf("# i = %d, (%d, %d)\n", i, pos[i + 1].first, pos[i + 1].second);
-            cdire += opt(i - 1); cdire = cdire > 4 ? 1 : (cdire < 1 ? 4 : cdire);
+            cdire += opt(i - 1) ? 1 : -1; cdire = cdire > 4 ? 1 : (cdire < 1 ? 4 : cdire);
         }
     };
     auto SetLen = [GenerateSquare](int idx, int l, int r)->void{len[idx] = GenerateSquare(l, r).Rotate(LEFT).lenl + LIM;};
-    SetLen(spl(1), spl(1) + 1, spl(2) - 1), printf("len %d = %d\n", 1, len[spl(1)]);SetLen(spl(2), spl(2) + 1, spl(3) - 1),
+    SetLen(spl(1), spl(1) + 1, spl(2) - 1), SetLen(spl(2), spl(2) + 1, spl(3) - 1),
     SetLen(spl(3), spl(3) + 1, spl(4) - 1), SetLen(spl(4), spl(4) + 1, N);
-    
-    printf("\n\n LEN : \n");
-    for(int i = 1; i <= N; ++i)printf("%d ", len[i]);
-    printf("\n\n\n");
-
     InstantiateSquare();
     pos[N + 1].first > 0 ? len[spl(1)] += pos[N + 1].first : len[spl(3)] -= pos[N + 1].first;
     pos[N + 1].second > 0 ? len[spl(2)] += pos[N + 1].second : len[spl(4)] -= pos[N + 1].second;
