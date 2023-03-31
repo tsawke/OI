@@ -45,23 +45,23 @@ set < int > ans;
 void Tarjan(int p, int rt){
     low[p] = dfn[p] = ++cnt;
     int cntrt(0);
-    cur.push(p), inS[p] = true;
+    // cur.push(p), inS[p] = true;
     for(auto i = head[p]; i; i = i->nxt){
         if(!dfn[SON]){
             Tarjan(SON, rt), low[p] = min(low[p], low[SON]);
             if(p != rt && low[SON] >= dfn[p])ans.insert(p);
             if(p == rt)++cntrt;
-        }
-        else if(inS[SON])low[p] = min(low[p], dfn[SON]);
+        }   
+        else if(/*inS[SON]*/true)low[p] = min(low[p], dfn[SON]);
     }
-    if(low[p] == dfn[p]){
-        ++SCC;
-        while(true){
-            int tp = cur.top(); cur.pop();
-            inS[tp] = false, belong[tp] = SCC;
-            if(tp == p)break;
-        }
-    }
+    // if(low[p] == dfn[p]){
+    //     ++SCC;
+    //     while(true){
+    //         int tp = cur.top(); cur.pop();
+    //         inS[tp] = false, belong[tp] = SCC;
+    //         if(tp == p)break;
+    //     }
+    // }
     if(p == rt && cntrt >= 2)ans.insert(rt);
 }
 // int Topo(void){
