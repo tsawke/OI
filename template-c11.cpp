@@ -4,11 +4,6 @@
 #define PI M_PI
 #define E M_E
 
-/******************************
-abbr
-
-******************************/
-
 using namespace std;
 
 mt19937 rnd(random_device{}());
