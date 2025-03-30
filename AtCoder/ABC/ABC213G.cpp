@@ -65,6 +65,7 @@ int main(){
         for(int S = Smx; S; S = (S - 1) & Smx)
             if(EXIST(i) && EXIST(1))(ans[i] += F[S] * G[S ^ Smx] % MOD) %= MOD;
     for(int i = 2; i <= N; ++i)printf("%lld\n", ans[i]);
+
     // for(int S = Smx; S; S = (S - 1) & Smx)
     //     cout << "G[" << bitset < 6 >(S) << "] = " << G[S] << ", F = " << F[S] << endl;
     fprintf(stderr, "Time: %.6lf\n", (double)clock() / CLOCKS_PER_SEC);
