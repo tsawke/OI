@@ -18,12 +18,18 @@ typedef long long ll;
 template<typename T = int>
 inline T read(void);
 
-
+int T;
 
 int main(){
-        
-
-    fprintf(stderr, "Time: %.6lf\n", (double)clock() / CLOCKS_PER_SEC);
+    scanf("%d", &T);
+    while(T--){
+        string S; cin >> S;
+        if(!S.compare("WIN") || !S.compare("LOSE"))exit(0);
+        int m, b; scanf("%d%d", &m, &b);
+        printf("%s\n", b < (m / 3) ? "PLAY" : "SKIP");
+        fflush(stdout);
+    }string S; cin >> S;
+    // fprintf(stderr, "Time: %.6lf\n", (double)clock() / CLOCKS_PER_SEC);
     return 0;
 }
 

@@ -21,9 +21,15 @@ inline T read(void);
 
 
 int main(){
-        
+    int T = read();
+    while(T--){
+        ll n = read < ll >(), d = read < ll >();
+        __int128_t cur(1); ll ans(0);
+        while(cur < n)cur *= (d + 1), ++ans;
+        printf("%lld\n", ans);
+    }
 
-    fprintf(stderr, "Time: %.6lf\n", (double)clock() / CLOCKS_PER_SEC);
+    // fprintf(stderr, "Time: %.6lf\n", (double)clock() / CLOCKS_PER_SEC);
     return 0;
 }
 

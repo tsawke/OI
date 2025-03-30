@@ -4,6 +4,11 @@
 #define PI M_PI
 #define E M_E
 
+/******************************
+abbr
+
+******************************/
+
 using namespace std;
 
 mt19937 rnd(random_device{}());
@@ -19,11 +24,26 @@ template<typename T = int>
 inline T read(void);
 
 
-
+int n;
+int fa[10005];
+int fnd(int x) {
+    return fa[x]==x?x:fa[x]=fnd(fa[x]);
+}
 int main(){
-        
-
-    fprintf(stderr, "Time: %.6lf\n", (double)clock() / CLOCKS_PER_SEC);
+    cin >> n;
+    for(int i=1;i<=1000;++i) fa[i]=i;
+    for(int i=1;i<=n;++i) {
+        int a,b;
+        scanf("%d %d",&a,&b);
+        int x=fnd(a),y=fnd(b);
+        if(x==y) {
+            puts("Y");
+        } else {
+            puts("N");
+        }
+        fa[x]=y;
+    }
+    // fprintf(stderr, "Time: %.6lf\n", (double)clock() / CLOCKS_PER_SEC);
     return 0;
 }
 
