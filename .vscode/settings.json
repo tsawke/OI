@@ -1,9 +1,5 @@
 {
     "files.associations": {
-<<<<<<< HEAD
-        "cmath": "cpp",
-        "new": "cpp"
-=======
         "cstdio": "cpp",
         "cmath": "cpp",
         "iostream": "cpp",
@@ -102,6 +98,5 @@
         "variant": "cpp",
         "strstream": "cpp",
         "*.ipp": "cpp"
->>>>>>> 0262d210d9b64ca997f4a77202de0e39e1037b23
     }
 }
