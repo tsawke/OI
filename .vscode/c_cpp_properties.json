@@ -3,12 +3,8 @@
         {
             "name": "Win32",
             "includePath": [
-<<<<<<< HEAD
-                "${workspaceFolder}/**"
-=======
                 "${workspaceFolder}/**",
                 "lib/**"
->>>>>>> 0262d210d9b64ca997f4a77202de0e39e1037b23
             ],
             "defines": [
                 "_DEBUG",
@@ -16,11 +12,7 @@
                 "_UNICODE"
             ],
             "windowsSdkVersion": "10.0.19041.0",
-<<<<<<< HEAD
             "compilerPath": "C:/MinGW/bin/g++.exe",
-=======
-            "compilerPath": "C:/msys64/ucrt64/bin/g++.exe",
->>>>>>> 0262d210d9b64ca997f4a77202de0e39e1037b23
             "cStandard": "c17",
             "cppStandard": "c++17",
             "intelliSenseMode": "windows-msvc-x64"
