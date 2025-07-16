@@ -5,7 +5,6 @@
 namespace qi = boost::spirit::qi;
 namespace ascii = boost::spirit::ascii;
 
-// using namespace std;
 using std::string;
 
 struct wffParser : qi::grammar <string::const_iterator, ascii::space_type> {
@@ -21,14 +20,11 @@ struct wffParser : qi::grammar <string::const_iterator, ascii::space_type> {
         
         variable = lexeme[alpha];
 
-        
+        binaryOperator = lit("∧") | lit("∨") | lit("→") | lit("↔");
 
         formula = 
             variable
-            | ('(' > lit("¬") > formula > ')')
-            | ('(' > formula > binaryOperator > formula > ')');
-87      binaryOperator = lit("∧") | lit("∨") | lit("→") | lit("↔");
-
+            | ('(' > ((formula > binaryOperator > formula) | (lit("¬") > formula)) > ')');
     }
 };
 
@@ -36,8 +32,16 @@ int main() {
     wffParser parser;
     string S;
     std::getline(std::cin, S);
-    bool res = qi::phrase_parse(S.begin(), S.end(), parser, ascii::space);
+    bool res(false);
+    
+    try{
+        std::string::const_iterator s = S.begin(), t = S.end();
+        res = qi::phrase_parse(s, t, parser, ascii::space);
+        printf("%s\n", res && s == t ? "It's a wff." : "It's not a wff.");
+    }catch (const boost::wrapexcept<boost::spirit::qi::expectation_failure<string::const_iterator>>& e) {
+        // std::cerr << e.what() << std::endl;
+        printf("It's not a wff.\n");
+    }
 
-    printf("%s\n", res ? "It's a wff." : "It's not a wff.");
-
+    return 0;
 }
