@@ -17,7 +17,7 @@ LL a[N], s[N];
 std::vector<pr> f[N][N];
 
 LL integer_ceil_log2(LL y) {
-    if (y <= 1) return 0;
+    if(y <= 1)return 0;
     return 64 - __builtin_clzll((unsigned long long)y - 1);
 }
 
@@ -70,7 +70,7 @@ void solve() {
     for(int i = 1; i <= n; i++) {
         int val;
         input(val);
-        a[i] = val; // 将 int 转换为 LL，避免后续计算中潜在的类型问题
+        a[i] = val;
         s[i] = s[i - 1] + a[i];
     }
     
@@ -97,7 +97,6 @@ void solve() {
             continue;
         }
 
-        // *** BUG FIX: 使用整数版本的 ceil(log2) ***
         LL val = std::min(s[i], s[n] - s[i]) * integer_ceil_log2(s[n]);
         printf("%lld ", lef + rig + val);
     }
