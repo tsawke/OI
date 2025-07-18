@@ -42,10 +42,10 @@ struct Node{
     int gl;
     int gr;
     Interval val;
-    void* operator new(size_t);
-}nd[3000000];
-static Node* NP = nd;
-void* Node::operator new(size_t){ return NP++;}
+    // void* operator new(size_t);
+};//nd[3000000];
+// static Node* NP = nd;
+// void* Node::operator new(size_t){ return NP++;}
 
 Node* root;
 
@@ -111,10 +111,10 @@ struct Edge{
     int to;
     ll t;
     ll w;
-    OPNEW;
-}ed[610000];
-static Edge* EP = ed; 
-void* Edge::operator new(size_t){return EP++;}
+    // OPNEW;
+};//ed[610000];
+// static Edge* EP = ed; 
+// void* Edge::operator new(size_t){return EP++;}
 Edge *head[110000], *rhead[110000];
 
 int N, M;
@@ -155,8 +155,8 @@ void RDijkstra(void){
 int main(){
     int T = read();
     while(T--){
-        NP = nd;
-        EP = ed;
+        // NP = nd;
+        // EP = ed;
         N = read(), M = read();
         for(int i = 0; i <= N; ++i)head[i] = rhead[i] = npt;
         for(int i = 1; i <= M; ++i){
