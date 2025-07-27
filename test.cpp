@@ -1,36 +1,51 @@
-//1082 ÂÝĐýžŘŐó
-#include<iostream>
+#define _USE_MATH_DEFINES
+#include <bits/stdc++.h>
+
+#define PI M_PI
+#define E M_E
+
 using namespace std;
-int n;
-int w[1002][1002];
-int main()
-{
-    cin>>n;
-    int c;
-    if(n%2==1)c=(n+1)/2;
-    else c=n/2;
-    w[c][c]=1;
-    int d=1;
-    for(int j=1;j<=c;j++)
-    {
-            for(int k=j;k<=n-j+1;k++)
-            w[j][k]=d++;
-            for(int k=j+1;k<=n-j+1;k++)
-            w[k][n-j+1]=d++;
- for(int k=n-j;k>=j;k--)
-            w[n-j+1][k]=d++;
-            for(int k=n-j;k>=j+1;k--)
-            w[k][j]=d++;
-              
-    }
-    for(int i=1;i<=n;i++)
-    {
-         for(int j=1;j<=n;j++)
-         {
-            cout<<w[i][j]<<" "; 
-         }
-         cout<<endl;
-    }
+
+mt19937 rnd(random_device{}());
+int rndd(int l, int r){return rnd() % (r - l + 1) + l;}
+
+typedef unsigned int uint;
+typedef unsigned long long unll;
+typedef long long ll;
+
+
+
+template<typename T = int>
+inline T read(void);
+
+
+
+int main(){
+    basic_string < int > idx;
+            for(int i = 1; i <= 4; ++i)
+                idx += i;
+
+    idx.erase(idx.find(3));
+    printf("%d\n", idx[2]);
+
+    // fprintf(stderr, "Time: %.6lf\n", (double)clock() / CLOCKS_PER_SEC);
     return 0;
 }
- 
+
+
+
+template<typename T>
+inline T read(void){
+    T ret(0);
+    short flag(1);
+    char c = getchar();
+    while(c != '-' && !isdigit(c))c = getchar();
+    if(c == '-')flag = -1, c = getchar();
+    while(isdigit(c)){
+        ret *= 10;
+        ret += int(c - '0');
+        c = getchar();
+    }
+    ret *= flag;
+    return ret;
+}
