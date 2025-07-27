@@ -13,15 +13,35 @@ typedef unsigned int uint;
 typedef unsigned long long unll;
 typedef long long ll;
 
-
+#define MOD ((ll)1e9 + 7)
 
 template<typename T = int>
 inline T read(void);
 
+ll qpow(ll a, ll b){
+    ll ret(1), mul(a);
+    while(b){
+        if(b & 1)ret = ret * mul % MOD;
+        b >>= 1;
+        mul = mul * mul % MOD;
+    }return ret;
+}
 
+ll mxA(0);
 
 int main(){
-    
+    int T = read();
+    while(T--){
+        mxA = 0;
+        ll N = read(), R = read < ll >();
+        for(int i = 1; i <= N; ++i)mxA = max(mxA, read < ll >());
+        // ll aN = read < ll >();
+        ll ans(1);
+        ll S = R - mxA + (N);
+        for(ll i = (S - (N) + 1); i <= S; ++i)ans = (ans * i) % MOD;
+        for(ll i = 1; i <= (N); ++i)ans = (ans * qpow(i, MOD - 2)) % MOD;
+        printf("%lld\n", ans);
+    }
 
     // fprintf(stderr, "Time: %.6lf\n", (double)clock() / CLOCKS_PER_SEC);
     return 0;
