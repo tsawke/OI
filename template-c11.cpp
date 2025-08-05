@@ -13,8 +13,6 @@ typedef unsigned int uint;
 typedef unsigned long long unll;
 typedef long long ll;
 
-
-
 template<typename T = int>
 inline T read(void);
 

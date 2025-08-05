@@ -42,8 +42,6 @@ int main(){
     for(ll i = K + 1; i <= K + M; ++i)ans = (ans * i) % MOD;
     printf("%lld\n", (ans * invf[M]) % MOD);
 
-
-
     // fprintf(stderr, "Time: %.6lf\n", (double)clock() / CLOCKS_PER_SEC);
     return 0;
 }
