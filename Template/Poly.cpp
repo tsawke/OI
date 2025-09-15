@@ -31,7 +31,8 @@ auto qpow = [](ll a, ll b, ll mod = MOD)->ll{
 };
 
 const ll g = 3;
-const ll inv_g = qpow(g, MOD - 2);
+const ll invg = qpow(g, MOD - 2);
+const ll inv2 = qpow(2, MOD - 2);
 vector < int > pos;
 
 enum Pattern{DFT, IDFT};
@@ -54,7 +55,7 @@ public:
         int len = poly.size();
         Reverse();
         for(int siz = 2; siz <= len; siz <<= 1){
-            ll gn = qpow(pat == DFT ? g : inv_g, (MOD - 1) / siz);
+            ll gn = qpow(pat == DFT ? g : invg, (MOD - 1) / siz);
             for(auto p = poly.begin(); p < next(poly.begin(), len); advance(p, siz)){
                 int mid = siz >> 1; ll g(1);
                 for(int i = 0; i < mid; ++i, (g *= gn) %= MOD){
@@ -74,12 +75,14 @@ public:
     }
     void Derivate(void){
         int len = poly.size();
+        if(len == 0)return;
         poly[0] = 0;
         for(int i = 1; i < len; ++i)poly[i - 1] = i * poly[i] % MOD, poly[i] = 0;
         Resize(len - 1);
     }
     void Integrate(void){
         int len = poly.size();
+        if(len == 0)return;
         Resize(len + 1);
         for(int i = len - 1; i >= 0; --i)poly[i + 1] = poly[i] * qpow(i + 1, MOD - 2) % MOD, poly[i] = 0;
     }
@@ -89,7 +92,8 @@ public:
         for(int i = 0; i < len; ++i)printf("%lld%c", poly[i], i == len - 1 ? '\n' : ' ');
         return this;
     }
-}basic[13];
+};
+
 
 auto Multiply = [](Polynomial* baseA, Polynomial* baseB)->Polynomial*{
     auto A = new Polynomial(*baseA), B = new Polynomial(*baseB);
@@ -124,6 +128,8 @@ auto Inverse = [](auto&& self, Polynomial* baseF, int len)->Polynomial*{
     delete H; delete F;
     return G;
 };
+
+//Require A[0] == 1
 auto Sqrt = [](auto&& self, Polynomial* baseF, int len)->Polynomial*{
     if(len == 1){
         Polynomial *G = new Polynomial(1);
@@ -137,7 +143,7 @@ auto Sqrt = [](auto&& self, Polynomial* baseF, int len)->Polynomial*{
     for(int i = 0; i < min(len, (int)baseF->poly.size()); ++i)F->poly[i] = baseF->poly[i];
     H->Resize(base), invH->Resize(base), F->Resize(base);
     H->NTT(DFT), F->NTT(DFT), invH->NTT(DFT);
-    for(int i = 0; i < base; ++i)G->poly[i] = (F->poly[i] * invH->poly[i] % MOD + H->poly[i]) % MOD * qpow(2, MOD - 2) % MOD;
+    for(int i = 0; i < base; ++i)G->poly[i] = (F->poly[i] * invH->poly[i] % MOD + H->poly[i]) % MOD * inv2 % MOD;
     G->NTT(IDFT), G->Resize(len);
     delete H; delete invH; delete F;
     return G;
@@ -179,57 +185,99 @@ auto Exp = [](auto&& self, Polynomial* baseF, int len)->Polynomial*{
     delete F; delete lnH; delete H;
     return G;
 };
-auto Quickpow = [](Polynomial* baseF, ll k1, ll k2)->Polynomial*{
+
+auto Quickpow = [](Polynomial* baseF, ll k1, ll k2, ll mx)->Polynomial*{
     int len = baseF->poly.size();
+    if(baseF->poly[0] == 0 && mx >= len){
+        Polynomial* G = new Polynomial(len);
+        for(int i = 0; i < len; ++i)
+            G->poly[i] = 0;
+        return G;
+    }
+    if(len == 1){
+        Polynomial* G = new Polynomial(1);
+        G->poly[0] = qpow(baseF->poly[0], k2);
+        return G;
+    }
     int offset(0);
     while (offset < len && baseF->poly[offset] == 0) ++offset;
     if((ll)offset * k1 >= len)return new Polynomial(len);
     ll mul = qpow(baseF->poly[offset], k2), inv = qpow(baseF->poly[offset], MOD - 2);
     auto F = new Polynomial(*baseF);
-    for(int i = 0; i + offset < len; ++i)F->poly[i] = F->poly[i + offset];
+    for(int i = 0; i + offset < len; ++i)F->poly[i] = F->poly[i + offset] * inv % MOD;
     for(int i = len - offset; i < len; ++i)F->poly[i] = 0;
     auto lnF = Ln(F, len);
-    for(int i = 0; i < len; ++i)H->poly[i] = H->poly[i] * k1 % MOD;
-    
+    for(int i = 0; i < len; ++i)lnF->poly[i] = lnF->poly[i] * k1 % MOD;
+    auto eLnF = Exp(Exp, lnF, len);
+    ll shift = offset * k1;
+    for(int i = len - 1; i >= shift; --i)
+        eLnF->poly[i] = eLnF->poly[i - shift];
+    for(int i = 0; i < shift; ++i)
+        eLnF->poly[i] = 0;
+    for(auto i = 0; i < len; ++i)eLnF->poly[i] = eLnF->poly[i] * mul % MOD;
+    delete lnF; delete F;
+    return eLnF;
+};
 
-    *F = *baseF;
-    int offset(0);
-    
-    
-    if (offset == len) {            // 全零：返回 0 多项式
-        static Polynomial Z; Z.Resize(len);
-        fill(Z.poly.begin(), Z.poly.end(), 0LL);
-        return &Z;
+struct Complex{
+    ll x, y;
+    static ll w;
+    friend Complex operator *(const Complex &a, const Complex &b){
+        return Complex{
+            (a.x * b.x % MOD + w * a.y % MOD * b.y % MOD) % MOD,
+            (a.x * b.y % MOD + a.y * b.x % MOD) % MOD
+        };
     }
-    
-    // Check if offset * k >= len (result would be 0)
-    if ((ll)offset * k2 >= len) {
-        static Polynomial Z; Z.Resize(len);
-        fill(Z.poly.begin(), Z.poly.end(), 0LL);
-        return &Z;
+    static ll qpow(Complex a, ll b){
+        Complex ret{1, 0};
+        while(b){
+            if(b & 1)ret = ret * a;
+            a = a * a;
+            b >>= 1;
+        }return ret.x;
     }
-    
-    
-    for(int i = 0; i + offset < len; ++i)F->poly[i] = F->poly[i + offset];
-    for(int i = len - offset; i < len; ++i)F->poly[i] = 0;
-    for(int i = 0; i < len; ++i)(F->poly[i] *= inv) %= MOD;
-    *H = *Ln(F, len);
-    for(int i = 0; i < len; ++i)H->poly[i] = H->poly[i] * k1 % MOD;
-    auto elnF = Exp(H, len);
-    
-    // Shift back by offset * k2
-    ll shift = (ll)offset * k2;
-    for (int i = len - 1; i >= shift; --i) 
-        elnF->poly[i] = elnF->poly[i - shift];
-    for (int i = 0; i < shift && i < len; ++i) 
-        elnF->poly[i] = 0;
-    
-    for(auto i = 0; i < len; ++i)elnF->poly[i] = elnF->poly[i] * mul % MOD;
-    return elnF;
-}
+};
+ll Complex::w;
+auto Cipolla = [](ll x)->ll{
+    if(qpow(x, (MOD - 1) >> 1) == MOD - 1)return -1;
+    while(true){
+        ll a = (1ll * rnd() << 15 | rnd()) % MOD;
+        Complex::w = (a * a % MOD + MOD - x) % MOD;
+        if(qpow(Complex::w, (MOD - 1) >> 1) == MOD - 1) {
+            ll res = Complex::qpow(Complex{a, 1}, (MOD + 1) >> 1);
+            return min(res, MOD - res);
+        }
+    }
+};
 
+//Require A[0] is a quadratic residue modulo 998244353
+auto ExSqrt = [](auto&& self, Polynomial* baseF, int len)->Polynomial*{
+    if(len == 1){
+        Polynomial *G = new Polynomial(1);
+        auto res = Cipolla(baseF->poly[0]);
+        G->poly[0] = min(res, MOD - res);
+        return G;
+    }
+    auto H = self(self, baseF, (len + 1) >> 1);
+    auto invH = Inverse(Inverse, H, len);
+    int base(1); while(base < (len << 1))base <<= 1;
+    auto G = new Polynomial(base), F = new Polynomial(len);
+    for(int i = 0; i < min(len, (int)baseF->poly.size()); ++i)F->poly[i] = baseF->poly[i];
+    H->Resize(base), invH->Resize(base), F->Resize(base);
+    H->NTT(DFT), F->NTT(DFT), invH->NTT(DFT);
+    for(int i = 0; i < base; ++i)G->poly[i] = (F->poly[i] * invH->poly[i] % MOD + H->poly[i]) % MOD * inv2 % MOD;
+    G->NTT(IDFT), G->Resize(len);
+    delete H; delete invH; delete F;
+    return G;
+};
 
-
+// auto CDQ = [](Polynomial* baseF, int l, int r)->Polynomial*{
+//     if(l == r)return BuildPoly(l);
+//     int mid = (l + r) >> 1;
+//     Polynomial L = CDQ(l, mid, mx), R = CDQ(mid + 1, r, mx);
+//     // for(int i = l; i <= r; ++i)pol[i].poly.clear(), pol[i].poly.shrink_to_fit(), pol[i].len = 0;
+//     return Mul(L, R, mx);
+// }
 
 namespace Tests{
     auto ImplementMultiply = [](void)->void{
@@ -268,6 +316,13 @@ namespace Tests{
         delete Sqrt(Sqrt, A, N)->Desc();
         delete A;
     };
+    auto ImplementExSqrt = [](void)->void{
+        int N = read();
+        Polynomial *A = new Polynomial(N);
+        for(int i = 0; i < N; ++i)A->poly[i] = read();
+        delete ExSqrt(ExSqrt, A, N)->Desc();
+        delete A;
+    };
     auto ImplementQuickPow = [](void)->void{
         auto ReadIndex = [](void)->tuple < ll, ll, ll >{
             ll ret1(0), ret2(0), mx(0);
@@ -275,18 +330,23 @@ namespace Tests{
             while(isdigit(c)){
                 ((ret1 *= 10) += c - '0') %= MOD;
                 ((ret2 *= 10) += c - '0') %= MOD - 1;
-                mx = max({mx, ret1, ret2});
+                if(mx < 10000000)
+                    mx = mx * 10 + c - '0';
                 c = getchar();
             }return {ret1, ret2, mx};
         };
-
+        int N = read();
+        Polynomial *A = new Polynomial(N);
+        auto [k1, k2, mx] = ReadIndex();
+        for(int i = 0; i < N; ++i)A->poly[i] = read();
+        delete Quickpow(A, k1, k2, mx)->Desc();
+        delete A;
     };
-
     
 }
 
 int main(){
-    Tests::ImplementSqrt();
+    Tests::ImplementExSqrt();
 
     // fprintf(stderr, "Time: %.6lf\n", (double)clock() / CLOCKS_PER_SEC);
     return 0;

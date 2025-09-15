@@ -135,12 +135,12 @@ void dump_matrix_10_txt(const Mat& M, long long k) {
     snprintf(name, sizeof(name), "mat.txt");
     // ofstream fout(name);
     FILE* out = fopen(name, "a");
-    struct HashPair{
+    struct {
         auto operator()(const pair < int, int > &p) const{
             return hash < int >{}(p.first) ^ hash < int >{}(p.second);
         }
     };
-    unordered_map < pair < int, int >, int, HashPair > mat[16];
+    unordered_map < pair < int, int >, int,  > mat[16];
 
     
     for (int i = 0; i < 10; ++i) {
