@@ -19,7 +19,23 @@ inline T read(void);
 
 
 int main(){
-    
+    int N = read();
+    vector < int > A(N + 10, 0);
+    vector < string > res;
+    for(int i = 1; i <= N; ++i)A[i] = read();
+    #define LS (p << 1)
+    #define RS (LS | 1)
+    auto Heapify = [&](auto &&self, int p, int len)->void{
+        int mx(p);
+        if(LS <= len && A[LS] > A[mx])mx = LS;
+        if(RS <= len && A[RS] > A[mx])mx = RS;
+        if(mx != p)swap(A[mx], A[p]), self(self, mx, len);
+    };
+    auto HeapSort = [&](auto &&self, int len)->void{
+        for(int i = (len >> 1); i >= 1; --i)Heapify(Heapify, i, len);
+        for(int i = len; i > 1; --i)swap(A[1], A[i]), Heapify(Heapify, 1, i - 1);
+    }; HeapSort(HeapSort, N);
+    for(int i = 1; i <= N; ++i)printf("%d%c", A[i], i == N ? '\n' : ' ');
 
     // fprintf(stderr, "Time: %.6lf\n", (double)clock() / CLOCKS_PER_SEC);
     return 0;

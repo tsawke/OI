@@ -17,10 +17,20 @@ template < typename T = int >
 inline T read(void);
 
 
-
 int main(){
-    
-
+    int N = read();
+    vector < int > A(N + 10, 0);
+    for(int i = 1; i <= N; ++i)A[i] = read();
+    ll res(0);
+    vector < int > cur;
+    for(int i = 1; i <= N; ++i){
+        if(cur.empty())cur.push_back(A[i]);
+        else{
+            auto it = upper_bound(cur.begin(), cur.end(), A[i]);
+            res += distance(it, cur.end());
+            cur.insert(it, A[i]);
+        }
+    }printf("%lld\n", res);
     // fprintf(stderr, "Time: %.6lf\n", (double)clock() / CLOCKS_PER_SEC);
     return 0;
 }
