@@ -13,23 +13,21 @@ typedef unsigned int uint;
 typedef unsigned long long unll;
 typedef long long ll;
 
-
-
-template<typename T = int>
+template < typename T = int >
 inline T read(void);
 
 
 
 int main(){
-        
+    
 
-    fprintf(stderr, "Time: %.6lf\n", (double)clock() / CLOCKS_PER_SEC);
+    // fprintf(stderr, "Time: %.6lf\n", (double)clock() / CLOCKS_PER_SEC);
     return 0;
 }
 
 
 
-template<typename T>
+template < typename T >
 inline T read(void){
     T ret(0);
     short flag(1);

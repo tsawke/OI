@@ -45,7 +45,7 @@ public:
             bool bit = val & (1 << i);
             ans |= (((bool)cur->son[bit ^ 1] ^ bit) << i);
             cur = cur->son[bit ^ 1] ? cur->son[bit ^ 1] : cur->son[bit];
-        }return ans ^ val;
+        }return ans ^ val;  
     }
 }trie;
 

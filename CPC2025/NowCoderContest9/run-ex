@@ -1,0 +1,316 @@
+    auto Worst = [&](double x, double y, int *idx = nullptr)->double{
+        double mx = -1e300;
+        int id = 0;
+        for(int i = 0; i < (int)rops.size(); ++i){
+            double dx = x - rops[i].x, dy = y - rops[i].y;
+            double val = dx * dx + dy * dy - (double)rops[i].l2; // 要最小化的 max 值
+            if(val > mx){ mx = val; id = i; }
+        }
+        if(idx) *idx = id; // 注意：返回 0-based
+        return mx;
+    };
+    auto MinZ2 = [&](double x, double y)->double{
+        double mn = 1e300;
+        for(int i = 0; i < (int)rops.size(); ++i){
+            double dx = x - rops[i].x, dy = y - rops[i].y;
+            double v = (double)rops[i].l2 - dx * dx - dy * dy;
+            if(v < mn) mn = v;
+        }
+        return mn;
+    };
+
+    // 确定性次梯度下降：每一步朝“最坏约束”的圆心移动一个固定长度 step，逐步缩小 step
+    double x = 0.0, y = 0.0;
+    double step = 256.0;
+    while(step > 1e-7){
+        int id; Worst(x, y, &id);                 // 找到当前使 max 达到的那个约束
+        double dx = rops[id].x - x, dy = rops[id].y - y;
+        double len = hypot(dx, dy);
+        if(len > 1e-12){
+            x += dx / len * step;
+            y += dy / len * step;
+        }
+        step *= 0.997; // 收敛用的衰减系数，~7k 步
+    }
+
+    double z2 = MinZ2(x, y);
+    if(z2 < 0) z2 = 0; // 数值误差保护
+    double z = -sqrt(z2);
+
+    printf("%.9lf %.9lf %.9lf\n", x, y, z);
+
+
+
+
+    #define _USE_MATH_DEFINES
+#include <bits/stdc++.h>
+
+#define PI M_PI
+#define E M_E
+
+using namespace std;
+
+mt19937 rnd(random_device{}());
+int rndd(int l, int r){return rnd() % (r - l + 1) + l;}
+
+typedef unsigned int uint;
+typedef unsigned long long unll;
+typedef long long ll;
+
+template<typename T = int>
+inline T read(void);
+
+struct Rope{
+    int x, y;
+    int l2;
+};
+
+vector<Rope> rops;
+
+int N;
+const double INF = 1e100;
+const int EXTRA_RANDOM_SEEDS = 8;
+
+int main(){
+    N = read();
+    rops.reserve(N);
+
+    vector<pair<double,double>> seeds;
+    seeds.push_back({0.0, 0.0});
+
+    long long totx = 0, toty = 0;
+    for(int i = 0; i < N; ++i){
+        int x = read(), y = read(), l2 = read();
+        rops.push_back(Rope{x, y, l2});
+        totx += x; toty += y;
+    }
+    seeds.push_back({double(totx)/max(1,N), double(toty)/max(1,N)});
+    seeds.push_back({-128.0, -128.0});
+    seeds.push_back({-128.0,  128.0});
+    seeds.push_back({ 128.0, -128.0});
+    seeds.push_back({ 128.0,  128.0});
+    for(int i = 0; i < EXTRA_RANDOM_SEEDS; ++i)
+        seeds.push_back({rndd(-128,128), rndd(-128,128)});
+
+    auto CalZ2_full = [&](double x, double y, int* idx = nullptr)->double{
+        double best = INF;
+        int best_id = -1;
+        for(int i = 0; i < (int)rops.size(); ++i){
+            double dx = x - rops[i].x;
+            double dy = y - rops[i].y;
+            double v = (double)rops[i].l2 - (dx*dx + dy*dy);
+            if(v < best){
+                best = v; best_id = i;
+            }
+        }
+        if(idx) *idx = best_id;
+        return best;
+    };
+
+    auto CalZ2_with_early_reject = [&](double x, double y, double reject_threshold, bool &early_rejected)->double{
+        double best = INF;
+        early_rejected = false;
+        for(int i = 0; i < (int)rops.size(); ++i){
+            double dx = x - rops[i].x;
+            double dy = y - rops[i].y;
+            double v = (double)rops[i].l2 - (dx*dx + dy*dy);
+            if(v < best){
+                best = v;
+                if(best <= reject_threshold){
+                    early_rejected = true;
+                    return best;
+                }
+            }
+        }
+        return best;
+    };
+
+    auto MaxF_and_grad = [&](double x, double y, double &gx, double &gy)->double{
+        double mx = -INF;
+        for(int i = 0; i < (int)rops.size(); ++i){
+            double dx = x - rops[i].x;
+            double dy = y - rops[i].y;
+            double t = dx*dx + dy*dy - (double)rops[i].l2;
+            if(t > mx) mx = t;
+        }
+        double eps = 1e-12 + 1e-9 * (fabs(mx) + 1.0);
+        gx = 0.0; gy = 0.0;
+        int cnt = 0;
+        for(int i = 0; i < (int)rops.size(); ++i){
+            double dx = x - rops[i].x;
+            double dy = y - rops[i].y;
+            double t = dx*dx + dy*dy - (double)rops[i].l2;
+            if(mx - t <= eps){
+                gx += 2.0 * dx;
+                gy += 2.0 * dy;
+                ++cnt;
+            }
+        }
+        if(cnt) { gx /= cnt; gy /= cnt; }
+        return mx;
+    };
+
+    double bestX = 0.0, bestY = 0.0;
+    double bestZ2 = -INF;
+
+    auto SimulateAnneal = [&]()->void{
+        uniform_real_distribution<double> U01(0.0,1.0);
+        auto rnd01 = [&]()->double{return U01(rnd);};
+        auto rndStep = [&](double T)->double{ return (rnd01()*2.0 - 1.0) * T; };
+
+        const double T0   = 64.0;
+        const double TMIN = 1e-5;
+        const double COOL = 0.92;
+        const int    TRIES_PER_T = 14;
+
+        for(auto [sx, sy] : seeds){
+            double x = sx, y = sy;
+            double cur = CalZ2_full(x, y, nullptr);
+            double T = T0;
+
+            while(T > TMIN){
+                for(int tt = 0; tt < TRIES_PER_T; ++tt){
+                    double tx = x + rndStep(T);
+                    double ty = y + rndStep(T);
+                    double u = rnd01();
+                    if(u <= 1e-300) u = 1e-300;
+                    double accept_threshold = cur + T * log(u);
+                    bool early_rej = false;
+                    double nxt = CalZ2_with_early_reject(tx, ty, accept_threshold, early_rej);
+                    if(!early_rej){
+                        if(nxt >= cur || nxt > accept_threshold){
+                            x = tx; y = ty; cur = nxt;
+                        }
+                    }
+                }
+                T *= COOL;
+            }
+
+            double step = 64.0;
+            for(int it = 0; it < 4000; ++it){
+                double gx, gy;
+                MaxF_and_grad(x, y, gx, gy);
+                double g = hypot(gx, gy);
+                if(g < 1e-14) break;
+                x -= gx / g * step;
+                y -= gy / g * step;
+                step *= 0.997;
+                if(step < 1e-9) break;
+            }
+
+            cur = CalZ2_full(x, y, nullptr);
+            if(cur > bestZ2){
+                bestZ2 = cur; bestX = x; bestY = y;
+            }
+        }
+    };
+
+    SimulateAnneal();
+
+    double bestZ = -sqrt(bestZ2 < 0.0 ? 0.0 : bestZ2);
+    printf("%.9lf %.9lf %.9lf\n", bestX, bestY, bestZ);
+    return 0;
+}
+
+template<typename T>
+inline T read(void){
+    T ret(0);
+    short flag(1);
+    char c = getchar();
+    while(c != '-' && !isdigit(c)) c = getchar();
+    if(c == '-') flag = -1, c = getchar();
+    while(isdigit(c)){
+        ret = ret * 10 + int(c - '0');
+        c = getchar();
+    }
+    ret *= flag;
+    return ret;
+}
+
+
+#include <bits/stdc++.h>
+using namespace std;
+
+struct P { double x, y; };
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    int n;
+    if(!(cin >> n)) return 0;
+    vector<P> c(n);
+    vector<double> l2(n);
+    for (int i = 0; i < n; ++i) {
+        int xi, yi, li2;
+        cin >> xi >> yi >> li2;
+        c[i] = {(double)xi, (double)yi};
+        l2[i] = (double)li2;
+    }
+
+    auto h_val = [&](double x, double y, int* argmin = nullptr)->double {
+        double best = 1e300; int idx = -1;
+        for (int i = 0; i < n; ++i) {
+            double dx = x - c[i].x, dy = y - c[i].y;
+            double val = l2[i] - (dx*dx + dy*dy);
+            if (val < best) { best = val; idx = i; }
+        }
+        if (argmin) *argmin = idx;
+        return best; // = h(x,y)
+    };
+
+    auto climb_from = [&](double xs, double ys)->tuple<double,double,double> {
+        double x = xs, y = ys;
+        double hv = h_val(x,y,nullptr);
+        double step = 512.0;                  // 初始大步长
+        const double SHRINK = 0.55;           // 步长衰减
+        const double EPS_STEP = 1e-12;
+        const int STALL_TRY = 50;             // 每个步长最多尝试若干次
+        while (step > EPS_STEP) {
+            bool improved = false;
+            for (int t = 0; t < STALL_TRY; ++t) {
+                int k; double m = h_val(x,y,&k); // 最紧约束
+                double vx = c[k].x - x, vy = c[k].y - y;
+                double vn = hypot(vx, vy);
+                if (vn < 1e-18) { // 已在该中心上，改试微扰方向
+                    vx = 1.0; vy = 0.0; vn = 1.0;
+                }
+                vx /= vn; vy /= vn;
+                double nx = x + vx * step;
+                double ny = y + vy * step;
+                double nv = h_val(nx, ny, nullptr);
+                if (nv > hv) { x = nx; y = ny; hv = nv; improved = true; break; }
+                // 试几个扇区方向，避免“被别的约束卡住”的假停滞
+                double angs[4] = {M_PI*0.25, -M_PI*0.25, M_PI*0.5, -M_PI*0.5};
+                bool jumped = false;
+                for (double a : angs) {
+                    double cs = cos(a), sn = sin(a);
+                    double vx2 = vx*cs - vy*sn, vy2 = vx*sn + vy*cs;
+                    nx = x + vx2 * step; ny = y + vy * step;
+                    nv = h_val(nx, ny, nullptr);
+                    if (nv > hv) { x = nx; y = ny; hv = nv; improved = true; jumped = true; break; }
+                }
+                if (jumped) break;
+            }
+            if (!improved) step *= SHRINK;
+        }
+        return {x, y, hv};
+    };
+
+    // 多起点：原点 + 若干代表点
+    vector<pair<double,double>> seeds;
+    seeds.emplace_back(0.0, 0.0);
+    for (int i = 0; i < n && (int)seeds.size() < 12; ++i) seeds.emplace_back(c[i].x, c[i].y);
+
+    double bestH = -1e300, bx = 0, by = 0;
+    for (auto [sx, sy] : seeds) {
+        auto [x, y, hv] = climb_from(sx, sy);
+        if (hv > bestH) { bestH = hv; bx = x; by = y; }
+    }
+
+    // 交集一定非空（题设保证 l_i^2 > x_i^2 + y_i^2，原点在所有球里），故 bestH >= 0
+    if (bestH < 0) bestH = 0; // 数值保险
+    double bz = -sqrt(max(0.0, bestH));
+
+    cout.setf(ios::fixed); cout << setprecision(12);
+    cout << bx << " " << by << " " << bz << "\n";
+    return 0;
+}

@@ -24,7 +24,7 @@ typedef long double ld;
 template < typename T = int >
 inline T read(void);
 
-struct Edge{
+struct {
     Edge* nxt;
     int to;
     int val;

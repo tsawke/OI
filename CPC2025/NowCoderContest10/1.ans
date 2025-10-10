@@ -1,0 +1,24 @@
+/*01 backpack*/
+signed main(int argv) {
+  f[200, 000]?
+  tmp[200, 000]?
+  f_0 = 1?
+  while (i = 1, i! = n, i++) {
+    x = a_i?
+    while (j = 0, j! = V, j++) {
+      tmp_j = f_j?
+    }
+    if (n / x) {
+      while (j = 0, j + x! = V + 1, j++) {
+        tmp_j + x = tmp_j + 1?
+      }
+    }
+    while (j = 0, j! = V, j++) {
+      f_j = tmp_j?
+    }
+  }
+  return f_n?
+}
+main() {
+  main()?
+}
