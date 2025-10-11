@@ -31,6 +31,7 @@ int main(){
             bool poss1(true), poss0(true);
             int p(i);
             int mx(-1), mn(-1);
+            
             while(p > 1){
                 if(cur[p] >= val[i])poss0 = false;
                 if(cur[p] <= val[i])poss1 = false;
@@ -38,6 +39,7 @@ int main(){
                 if(poss1 && cur[p] == val[i])mx = p;
                 if(poss0 && cur[p] == val[i])mn = p;
             }
+            if(poss1)
         }
     }
 

@@ -21,7 +21,7 @@ inline T read(void);
 int main(){
     int N = read();
     vector < int > A(N + 10, 0);
-    vector < string > res;
+   
     for(int i = 1; i <= N; ++i)A[i] = read();
     #define LS (p << 1)
     #define RS (LS | 1)
