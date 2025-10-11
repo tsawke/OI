@@ -22,22 +22,31 @@ int main(){
     int T = read();
     while(T--){
         int N = read();
-        vector < int > val(N + 10, 0), P(N + 10, 0);
+        vector < int > val(N + 10, 0), cur(N + 10, 0);
         for(int i = 1; i <= N; ++i)val[i] = read();
-        for(int i = 1; i <= N; ++i)P[i] = read();
-        vector < bool > B(N + 10, false);
-        vector < int > cur = val;
+        for(int i = 1; i <= N; ++i)cur[i] = read();
+        basic_string < int > ans;
+        bool poss(true);
         for(int i = N; i >= 1; --i){
-            bool poss1(true), poss0(true);
-            int p(i);
-            int mx(-1), mn(-1);
-            while(p > 1){
-                if(cur[p] >= val[i])poss0 = false;
-                if(cur[p] <= val[i])poss1 = false;
-                p >>= 1;
-                if(poss1 && cur[p] == val[i])mx = p;
-                if(poss0 && cur[p] == val[i])mn = p;
+            int mx(INT_MIN), mn(INT_MAX);
+            int mxHeap(-1), mnHeap(-1);
+            for(int p = i; p >= 1; p >>= 1){
+                if(cur[p] == val[i]){
+                    if((p == 1 || cur[p >> 1] >= val[i]) && cur[p] > mx)mxHeap = p;
+                    if((p == 1 || cur[p >> 1] <= val[i]) && cur[p] < mn)mnHeap = p;
+                }mx = max(mx, cur[p]), mn = min(mn, cur[p]);
             }
+            int res(-1);
+            if(!~mnHeap)ans += 0, res = mnHeap;
+            else if(!~mxHeap)ans += 1, res = mxHeap;
+            else{poss = false; break;}
+
+            for(int p = res; p > 1; p >>= 1)cur[p] = cur[p >> 1];
+        }
+        if(!poss)printf("Impossible\n");
+        else{
+            for(auto i : ans)printf("%d", i);
+            printf("\n");
         }
     }
 
