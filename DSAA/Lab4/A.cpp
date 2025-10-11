@@ -25,7 +25,7 @@ int main(){
         vector < int > val(N + 10, 0), cur(N + 10, 0);
         for(int i = 1; i <= N; ++i)val[i] = read();
         for(int i = 1; i <= N; ++i)cur[i] = read();
-        basic_string < int > ans;
+        basic_string < char > ans;
         bool poss(true);
         for(int i = N; i >= 1; --i){
             int mx(INT_MIN), mn(INT_MAX);
@@ -37,17 +37,15 @@ int main(){
                 }mx = max(mx, cur[p]), mn = min(mn, cur[p]);
             }
             int res(-1);
-            if(!~mnHeap)ans += 0, res = mnHeap;
-            else if(!~mxHeap)ans += 1, res = mxHeap;
+            if(~mnHeap)ans += '0', res = mnHeap;
+            else if(~mxHeap)ans += '1', res = mxHeap;
             else{poss = false; break;}
 
-            for(int p = res; p > 1; p >>= 1)cur[p] = cur[p >> 1];
+            for(int p = res; p < i; p <<= 1)
+                cur[p >> 1] = cur[p];
         }
         if(!poss)printf("Impossible\n");
-        else{
-            for(auto i : ans)printf("%d", i);
-            printf("\n");
-        }
+        else reverse(ans.begin(), ans.end()), printf("%s\n", ans.c_str());
     }
 
     // fprintf(stderr, "Time: %.6lf\n", (double)clock() / CLOCKS_PER_SEC);
