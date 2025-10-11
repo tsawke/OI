@@ -27,8 +27,6 @@ template < typename T = int >
 inline T read(void);
 
 struct Interval{
-    bool flag;
-    int idx;
     ll k, b;
     ll CalVal(ll x){
         // printf("calling k = %lld, b = %lld, x = %lld, v = %lld\n", k, b, x, k * x + b);
@@ -43,7 +41,7 @@ struct Node{
     int gr;
     Interval val;
     // void* operator new(size_t);
-};//nd[3000000];
+};//nd[300000];
 // static Node* NP = nd;
 // void* Node::operator new(size_t){ return NP++;}
 
@@ -58,49 +56,59 @@ private:
 public:
     void Clear(int lim){
         // for(int i = 0; i <= lim; ++i)
-            root = new Node{npt, npt, 1, 1000000000, Interval{true, 0, 0, 1000000000000000000}};
+            root = new Node{npt, npt, 1, 1000000000, Interval{0, (ll)(1e18)}};
     }
-    void Update(Interval line, Node* p = root){
-        if(!p->val.flag)return p->val = line, void();
-        if(line.CalVal(MID) == p->val.CalVal(MID)){
-            if(line.idx < p->val.idx)swap(p->val, line);
-        }else if(line.CalVal(MID) < p->val.CalVal(MID))swap(p->val, line);
-        if(p->gl != p->gr && (line.CalVal(p->gl) == p->val.CalVal(p->gl) || line.CalVal(p->gl) < p->val.CalVal(p->gl))){
-            if(!p->lson)p->lson = new Node{npt, npt, p->gl, MID, Interval{true, 0, 0, 1000000000000000000}};
+
+    void Update(Interval line, Node* p = root) {
+        // if(!p)p = new Node{npt, npt, 1, 1000000000, Interval{true, 0, 0, (ll)(1e18)}};
+        if(p->val.CalVal(MID) > line.CalVal(MID))swap(p->val, line);
+        if(p->gl == p->gr)return;
+        if(p->val.k < line.k){
+            if(!p->lson)p->lson = new Node{npt, npt, p->gl, MID, Interval{0, (ll)(1e18)}};
             Update(line, p->lson);
-        }
-        else if(p->gl != p->gr && (line.CalVal(p->gr) == p->val.CalVal(p->gr) || line.CalVal(p->gr) < p->val.CalVal(p->gr))){
-            if(!p->rson)p->rson = new Node{npt, npt, MID + 1, p->gr, Interval{true, 0, 0, 1000000000000000000}};
+        }else{
+            if(!p->rson)p->rson = new Node{npt, npt, MID + 1, p->gr, Interval{0, (ll)(1e18)}};
             Update(line, p->rson);
         }
     }
-    void Insert(Interval line, int l, int r, Node* p = root){
-        if(l <= p->gl && p->gr <= r)return Update(line, p);
-        if(l <= MID){
-            if(!p->lson)p->lson = new Node{npt, npt, p->gl, MID, Interval{true, 0, 0, 1000000000000000000}};
-            Insert(line, l, r, p->lson);
-        }
-        if(r >= MID + 1){
-            if(!p->rson)p->rson = new Node{npt, npt, MID + 1, p->gr, Interval{true, 0, 0, 1000000000000000000}};
-            Insert(line, l, r, p->rson);
-        }
+
+    // void Update(Interval line, Node* p = root){
+    //     if(!p->val.flag)return p->val = line, void();
+    //     // if(line.CalVal(MID) == p->val.CalVal(MID)){
+    //     //     if(line.idx < p->val.idx)swap(p->val, line);
+    //     // }else 
+    //     if(line.CalVal(MID) < p->val.CalVal(MID))swap(p->val, line);
+    //     if(p->gl != p->gr && line.CalVal(p->gl) <= p->val.CalVal(p->gl)){
+    //         if(!p->lson)p->lson = new Node{npt, npt, p->gl, MID, Interval{true, 0, 0, (ll)(1e18)}};
+    //         Update(line, p->lson);
+    //     }
+    //     else if(p->gl != p->gr && line.CalVal(p->gr) <= p->val.CalVal(p->gr)){
+    //         if(!p->rson)p->rson = new Node{npt, npt, MID + 1, p->gr, Interval{true, 0, 0, (ll)(1e18)}};
+    //         Update(line, p->rson);
+    //     }
+    // }
+    // void Insert(Interval line, int l, int r, Node* p = root){
+    //     if(l <= p->gl && p->gr <= r)return Update(line, p);
+    //     if(l <= MID){
+    //         if(!p->lson)p->lson = new Node{npt, npt, p->gl, MID, Interval{true, 0, 0, (ll)(1e18)}};
+    //         Insert(line, l, r, p->lson); 
+    //     }
+    //     if(r >= MID + 1){
+    //         if(!p->rson)p->rson = new Node{npt, npt, MID + 1, p->gr, Interval{true, 0, 0, (ll)(1e18)}};
+    //         Insert(line, l, r, p->rson);
+    //     }
+    // }
+    ll Query(int pos, Node* p = root){
+        if(!p)return (ll)(1e18);
+        auto ret = p->val.CalVal(pos);
+        if(pos <= MID)return min(ret, Query(pos, p->lson));
+        else return min(ret, Query(pos, p->rson));
     }
-    pair < int, ll > Query(int pos, Node* p = root){
-        auto ret = p->val.idx; auto mnv = p->val.CalVal(pos);
-        if(p->gl != p->gr){
-            pair < int, ll > vals;
-            if(pos <= MID){
-                if(!p->lson)return {0, 1000000000000000000};//p->lson = new Node{npt, npt, p->gl, MID, Interval{true, 0, 0, 1000000000000000000}};
-                vals = Query(pos, p->lson);
-            }else{
-                if(!p->rson)return {0, 1000000000000000000};//p->rson = new Node{npt, npt, MID + 1, p->gr, Interval{true, 0, 0, 1000000000000000000}};
-                vals = Query(pos, p->rson);
-            }
-            if(vals.second == mnv)ret = min(ret, vals.first);
-            else if(vals.second < mnv)ret = vals.first, mnv = vals.second;
-        }
-        // printf("In tree gl = %d, gr = %d, mn = %lld\n", gl, gr, mnv);
-        return {ret, mnv};
+    void ClearTree(Node* p = root){
+        if(!p)return;
+        ClearTree(p->lson);
+        ClearTree(p->rson);
+        delete p;
     }
 }LCST;
 
@@ -122,7 +130,7 @@ ll dis[110000], rdis[110000];
 bitset < 110000 > vis;
 
 void Dijkstra(void){
-    for(int i = 0; i <= N; ++i)dis[i] = 0x3f3f3f3f3f3f3f3f;
+    for(int i = 0; i <= N; ++i)dis[i] = (ll)(1e18);
     vis.reset();
     priority_queue < pair < ll, int >, vector < pair < ll, int > >, greater < pair < ll, int > > > cur;
     dis[1] = 0, cur.push({0, 1});
@@ -132,11 +140,11 @@ void Dijkstra(void){
         vis[p] = true;
         for(auto i = head[p]; i; i = i->nxt)
             if(dis[SON] > dis[p] + i->t)
-                dis[SON] = dis[p] + i->t, cur.push({dis[SON], SON});
+                dis[SON] = dis[p] + i->t, cur.push({dis[SON], SON});//, printf("update, t = %lld, dis = %lld\n", i->t, dis[SON]);
     }
 }
 void RDijkstra(void){
-    for(int i = 0; i <= N; ++i)rdis[i] = 0x3f3f3f3f3f3f3f3f;
+    for(int i = 0; i <= N; ++i)rdis[i] = (ll)(1e18);
     vis.reset();
     priority_queue < pair < ll, int >, vector < pair < ll, int > >, greater < pair < ll, int > > > cur;
     rdis[N] = 0, cur.push({0, N});
@@ -160,11 +168,19 @@ int main(){
         N = read(), M = read();
         for(int i = 0; i <= N; ++i)head[i] = rhead[i] = npt;
         for(int i = 1; i <= M; ++i){
-            int u = read(), v = read(), t = read < ll >(), w = read < ll >();
+            int u = read(), v = read();
+            ll t = read < ll >(), w = read < ll >();
+            // printf("Input t = %d\n", t);
             head[u] = new Edge{head[u], v, t, w};
             rhead[v] = new Edge{rhead[v], u, t, w};
         }
         Dijkstra(); RDijkstra();
+        // for(int i = 1; i <= N; ++i){
+        //     // if(dis[i] >=(ll)(1e18) || rdis[i] >= (ll)(1e18) ){
+        //         // printf("err\n"); return 0;
+        //         printf("dis[%d] = %lld\n", i, dis[i]);
+        //     // }
+        // }
         // for(int i = 1; i <= N; ++i){
         //     printf("dis[%d] = %lld, %lld\n", i, dis[i], rdis[i]);
         // }
@@ -172,13 +188,16 @@ int main(){
         LCST.Clear(M << 2);
         int cnt(0);
         for(int s = 1; s <= N; ++s)
-            for(auto i = head[s]; i; i = i->nxt)
+            for(auto i = head[s]; i; i = i->nxt){
                 // printf("interval: k = %lld, b = %lld\n", -i->w, dis[s] + rdis[i->to] + i->t),
-                LCST.Insert(Interval{true, ++cnt, -i->w, dis[s] + rdis[i->to] + i->t}, 1, 1000000000);
+                if(dis[s] >= (ll)(1e18) || rdis[i->to] >= (ll)(1e18))continue;
+                LCST.Update(Interval{-i->w, dis[s] + rdis[i->to] + i->t});
+            }
         
         int Q = read();
         while(Q--)
-            printf("%lld\n", LCST.Query(read < ll >()).second);
+            printf("%lld\n", LCST.Query(read < ll >()));
+        LCST.ClearTree();
     }
 
     fprintf(stderr, "Time: %.6lf\n", (double)clock() / CLOCKS_PER_SEC);
