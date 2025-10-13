@@ -41,8 +41,12 @@ int main(){
             else if(~mxHeap)ans += '1', res = mxHeap;
             else{poss = false; break;}
 
-            for(int p = res; p < i; p <<= 1)
-                cur[p >> 1] = cur[p];
+            int lst(cur[i]);
+            for(int p = i; p > res; p >>= 1){
+                int tmp = cur[p >> 1];
+                cur[p >> 1] = lst;
+                lst = tmp;
+            }
         }
         if(!poss)printf("Impossible\n");
         else reverse(ans.begin(), ans.end()), printf("%s\n", ans.c_str());
