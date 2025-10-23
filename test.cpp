@@ -1,87 +1,72 @@
+#define _USE_MATH_DEFINES
 #include <bits/stdc++.h>
-#define int long long
-#define mid ((l + r) >> 1)
-#define li (x << 1)
-#define ri ((x << 1) | 1)
-#define ls li, l, mid
-#define rs ri, mid + 1, r
-#define pr std::pair<int, int>
 
-template<class T> T Abs(T x) { return x < 0 ? -x : x; }
+#define PI M_PI
+#define E M_E
 
-int read() {
-    int x = 0; char ch; bool f = 0;
-    while(!isdigit(ch = getchar())) if(ch == '-') f = 1;
-    while(isdigit(ch)) x = (x << 1) + (x << 3) + (ch ^ 48), ch = getchar();
-    return f ? -x : x;
-}
+using namespace std;
 
-const int N = 2e5 + 7; const pr INF = {1e18, 0};
+mt19937 rnd(random_device{}());
+int rndd(int l, int r){return rnd() % (r - l + 1) + l;}
 
-int n, m, a[N], w[N];
+typedef unsigned int uint;
+typedef unsigned long long unll;
+typedef long long ll;
 
-namespace SGT {
-    pr t[N]; int lazy[N];
-    void build(int x, int l, int r) {
-        lazy[x] = 0;
-        if(l == r) { t[x] = {a[l] - w[l], l}; return; }
-        build(ls), build(rs), t[x] = std::min(t[li], t[ri]);
-    }
-    void pushdown(int x) {
-        if(lazy[x]) {
-            if(t[li] != INF) t[li].first -= lazy[x], lazy[li] += lazy[x];
-            if(t[ri] != INF) t[ri].first -= lazy[x], lazy[ri] += lazy[x];
-            lazy[x] = 0;
+template < typename T = int >
+inline T read(void);
+
+struct Edge{
+    Edge* nxt;
+    int to;
+    int val;
+};
+
+int main(){
+    int T = read();
+    while(T--){
+        ll A = read < ll >(); int B = read(); ll C = read < ll >();
+        int base(1); while(base <= B)base <<= 1;
+        vector < Edge* > head(base << 1, nullptr);
+        vector < ll > dis(base << 1, LLONG_MAX >> 2);
+        for(int i = 0; i < base; ++i){
+            head[i] = new Edge{head[i], i ^ B, 0};
+            head[i] = new Edge{head[i], (i + B) % base, (i + B) >= base ? 1 : 0};
         }
-    }
-    void reduce(int x, int l, int r, int L, int R, int val) {
-        if(t[x] == INF) return;
-        if(L <= l && r <= R) { t[x].first -= val, lazy[x] += val; return; }
-        pushdown(x);
-        if(L <= mid) reduce(ls, L, R, val);
-        if(mid < R) reduce(rs, L, R, val);
-        t[x] = std::min(t[li], t[ri]);
-    }
-    pr qmin(int x, int l, int r, int L, int R) {
-        if(L <= l && r <= R) return t[x];
-        pushdown(x); pr res = INF;
-        if(L <= mid) res = qmin(ls, L, R);
-        if(mid < R) res = std::min(qmin(rs, L, R), res);
-        return res;
-    }
-}
-
-void solve() {
-    n = read(), m = read(), memset(w, 0, sizeof w);
-    for(int i = 1; i <= n; i++) a[i] = read();
-    for(int i = 1, x, z; i <= m; i++) {
-        x = read(), z = read();
-        w[x] += z;
+        auto BFS = [&](void)->void{
+            deque < int > cur;
+            dis[A % base] = A / base;
+            cur.push_back(A % base);
+            while(!cur.empty()){
+                int p = cur.front(); cur.pop_front();
+                for(auto i = head[p]; i; i = i->nxt)
+                    if(dis[i->to] > dis[p] + i->val){
+                        dis[i->to] = dis[p] + i->val;
+                        i->val ? cur.push_back(i->to) : cur.push_front(i->to);
+                    }
+            }
+        }; BFS();
+        printf("%s\n", dis[C % base] <= C / base ? "YES" : "NO");
     }
 
-    for(int i = n - 1; i; i--) w[i] += w[i + 1];
-
-    SGT::build(1, 1, n);
-
-    int front = n + 1, ans = 0;
-    std::priority_queue<pr, std::vector<pr>, std::greater<pr>> q;
-    for(int i = 1; i <= n; i++) {
-        auto [val, pos] = SGT::qmin(1, 1, n, 1, front - 1);
-        int rig = q.empty() ? 1e18 : q.top().first;
-
-        if(val < rig) {
-            fprintf(stderr, " * pos = %lld, val = %lld, ans = %lld\n", pos, val, ans);
-            SGT::reduce(1, 1, n, 1, pos - 1, w[pos] - w[front]);
-            for(int i = pos + 1; i < front; i++) q.emplace(a[i], i);
-            front = pos, ans += val;
-        } else {
-            ans += rig, q.pop();
-        }
-        printf("%lld%c", ans, " \n"[i == n]);
-    }
-}
-
-signed main() {
-    int T = read(); while(T--) solve();
+    // fprintf(stderr, "Time: %.6lf\n", (double)clock() / CLOCKS_PER_SEC);
     return 0;
+}
+
+
+
+template < typename T >
+inline T read(void){
+    T ret(0);
+    short flag(1);
+    char c = getchar();
+    while(c != '-' && !isdigit(c))c = getchar();
+    if(c == '-')flag = -1, c = getchar();
+    while(isdigit(c)){
+        ret *= 10;
+        ret += int(c - '0');
+        c = getchar();
+    }
+    ret *= flag;
+    return ret;
 }
