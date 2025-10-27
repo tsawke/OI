@@ -9,11 +9,12 @@ using namespace std;
 mt19937 rnd(random_device{}());
 int rndd(int l, int r){return rnd() % (r - l + 1) + l;}
 
-typedef unsigned int uint;
-typedef unsigned long long unll;
-typedef long long ll;
+using ll = long long;
+using unll = unsigned long long;
+using uint = unsigned int;
+using ld = long double;
 
-template<typename T = int>
+template < typename T = int >
 inline T read(void);
 
 
@@ -27,7 +28,7 @@ int main(){
 
 
 
-template<typename T>
+template < typename T >
 inline T read(void){
     T ret(0);
     short flag(1);
