@@ -1,72 +1,98 @@
-#define _USE_MATH_DEFINES
+#pragma GCC optimize("Ofast,unroll-loops,no-stack-protector,fast-math")
 #include <bits/stdc++.h>
-
-#define PI M_PI
-#define E M_E
-
 using namespace std;
 
-mt19937 rnd(random_device{}());
-int rndd(int l, int r){return rnd() % (r - l + 1) + l;}
+using ll = long long;
 
-typedef unsigned int uint;
-typedef unsigned long long unll;
-typedef long long ll;
-
-template < typename T = int >
-inline T read(void);
-
-struct Edge{
-    Edge* nxt;
-    int to;
-    int val;
-};
-
-int main(){
-    int T = read();
-    while(T--){
-        ll A = read < ll >(); int B = read(); ll C = read < ll >();
-        int base(1); while(base <= B)base <<= 1;
-        vector < Edge* > head(base << 1, nullptr);
-        vector < ll > dis(base << 1, LLONG_MAX >> 2);
-        for(int i = 0; i < base; ++i){
-            head[i] = new Edge{head[i], i ^ B, 0};
-            head[i] = new Edge{head[i], (i + B) % base, (i + B) >= base ? 1 : 0};
-        }
-        auto BFS = [&](void)->void{
-            deque < int > cur;
-            dis[A % base] = A / base;
-            cur.push_back(A % base);
-            while(!cur.empty()){
-                int p = cur.front(); cur.pop_front();
-                for(auto i = head[p]; i; i = i->nxt)
-                    if(dis[i->to] > dis[p] + i->val){
-                        dis[i->to] = dis[p] + i->val;
-                        i->val ? cur.push_back(i->to) : cur.push_front(i->to);
-                    }
-            }
-        }; BFS();
-        printf("%s\n", dis[C % base] <= C / base ? "YES" : "NO");
-    }
-
-    // fprintf(stderr, "Time: %.6lf\n", (double)clock() / CLOCKS_PER_SEC);
-    return 0;
+int read() {
+    char c; int x = 0; bool f = 0;
+    while(!isdigit(c = getchar())) f ^= (c == '-');
+    while(isdigit(c)) x = (x << 1) + (x << 3) + (c ^ 48), c = getchar();
+    return f ? -x : x;
 }
 
 
 
-template < typename T >
-inline T read(void){
-    T ret(0);
-    short flag(1);
-    char c = getchar();
-    while(c != '-' && !isdigit(c))c = getchar();
-    if(c == '-')flag = -1, c = getchar();
-    while(isdigit(c)){
-        ret *= 10;
-        ret += int(c - '0');
-        c = getchar();
-    }
-    ret *= flag;
-    return ret;
+int main(){
+    int N = read();
+    vector < ll > S(N + 10, 0);
+    for(int i = 1; i <= N; ++i)S[i] = read();
+    vector < ll > cur; cur.emplace_back(S[N]);
+    vector < int > opt;
+    basic_string < int > ans;
+    auto dfs_ans = [&](auto&& self, int p, vector < pair < ll, int > > cur, int totsiz, int cur1)->void{
+        // printf("> In dfs p = %d\n> cur:\n", p);
+        // for(auto [v, idx] : cur)printf("  - [%lld, %d]\n", v, idx);
+        // printf("> ans:\n");
+        // for(auto v : ans)printf("%d ", v);
+        // printf("\n");
+
+        if(p == N){
+            for(auto v : ans)printf("%d\n", v);
+            exit(0);
+        }
+        if(S[p] == S[p + 1] + 1){
+            ans += ++cur1;
+            self(self, p + 1, cur, totsiz, cur1);
+            ans.pop_back();
+            return;
+        }
+        for(auto it = cur.begin(); it != prev(cur.end()); advance(it, 1)){
+            if(it->first * next(it)->first - it->first - next(it)->first != S[p + 1] - S[p])continue;
+            auto nxt = cur;
+            nxt[distance(cur.begin(), it) + 1] = {it->first * next(it)->first, next(it)->second};
+            ans += it->second;
+            nxt.erase(next(nxt.begin(), distance(cur.begin(), it)));
+            self(self, p + 1, nxt, totsiz, cur1);
+            ans.pop_back();
+        }
+    };
+
+    auto dfs = [&](auto&& self, int p, vector < ll > cur, int cnt1 = 0)->void{
+        printf("> In pre dfs p = %d, cnt1 = %d\n", p, cnt1);
+        if(p == 0){
+            for(auto it = cur.begin(); it != cur.end(); advance(it, 1))
+                printf("%lld ", *it, it == prev(cur.end()) ? '\n' : ' ');
+            // printf("\n in ans cnt1 = %d\n", cnt1);
+            for(int i = 1; i <= cnt1; ++i)printf("1 ");
+            printf("\n");
+            // for(auto i : opt)printf("%d\n", i);
+            vector < pair < ll, int > > curr;
+            for(int i = 1; i <= cur.size(); ++i)curr.push_back({cur[i - 1], i});
+            dfs_ans(dfs_ans, 1, curr, cur.size(), cur.size() - 1);
+            exit(0);
+        }
+        if(S[p] == S[p + 1] + 1){
+            // printf("find\n");
+            // auto nxt = cur;
+            // nxt.insert(next(nxt.begin(), distance(cur.begin(), it) + 1), 1);
+            // ++cnt1;
+            // opt.emplace_back(distance(cur.begin(), it));
+            self(self, p - 1, cur, cnt1 + 1);
+            // continue;
+            return;
+            // break;
+        }
+        for(auto it = cur.begin(); it != cur.end(); advance(it, 1)){
+            
+            // if(*it == 1)continue;
+            for(ll base = 1; base * base <= *it; ++base){
+                if(*it % base)continue;
+                ll other = *it / base;
+                if(base * other - base - other != S[p + 1] - S[p])continue;
+                auto nxt = cur;
+                nxt.erase(next(nxt.begin(), distance(cur.begin(), it)));
+                opt.emplace_back(distance(cur.begin(), it));
+                nxt.insert(nxt.begin() + distance(cur.begin(), it), other);
+                nxt.insert(nxt.begin() + distance(cur.begin(), it), base);
+                self(self, p - 1, nxt, cnt1);
+                break;
+            }
+        }
+    }; dfs(dfs, N - 1, cur);
+
+    printf("-1\n");
+
+
+    return 0;
 }
