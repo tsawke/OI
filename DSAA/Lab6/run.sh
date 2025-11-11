@@ -1,0 +1,1 @@
+g++ ./B.cpp -o 1 -fsanitize=undefined,signed-integer-overflow,address -Wall -std=c++17 && time ./1 < 1.in > 1.out
