@@ -88,10 +88,7 @@ auto Count = [](const Vec &u, const vector < Flight > &F, ld cosA, ld sinA){
         if((u * f.a) > cosA + EPS || (u * f.b) > cosA + EPS ){++cnt; continue;}
         ld un = u * f.n;
         Vec v = u - f.n * un;
-        if(v * v < EPS * EPS){
-            // u near the pole of that plane -> treat as not-interior; distance by endpoints already checked
-            continue;
-        }
+        if(v * v < EPS * EPS)continue;
         if(OnArc(fl.a, fl.b, fl.n, v)){
             if(fabsl(un) < sinA - EPS) ++cnt; // distance to great circle < alpha
         }
