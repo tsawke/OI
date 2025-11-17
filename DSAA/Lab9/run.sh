@@ -1,1 +1,1 @@
-g++ ./C.cpp -o 1 -O2 -Wall -std=c++17 -fsanitize=address,signed-integer-overflow,undefined && time ./1 < ./1.in
+g++ ./B.cpp -o 1 -O2 -Wall -std=c++17 -fsanitize=address,signed-integer-overflow,undefined && time ./1 < ./1.in

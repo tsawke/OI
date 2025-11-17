@@ -16,11 +16,40 @@ typedef long long ll;
 template < typename T = int >
 inline T read(void);
 
-
-
 int main(){
+
     int T = read();
-    while(T--)
+    while(T--){
+        string S; cin >> S;
+        stack < char > cur;
+        for(int i = 0; i < S.size(); ++i){
+            char c = S.at(i);
+            if(c == '-')++i, cur.push('>');
+            else if(c != ')')cur.push(c);
+            else{
+                char v2 = cur.top(); cur.pop();
+                
+                if(!cur.empty() && cur.top() == '!'){
+                    cur.pop();
+                    if (!cur.empty() && cur.top() == '(')cur.pop();
+                    cur.push(v2 == '1' ? '0' : '1');
+                }else{
+                    char op = cur.top(); cur.pop();
+                    char v1 = cur.top(); cur.pop();
+                    if (!cur.empty() && cur.top() == '(') cur.pop();
+                    bool a = v1 == '1', b = v2 == '1', r(false);
+                    switch(op){
+                        case '&': r = a & b; break;
+                        case '|': r = a | b; break;
+                        case '^': r = a ^ b; break;
+                        case '>': r = (!a) | b; break;
+                    }
+                    cur.push(r ? '1' : '0');
+                }
+                
+            }
+        }printf("%c\n", cur.top());
+    }
 
     // fprintf(stderr, "Time: %.6lf\n", (double)clock() / CLOCKS_PER_SEC);
     return 0;
