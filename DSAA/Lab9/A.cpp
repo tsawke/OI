@@ -18,6 +18,7 @@ inline T read(void);
 
 int main(){
 
+
     int T = read();
     while(T--){
         string S; cin >> S;

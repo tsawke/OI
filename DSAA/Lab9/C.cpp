@@ -77,7 +77,6 @@ public:
     }
     Node* QueryByRnk(int rnk, Node* p = root){
         if(!p)return p;
-        // printf("l siz = %d, rnk = %d, cnt = %d\n", siz(p->ls), rnk, p->cnt); fflush(stdout);
         if(siz(p->ls) + 1 <= rnk && rnk <= siz(p->ls) + p->cnt)return p;
         if(rnk <= siz(p->ls))return QueryByRnk(rnk, p->ls);
         return QueryByRnk(rnk - siz(p->ls) - p->cnt, p->rs);
