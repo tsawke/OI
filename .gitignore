@@ -1,0 +1,6 @@
+*.exe
+*.out
+*.cgi
+1
+lib/**
+.vscode/**
